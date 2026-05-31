@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmster Online</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Impact&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#0b0c10] text-white min-h-screen flex flex-col justify-between">
+
+    <div id="yt-player" class="absolute w-0 h-0 opacity-0 pointer-events-none"></div>
+
+    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🎬</span>
+            <h1 class="text-2xl logo-font text-white uppercase tracking-wider">Filmster</h1>
+        </div>
+        <div class="flex gap-6 text-gray-400 text-sm">
+            <span id="room-code-display"># DEIN_CODE</span>
+            <span id="round-display" class="hidden">⏱️ Runde 1/10</span>
+        </div>
+    </header>
+
+    <main id="screen-start" class="flex-1 flex flex-col items-center justify-center p-6 max-w-md mx-auto w-full gap-6">
+        <div class="text-center mb-4">
+            <h2 class="text-3xl font-bold mb-2">Willkommen bei Filmster</h2>
+            <p class="text-gray-400 text-sm">Errate und sortiere legendäre Film-Intros</p>
+        </div>
+        
+        <div class="w-full">
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Dein Name</label>
+            <input type="text" id="username-input" placeholder="Z.B. Obi-Wan" class="w-full bg-[#16171e] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#f5a623]">
+        </div>
+
+        <div class="w-full border-t border-gray-800 my-2"></div>
+
+        <button onclick="createRoom()" class="w-full bg-[#f5a623] hover:bg-[#d48c16] text-black font-bold py-3 rounded-xl transition cursor-pointer">
+            ➕ Neues Spiel erstellen
+        </button>
+
+        <div class="w-full flex items-center gap-3">
+            <input type="text" id="room-id-input" placeholder="6-stelliger Code" class="flex-1 bg-[#16171e] border border-gray-800 rounded-xl px-4 py-3 text-white uppercase focus:outline-none focus:border-[#f5a623]">
+            <button onclick="joinRoom()" class="bg-white hover:bg-gray-200 text-black font-bold px-6 py-3 rounded-xl transition cursor-pointer">
+                Beitreten
+            </button>
+        </div>
+    </main>
+
+    <main id="screen-lobby" class="hidden flex-1 flex flex-col items-center justify-center p-6 max-w-md mx-auto w-full gap-6">
+        <div class="text-center">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-[#f5a623] mb-1">Warteraum</h2>
+            <p class="text-gray-400 text-sm">Warte auf deine Freunde...</p>
+        </div>
+
+        <div class="w-full bg-[#16171e] border border-gray-800 p-6 rounded-2xl text-center">
+            <span class="text-xs text-gray-500 block mb-1 font-bold uppercase tracking-wider">Raum-Code</span>
+            <div id="lobby-code-display" class="text-4xl font-bold tracking-widest text-[#f5a623] logo-font">------</div>
+        </div>
+
+        <div class="w-full bg-[#16171e] border border-gray-800 p-4 rounded-2xl">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Bereit im Kino (Spieler):</h3>
+            <div id="lobby-players-list" class="flex flex-col gap-2">
+                </div>
+        </div>
+
+        <button id="start-game-btn" class="hidden w-full bg-[#f5a623] hover:bg-[#d48c16] text-black font-bold py-3 rounded-xl transition cursor-pointer">
+            🎬 Spiel starten
+        </button>
+    </main>
+
+    <main id="screen-game" class="hidden flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start mt-8">
+        <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Spieler</h3>
+            <div id="game-players-list" class="flex flex-col gap-3">
+                </div>
+        </div>
+
+        <div class="lg:col-span-2 flex flex-col items-center justify-center text-center">
+            <h2 id="instruction-text" class="text-[#f5a623] font-semibold text-lg mb-4">Klicke auf Play, um das Intro zu hören!</h2>
+            <div class="w-full aspect-video bg-black rounded-2xl border border-gray-800 flex flex-col items-center justify-center relative shadow-2xl max-w-2xl p-6">
+                <button id="play-btn" onclick="toggleAudio()" class="w-20 h-20 rounded-full bg-[#f5a623] hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer">▶</button>
+                <div id="reveal-zone" class="hidden mt-4">
+                    <h3 id="revealed-title" class="text-2xl font-bold text-white">???</h3>
+                    <p id="revealed-year" class="text-xl text-[#f5a623] font-bold mt-1">0000</p>
+                    <button id="next-round-btn" class="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer">Nächste Runde ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">
+            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Deine Timeline</h3>
+            <div id="timeline-container" class="flex flex-col items-center gap-3"></div>
+        </div>
+    </main>
+
+    <footer class="text-center py-4 text-xs text-gray-600">Filmster © 2026</footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="app.js"></script>
+</body>
+</html>

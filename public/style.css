@@ -1,0 +1,9 @@
+/* Eigene CSS-Regeln für Schriftarten */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.logo-font {
+    font-family: 'Impact', sans-serif;
+    letter-spacing: 0.05em;
+}
