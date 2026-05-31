@@ -7,9 +7,7 @@ let amIHost = false;
 let currentMovieData = null;
 let isActivePlayer = false;
 
-// Jedes Mal, wenn das Spiel startet, laden wir die Timeline, die der Server uns gibt
 let myTimeline = [];
-
 let player;
 let isPlaying = false;
 
@@ -75,7 +73,6 @@ socket.on('gameStarted', (data) => {
     showScreen('screen-game');
     document.getElementById('round-display').classList.remove('hidden');
     
-    // Hole meine persönliche Start-Timeline vom Server
     const me = data.players.find(p => p.id === myId);
     myTimeline = me.timeline;
 
@@ -90,29 +87,62 @@ function initRound(data) {
     updateGamePlayersList(data.players, data.activePlayerId);
 
     const instText = document.getElementById('instruction-text');
+    const playBtn = document.getElementById('play-btn');
+    const overlay = document.getElementById('video-protection-overlay');
+
     if (isActivePlayer) {
         instText.innerText = "Du bist dran! Höre das Intro und ordne es in DEINE Timeline ein.";
         instText.className = "text-[#f5a623] font-semibold text-lg mb-4";
+        
+        // Aktiver Spieler: Sieht den Button und darf aufs Overlay klicken
+        if (playBtn) {
+            playBtn.classList.remove('hidden');
+            playBtn.innerText = "▶";
+            playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
+        }
+        if (overlay) {
+            overlay.onclick = () => toggleAudio();
+            overlay.style.cursor = "pointer";
+        }
     } else {
         const activePlayerObj = data.players.find(p => p.id === data.activePlayerId);
         instText.innerText = `${activePlayerObj.name} ist am Zug...`;
         instText.className = "text-gray-400 font-semibold text-lg mb-4";
+        
+        // Passiver Spieler: Sieht KEINEN Play-Button und darf nicht klicken
+        if (playBtn) playBtn.classList.add('hidden');
+        if (overlay) {
+            overlay.onclick = null;
+            overlay.style.cursor = "default";
+        }
     }
 
-    document.getElementById('play-btn').classList.remove('hidden');
-    document.getElementById('play-btn').innerText = "▶";
     document.getElementById('reveal-zone').classList.add('hidden');
     isPlaying = false;
 
-if (!player) {
+    // Video-Wrapper aktivieren
+    const wrapper = document.getElementById('video-wrapper');
+    if (wrapper) {
+        wrapper.classList.remove('hidden');
+    }
+
+    // Blende für den Rundenstart vorschieben (Schutz vor Vorschaubild)
+    const blind = document.getElementById('video-blind');
+    const blindText = document.getElementById('blind-text');
+    if (blind) blind.classList.remove('hidden');
+    if (blindText) blindText.innerText = "Bereit für das nächste Intro...";
+
+    if (!player) {
         player = new YT.Player('yt-player', {
             height: '100%',
             width: '100%',
             videoId: data.youtubeId,
             playerVars: { 
                 'start': data.startAt, 
-                'controls': 1, // Bei Option A erlauben wir die Controls (oder 0, falls sie nicht spulen dürfen)
+                'controls': 0, 
                 'autoplay': 0, 
+                'modestbranding': 1,
+                'rel': 0,
                 'origin': window.location.origin 
             }
         });
@@ -121,15 +151,10 @@ if (!player) {
         player.pauseVideo();
     }
 
-    // Wenn ich nicht dran bin, sind die Plus-Buttons deaktiviert
     renderTimeline(!isActivePlayer);
 }
 
-// Globale Variable, um zu speichern, welche fremden Timelines gerade OFFEN sind (damit sie beim Rundenwechsel nicht zuklappen)
-let openTimelines = {};
-
 function updateGamePlayersList(players, activePlayerId) {
-    // SICHERHEITSLINIE: Falls openTimelines noch gar nicht existiert, erstellen wir es sofort
     if (!window.openTimelines) {
         window.openTimelines = {};
     }
@@ -143,7 +168,6 @@ function updateGamePlayersList(players, activePlayerId) {
         const isCurrent = p.id === activePlayerId;
         const isMe = (p.id === currentMyId);
         
-        // SICHERHEITSLINIE 2: Wenn für diesen speziellen Spieler noch kein Zustand existiert, auf false (eingeklappt) setzen
         if (window.openTimelines[p.id] === undefined) {
             window.openTimelines[p.id] = false;
         }
@@ -221,18 +245,78 @@ function updateGamePlayersList(players, activePlayerId) {
     });
 }
 
+let blindTimeout = null;
+
 function toggleAudio() {
     if (!player || typeof player.playVideo !== 'function') return;
+    
     if (!isPlaying) {
-        player.playVideo();
-        document.getElementById('play-btn').innerText = "⏸";
-        isPlaying = true;
+        // Lokal abspielen
+        localPlay();
+        // Server informieren, damit alle anderen mitziehen!
+        socket.emit('syncPlay', currentRoomCode);
     } else {
-        player.pauseVideo();
-        document.getElementById('play-btn').innerText = "▶";
-        isPlaying = false;
+        // Lokal pausieren
+        localPause();
+        // Server informieren, damit alle anderen pausieren!
+        socket.emit('syncPause', currentRoomCode);
     }
 }
+
+function localPlay() {
+    if (!player) return;
+    player.playVideo();
+    isPlaying = true;
+    
+    const playBtn = document.getElementById('play-btn');
+    const blind = document.getElementById('video-blind');
+    const blindText = document.getElementById('blind-text');
+    
+    if (blindText) blindText.innerText = "Intro wird geladen...";
+    if (blind) blind.classList.remove('hidden');
+    
+    if (blindTimeout) clearTimeout(blindTimeout);
+    blindTimeout = setTimeout(() => {
+        if (blind && isPlaying) {
+            blind.classList.add('hidden');
+        }
+    }, 5000); // 5 Sekunden Blende beibehalten
+    
+    // Play-Button anpassen (wird für passive Spieler via CSS eh versteckt)
+    if (playBtn && isActivePlayer) {
+        playBtn.innerText = "⏸";
+        playBtn.className = "absolute bottom-4 left-4 w-10 h-10 rounded-full bg-[#f5a623]/80 hover:bg-[#d48c16] text-black text-sm flex items-center justify-center transition-all shadow-lg cursor-pointer z-20";
+    }
+}
+
+// Hilfsfunktion: Video lokal pausieren
+function localPause() {
+    if (!player) return;
+    player.pauseVideo();
+    isPlaying = false;
+    
+    const playBtn = document.getElementById('play-btn');
+    const blind = document.getElementById('video-blind');
+    const blindText = document.getElementById('blind-text');
+    
+    if (blindTimeout) clearTimeout(blindTimeout);
+    if (blind) blind.classList.remove('hidden');
+    if (blindText) blindText.innerText = "Pausiert...";
+    
+    if (playBtn && isActivePlayer) {
+        playBtn.innerText = "▶";
+        playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
+    }
+}
+
+// NETZWERK-LISTENER: Wenn der Server sagt, dass ein anderer Spieler gestartet/pausiert hat
+socket.on('onSyncPlay', () => {
+    localPlay();
+});
+
+socket.on('onSyncPause', () => {
+    localPause();
+});
 
 function renderTimeline(disabled) {
     const container = document.getElementById('timeline-container');
@@ -268,26 +352,25 @@ function createPlusButton(text, index, disabled) {
     return btn;
 }
 
-// TIPP ABGEBEN
 function handleGuess(guessedIndex) {
+    if (blindTimeout) clearTimeout(blindTimeout);
     if (player) player.pauseVideo();
-    // Schicke den gewählten Index an den Server zur Überprüfung
+    
+    // Blende komplett verstecken bei der Auflösung, damit JEDER das Video sehen kann!
+    const blind = document.getElementById('video-blind');
+    if (blind) blind.classList.add('hidden');
     socket.emit('submitGuess', { roomCode: currentRoomCode, guessedIndex: guessedIndex }); 
 }
 
-// AUFLÖSUNG VOM SERVER EMPFANGEN
 socket.on('roundResolved', (data) => {
     if (player) player.pauseVideo();
     
-    // Wenn ICH der Spieler war, der getippt hat, aktualisiere ich meine lokale Timeline mit den Daten vom Server
     if (data.activePlayerId === myId) {
         myTimeline = data.updatedTimeline;
     }
     
-    // Timeline für alle einfrieren/neu rendern
     renderTimeline(true);
 
-    // Auflösung im Player-Bereich anzeigen
     document.getElementById('play-btn').classList.add('hidden');
     document.getElementById('revealed-title').innerText = data.title;
     document.getElementById('revealed-year').innerText = data.year;
@@ -302,10 +385,8 @@ socket.on('roundResolved', (data) => {
         instText.className = "text-red-500 font-semibold text-md mb-4";
     }
 
-    // Spieler-Scores live updaten
     updateGamePlayersList(data.players, data.activePlayerId);
 
-    // Weiter-Button für den Host aktivieren
     const nextBtn = document.getElementById('next-round-btn');
     if (amIHost) {
         nextBtn.innerText = "Nächste Runde ➡️";
@@ -335,7 +416,6 @@ socket.on('gameOver', (players) => {
 });
 
 socket.on('errorMsg', (msg) => alert(msg));
-function onYouTubeIframeAPIReady() {}
 
 function onYouTubeIframeAPIReady() {
     // Bleibt leer, da wir den Player dynamisch in initRound() erzeugen!

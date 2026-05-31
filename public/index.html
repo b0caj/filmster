@@ -10,8 +10,6 @@
 </head>
 <body class="bg-[#0b0c10] text-white min-h-screen flex flex-col justify-between">
 
-    <div id="yt-player" class="absolute w-0 h-0 opacity-0 pointer-events-none"></div>
-
     <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
         <div class="flex items-center gap-2">
             <span class="text-2xl">🎬</span>
@@ -61,8 +59,7 @@
 
         <div class="w-full bg-[#16171e] border border-gray-800 p-4 rounded-2xl">
             <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Bereit im Kino (Spieler):</h3>
-            <div id="lobby-players-list" class="flex flex-col gap-2">
-                </div>
+            <div id="lobby-players-list" class="flex flex-col gap-2"></div>
         </div>
 
         <button id="start-game-btn" class="hidden w-full bg-[#f5a623] hover:bg-[#d48c16] text-black font-bold py-3 rounded-xl transition cursor-pointer">
@@ -73,20 +70,33 @@
     <main id="screen-game" class="hidden flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start mt-8">
         <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">
             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Spieler</h3>
-            <div id="game-players-list" class="flex flex-col gap-3">
-                </div>
+            <div id="game-players-list" class="flex flex-col gap-3"></div>
         </div>
 
         <div class="lg:col-span-2 flex flex-col items-center justify-center text-center">
             <h2 id="instruction-text" class="text-[#f5a623] font-semibold text-lg mb-4">Klicke auf Play, um das Intro zu hören!</h2>
-            <div class="w-full aspect-video bg-black rounded-2xl border border-gray-800 flex flex-col items-center justify-center relative shadow-2xl max-w-2xl p-6">
-                <button id="play-btn" onclick="toggleAudio()" class="w-20 h-20 rounded-full bg-[#f5a623] hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer">▶</button>
-                <div id="reveal-zone" class="hidden mt-4">
+            <div class="w-full aspect-video bg-black rounded-2xl border border-gray-800 flex flex-col items-center justify-center relative shadow-2xl max-w-2xl overflow-hidden p-1">
+                
+                <div id="video-wrapper" class="w-full h-full rounded-xl overflow-hidden hidden relative">
+                    <div id="yt-player"></div>
+                    
+                    <div id="video-protection-overlay" class="absolute inset-0 bg-transparent z-10 cursor-pointer"></div>
+                    
+                    <div id="video-blind" class="absolute inset-0 bg-[#0b0c10] z-15 flex flex-col items-center justify-center gap-2 pointer-events-none">
+                        <span class="text-2xl animate-pulse">🎬</span>
+                        <p id="blind-text" class="text-xs tracking-wider text-gray-400 uppercase font-semibold">Bereit für das nächste Intro...</p>
+                    </div>
+                </div>
+
+                <button id="play-btn" onclick="toggleAudio()" class="absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20">▶</button>
+                
+                <div id="reveal-zone" class="hidden absolute inset-0 bg-[#0b0c10]/95 flex flex-col items-center justify-center p-6 z-30">
                     <h3 id="revealed-title" class="text-2xl font-bold text-white">???</h3>
                     <p id="revealed-year" class="text-xl text-[#f5a623] font-bold mt-1">0000</p>
                     <button id="next-round-btn" class="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer">Nächste Runde ➡️</button>
                 </div>
             </div>
+            <p id="status-subtext" class="text-gray-500 text-sm mt-4">🎬 Video & Sound laufen synchron – ordne den Film zeitlich ein!</p>
         </div>
 
         <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">

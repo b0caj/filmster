@@ -19,7 +19,6 @@ const movieDatabase = [
 
 const rooms = {};
 
-// Funktion, um jedem Spieler zwei unterschiedliche Start-Filme zu geben
 function createInitialTimeline() {
     return [
         { title: "The Godfather", year: 1972 },
@@ -43,7 +42,7 @@ io.on('connection', (socket) => {
                 name: playerName, 
                 score: 0, 
                 isHost: true,
-                timeline: createInitialTimeline() // Eigene Timeline für den Host
+                timeline: createInitialTimeline()
             }],
             gameStarted: false,
             playlist: [...movieDatabase].sort(() => Math.random() - 0.5),
@@ -65,7 +64,7 @@ io.on('connection', (socket) => {
             name: playerName, 
             score: 0, 
             isHost: false,
-            timeline: createInitialTimeline() // Eigene Timeline für den neuen Spieler
+            timeline: createInitialTimeline()
         });
         
         socket.join(roomCode);
@@ -92,7 +91,21 @@ io.on('connection', (socket) => {
         });
     });
 
-    // 4. TIPP AUSWERTEN (Echte Logik basierend auf der Timeline des Spielers!)
+    socket.on('syncPlay', (roomCode) => {
+        const room = rooms[roomCode];
+        if (!room) return;
+        // Optional: Hier prüfen, ob der Sender wirklich der aktive Spieler ist
+        socket.to(roomCode).emit('onSyncPlay');
+    });
+
+    // SYNC: Video pausieren für alle im Raum
+    socket.on('syncPause', (roomCode) => {
+        const room = rooms[roomCode];
+        if (!room) return;
+        socket.to(roomCode).emit('onSyncPause');
+    });
+
+    // 4. TIPP AUSWERTEN
     socket.on('submitGuess', ({ roomCode, guessedIndex }) => {
         const room = rooms[roomCode];
         if (!room) return;
@@ -101,7 +114,6 @@ io.on('connection', (socket) => {
         const currentMovie = room.playlist[room.currentRound];
         const playerTimeline = activePlayer.timeline;
 
-        // Mathematische Prüfung: Wo muss der neue Film in der Timeline des Spielers landen?
         let correctIndex = -1;
         for (let i = 0; i < playerTimeline.length; i++) {
             if (currentMovie.year > playerTimeline[i].year) {
@@ -113,12 +125,10 @@ io.on('connection', (socket) => {
 
         if (isCorrect) {
             activePlayer.score++;
-            // Nur wenn es richtig war, wird der Film fest in die Timeline des Spielers eingetragen
             playerTimeline.push({ title: currentMovie.title, year: currentMovie.year });
             playerTimeline.sort((a, b) => a.year - b.year);
         }
 
-        // Ergebnis an alle senden, inklusive der aktualisierten Spielerdaten
         io.to(roomCode).emit('roundResolved', {
             isCorrect,
             title: currentMovie.title,
@@ -126,7 +136,7 @@ io.on('connection', (socket) => {
             players: room.players,
             playerName: activePlayer.name,
             activePlayerId: activePlayer.id,
-            updatedTimeline: playerTimeline // Schickt die neue Timeline zurück
+            updatedTimeline: playerTimeline
         });
     });
 
