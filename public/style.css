@@ -7,3 +7,14 @@ body {
     font-family: 'Impact', sans-serif;
     letter-spacing: 0.05em;
 }
+
+/* Versteckt die Scrollbar für Chrome, Safari und Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Versteckt die Scrollbar für IE, Edge und Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE und Edge */
+    scrollbar-width: none;  /* Firefox */
+}

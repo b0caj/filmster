@@ -68,6 +68,24 @@ function updateLobbyPlayers(players) {
     });
 }
 
+socket.on('gameWon', (data) => {
+    // Musik/Video sofort stoppen, falls es noch läuft
+    if (player && typeof player.pauseVideo === 'function') {
+        player.pauseVideo();
+    }
+
+    // Sieger-Pop-up anzeigen und Namen eintragen
+    const winnerScreen = document.getElementById('winner-screen');
+    const winnerName = document.getElementById('winner-name');
+    
+    if (winnerScreen && winnerName) {
+        winnerName.innerText = data.winnerName;
+        winnerScreen.classList.remove('hidden');
+    }
+});
+
+
+
 // GAMEPLAY
 socket.on('gameStarted', (data) => {
     showScreen('screen-game');
@@ -218,10 +236,11 @@ function updateGamePlayersList(players, activePlayerId) {
         const externalTimelineDiv = document.createElement('div');
         externalTimelineDiv.id = `external-timeline-${p.id}`;
         
+        // KORREKTUR: max-h-80 und no-scrollbar hinzugefügt 🛠️
         if (!window.openTimelines[p.id]) {
-            externalTimelineDiv.className = "hidden pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-60 overflow-y-auto";
+            externalTimelineDiv.className = "hidden pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-80 overflow-y-auto no-scrollbar";
         } else {
-            externalTimelineDiv.className = "pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-60 overflow-y-auto";
+            externalTimelineDiv.className = "pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-80 overflow-y-auto no-scrollbar";
         }
 
         const sortedExternalTimeline = [...p.timeline].sort((a, b) => a.year - b.year);
@@ -320,8 +339,13 @@ socket.on('onSyncPause', () => {
 
 function renderTimeline(disabled) {
     const container = document.getElementById('timeline-container');
+    if (!container) return;
+    
     container.innerHTML = "";
     myTimeline.sort((a, b) => a.year - b.year);
+
+    // Abstand auf gap-2 verringert für Kompaktheit
+    container.className = "flex flex-col items-center gap-2 max-h-[650px] overflow-y-auto no-scrollbar";
 
     container.appendChild(createPlusButton(`Vor ${myTimeline[0].year}`, -1, disabled));
     for (let i = 0; i < myTimeline.length; i++) {
@@ -332,19 +356,24 @@ function renderTimeline(disabled) {
             container.appendChild(createPlusButton(`Zwischen ${myTimeline[i].year} & ${myTimeline[i+1].year}`, i, disabled));
         }
     }
+
+    // Automatischer Scroll-Effekt: Scrollt sanft nach unten, wenn ein neues Element dazukommt
+    setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+    }, 50);
 }
 
 function createMovieCard(movie) {
     const div = document.createElement('div');
-    div.className = "w-full bg-[#20222b] border border-gray-800 p-3 rounded-xl flex items-center gap-3";
-    div.innerHTML = `<div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center text-xl">🎬</div>
-                     <div><h4 class="font-bold text-sm">${movie.title}</h4><p class="text-xs text-[#f5a623]">${movie.year}</p></div>`;
+    div.className = "w-full bg-[#20222b] border border-gray-800 p-2 rounded-xl flex items-center gap-2 shadow-sm shrink-0";
+    div.innerHTML = `<div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-md shrink-0">🎬</div>
+                     <div class="truncate"><h4 class="font-bold text-xs text-white truncate max-w-[150px]">${movie.title}</h4><p class="text-[10px] text-[#f5a623] font-mono mt-0.5">${movie.year}</p></div>`;
     return div;
 }
 
 function createPlusButton(text, index, disabled) {
     const btn = document.createElement('button');
-    btn.className = `w-full border-2 border-dashed border-[#f5a623]/40 text-[#f5a623] text-xs py-2 rounded-lg font-medium transition ${disabled ? 'opacity-20 cursor-not-allowed' : 'hover:bg-[#f5a623]/10 cursor-pointer'}`;
+    btn.className = `w-full border border-dashed border-[#f5a623]/30 text-[#f5a623] text-[11px] py-1.5 rounded-lg font-medium transition shrink-0 ${disabled ? 'opacity-10 cursor-not-allowed' : 'hover:bg-[#f5a623]/10 cursor-pointer'}`;
     btn.innerText = `➕ ${text}`;
     if (!disabled) {
         btn.onclick = () => handleGuess(index);
@@ -416,6 +445,21 @@ socket.on('gameOver', (players) => {
 });
 
 socket.on('errorMsg', (msg) => alert(msg));
+
+// Funktion, um den Sieger-Bildschirm zu verlassen und das Spiel zurückzusetzen
+function goToLobby() {
+    // Pop-up wieder verstecken
+    const winnerScreen = document.getElementById('winner-screen');
+    if (winnerScreen) winnerScreen.classList.add('hidden');
+
+    // UI zurück auf die Lobby oder den Startbildschirm setzen
+    // Je nachdem, wie deine Ansichten benannt sind (z.B. 'lobby-screen' anzeigen, 'game-screen' verstecken)
+    document.getElementById('game-screen').classList.add('hidden');
+    document.getElementById('lobby-screen').classList.remove('hidden');
+    
+    // Dem Server optional sagen, dass wir zurück in der Lobby sind
+    // socket.emit('backToLobby', currentRoomCode);
+}
 
 function onYouTubeIframeAPIReady() {
     // Bleibt leer, da wir den Player dynamisch in initRound() erzeugen!

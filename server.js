@@ -95,7 +95,9 @@ io.on('connection', (socket) => {
                 timeline: createInitialTimeline()
             }],
             gameStarted: false,
-            playlist: [...movieDatabase].sort(() => Math.random() - 0.5),
+            playlist: movieDatabase
+            .filter(m => m.youtubeId && m.youtubeId.trim() !== "")
+            .sort(() => Math.random() - 0.5),
             currentRound: 0,
             activePlayerIndex: 0
         };
@@ -156,6 +158,7 @@ io.on('connection', (socket) => {
     });
 
     // 4. TIPP AUSWERTEN
+    // 4. TIPP AUSWERTEN (KORRIGIERT 🛠️)
     socket.on('submitGuess', ({ roomCode, guessedIndex }) => {
         const room = rooms[roomCode];
         if (!room) return;
@@ -174,11 +177,27 @@ io.on('connection', (socket) => {
         const isCorrect = (guessedIndex === correctIndex);
 
         if (isCorrect) {
+            // KORREKTUR: Nutze 'activePlayer' statt 'player' und 'guessedIndex' statt 'placementIndex'
+            activePlayer.timeline.splice(guessedIndex + 1, 0, currentMovie);
+            
+            // Punktzahl für das UI erhöhen
             activePlayer.score++;
-            playerTimeline.push({ title: currentMovie.title, year: currentMovie.year });
-            playerTimeline.sort((a, b) => a.year - b.year);
+
+            // PRÜFUNG AUF SIEG: Hat der aktive Spieler 10 oder mehr Karten?
+            if (activePlayer.timeline.length >= 10) {
+                io.to(roomCode).emit('gameWon', {
+                    winnerName: activePlayer.name,
+                    timeline: activePlayer.timeline
+                });
+                
+                room.gameStarted = false;
+                return; // Beendet die Funktion sofort, keine normale Rundenauflösung mehr!
+            }
+        } else {
+            // Logik für falschen Tipp (Karte wird abgelehnt, Reihe bleibt gleich)
         }
 
+        // Normale Rundenauflösung an alle senden
         io.to(roomCode).emit('roundResolved', {
             isCorrect,
             title: currentMovie.title,

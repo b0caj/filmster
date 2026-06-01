@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <button id="play-btn" onclick="toggleAudio()" class="absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20">▶</button>
+                <button id="play-btn" onclick="toggleAudio()" class="w-20 h-20 rounded-full bg-[#f5a623] hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer focus:animate-pulse">▶</button>
                 
                 <div id="reveal-zone" class="hidden absolute inset-0 bg-[#0b0c10]/95 flex flex-col items-center justify-center p-6 z-30">
                     <h3 id="revealed-title" class="text-2xl font-bold text-white">???</h3>
@@ -99,9 +99,9 @@
             <p id="status-subtext" class="text-gray-500 text-sm mt-4">🎬 Video & Sound laufen synchron – ordne den Film zeitlich ein!</p>
         </div>
 
-        <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">
+        <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800 flex flex-col">
             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Deine Timeline</h3>
-            <div id="timeline-container" class="flex flex-col items-center gap-3"></div>
+            <div id="timeline-container" class="flex flex-col items-center gap-2 max-h-[650px] overflow-y-auto no-scrollbar"></div>
         </div>
     </main>
 
@@ -110,5 +110,21 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="app.js"></script>
+
+    <div id="winner-screen" class="hidden fixed inset-0 bg-[#0b0c10]/95 z-50 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
+        <div class="bg-[#16171e] border-2 border-[#f5a623] p-10 rounded-3xl shadow-2xl max-w-md w-full flex flex-col items-center gap-6">
+            <span class="text-6xl animate-bounce">👑</span>
+            <h2 class="text-xs font-bold uppercase tracking-widest text-[#f5a623]">Wir haben einen Sieger!</h2>
+            <h1 id="winner-name" class="text-4xl font-extrabold text-white leading-tight">Spielername</h1>
+            <p class="text-gray-400 text-sm">Hat zuerst 10 Filme und Serien perfekt in die Timeline eingeordnet!</p>
+            
+            <div class="w-full border-t border-gray-800 my-2"></div>
+            
+            <button onclick="goToLobby()" class="w-full bg-[#f5a623] hover:bg-[#d48c16] text-black font-bold py-3 rounded-xl transition cursor-pointer text-sm uppercase tracking-wider">
+                Zurück zur Lobby 🏠
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
