@@ -15,6 +15,37 @@ body {
 
 /* Versteckt die Scrollbar für IE, Edge und Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE und Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE und Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+/* Basis-Zustand: Wenn der Vorhang GESCHLOSSEN ist, schließt er sich SOFORT (0s Delay) */
+#curtain-left,
+#curtain-right {
+    transition: transform 400ms ease-in-out;
+    transition-delay: 0s !important;
+}
+
+#blind-text {
+    transition: opacity 200ms ease-in-out;
+    transition-delay: 0s !important;
+}
+
+/* Ziel-Zustand: Wenn der Vorhang GEÖFFNET wird (.curtain-open), wartet er erst 3 Sekunden */
+.curtain-open #curtain-left {
+    transform: translateX(-100%) !important;
+    transition-delay: 4.6s !important; 
+}
+
+.curtain-open #curtain-right {
+    transform: translateX(100%) !important;
+    transition-delay: 4.6s !important; 
+}
+
+.curtain-open #blind-text {
+    opacity: 0 !important;
+    transition-delay: 4.6s !important; 
 }

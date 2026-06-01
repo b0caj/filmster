@@ -13,6 +13,8 @@ let isPlaying = false;
 let currentRoomMode = "movies";
 let maxClipDuration = 15; // Standardmäßig 15 Sekunden
 let clipTimer = null;     // Hält den JavaScript-Timer
+let barInterval = null; // Hält das Intervall für den visuellen Balken
+let currentVolume = 100; // Standardmäßig volle Lautstärke (100%)
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -106,11 +108,15 @@ socket.on('gameStarted', (data) => {
 
 function initRound(data) {
     if (clipTimer) clearTimeout(clipTimer);
+    stopVisualTimer();
     document.getElementById('round-display').innerText = `⏱️ Runde ${data.round}/${data.totalRounds}`;
     currentMovieData = data;
     isActivePlayer = (data.activePlayerId === myId);
 
     updateGamePlayersList(data.players, data.activePlayerId);
+
+    const blind = document.getElementById('video-blind');
+    if (blind) blind.classList.remove('curtain-open');
 
     const instText = document.getElementById('instruction-text');
     const playBtn = document.getElementById('play-btn');
@@ -153,7 +159,7 @@ function initRound(data) {
     }
 
     // Blende für den Rundenstart vorschieben (Schutz vor Vorschaubild)
-    const blind = document.getElementById('video-blind');
+    //const blind = document.getElementById('video-blind');
     const blindText = document.getElementById('blind-text');
     if (blind) blind.classList.remove('hidden');
     if (blindText) blindText.innerText = "Bereit für das nächste Intro...";
@@ -299,7 +305,7 @@ function toggleAudio() {
 
 function localPlay() {
     if (!player) return;
-    
+
     player.playVideo();
     isPlaying = true;
 
@@ -307,48 +313,42 @@ function localPlay() {
     const blind = document.getElementById('video-blind');
     const blindText = document.getElementById('blind-text');
 
-    if (blindText) blindText.innerText = "Intro wird geladen...";
-    if (blind) blind.classList.remove('hidden');
+    // NEU: Text ändern, während der Vorhang noch die 3 Sekunden zu ist
+    if (blindText) blindText.innerText = "🎬 Film ab! Die Vorstellung beginnt gleich...";
 
-    if (blindTimeout) clearTimeout(blindTimeout);
-    blindTimeout = setTimeout(() => {
-        if (blind && isPlaying) {
-            blind.classList.add('hidden');
-        }
-    }, 5000);
+    // Der Vorhang triggert das Öffnen (wartet nun dank CSS 3 Sekunden)
+    if (blind) blind.classList.add('curtain-open');
 
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "⏸";
         playBtn.className = "absolute bottom-4 left-4 w-10 h-10 rounded-full bg-[#f5a623]/80 hover:bg-[#d48c16] text-black text-sm flex items-center justify-center transition-all shadow-lg cursor-pointer z-20";
     }
 }
-
 // Hilfsfunktion: Video lokal pausieren
 function localPause() {
     if (!player) return;
     player.pauseVideo();
     isPlaying = false;
 
-    // Timer sofort löschen, da das Video gestoppt wurde
+    stopVisualTimer();
+
     if (clipTimer) clearTimeout(clipTimer);
 
-    // NEU: Sofort im Hintergrund an den Runden-Anfang zurückspringen!
     if (currentMovieData && typeof currentMovieData.startAt !== 'undefined') {
         player.seekTo(currentMovieData.startAt, true);
     }
 
     const playBtn = document.getElementById('play-btn');
     const blind = document.getElementById('video-blind');
-    
+    const blindText = document.getElementById('blind-text');
+
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "▶";
         playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
     }
 
-    // Blindfeld wieder anzeigen, damit niemand das Standbild sieht
-    if (blind) blind.classList.remove('hidden');
-    
-    const blindText = document.getElementById('blind-text');
+    // Der Vorhang schließt sich wieder
+    if (blind) blind.classList.remove('curtain-open');
     if (blindText) blindText.innerText = "Gestoppt. Nächster Versuch startet wieder von vorn!";
 }
 
@@ -536,25 +536,38 @@ function onPlayerStateChange(event) {
     if (event.data === 1) {
         isPlaying = true;
 
+        startVisualTimer();
+        if (player && typeof player.setVolume === 'function') {
+            player.setVolume(currentVolume);
+        }
+
         // Falls noch ein alter Timer läuft, löschen
         if (clipTimer) clearTimeout(clipTimer);
 
         // Wenn maxClipDuration auf 0 steht, ist es unbegrenzt
         if (maxClipDuration > 0) {
+            // RECHNUNG: Eingestellte Zeit (z.B. 15s * 1000 = 15000ms) + 4,6 Sekunden Vorhang-Wartezeit (4600ms)
+            const totalDurationMs = (maxClipDuration * 1000) + 4600;
+
             clipTimer = setTimeout(() => {
                 if (player && typeof player.stopVideo === 'function') {
                     player.stopVideo(); // Video stoppen
                 }
                 isPlaying = false;
 
-                // Blindfeld wieder anzeigen und Text ändern
+                // Vorhang wieder schließen und Text ändern
                 const blind = document.getElementById('video-blind');
                 const blindText = document.getElementById('blind-text');
-                if (blind) blind.classList.remove('hidden');
-                if (blindText) blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
+
+                if (blind) {
+                    blind.classList.remove('curtain-open');
+                }
+                if (blindText) {
+                    blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
+                }
 
                 console.log("Clip-Dauer erreicht. Video automatisch gestoppt.");
-            }, maxClipDuration * 1000); // Sekunden in Millisekunden umrechnen
+            }, totalDurationMs); // Nutzt jetzt die verlängerte Laufzeit
         }
     } else {
         // Wenn das Video pausiert oder gestoppt wird, löschen wir den Timer ebenfalls zur Sicherheit
@@ -562,5 +575,75 @@ function onPlayerStateChange(event) {
             if (clipTimer) clearTimeout(clipTimer);
         }
         isPlaying = false;
+    }
+}
+
+function startVisualTimer() {
+    const timerBarContainer = document.getElementById('timer-bar-container');
+    const timerBar = document.getElementById('timer-bar');
+    if (!timerBar || !timerBarContainer || maxClipDuration <= 0) return;
+
+    // Balken anzeigen und auf 100% voll setzen
+    timerBarContainer.classList.remove('hidden');
+    timerBar.style.width = '100%';
+    timerBar.className = "bg-gradient-to-r from-[#f5a623] to-amber-500 h-full w-full rounded-full"; // Standardfarbe (Orange)
+
+    if (barInterval) clearInterval(barInterval);
+
+    const startTime = Date.now();
+    const curtainDelay = 4600; // 4,6 Sekunden Vorhangzeit
+    const playDuration = maxClipDuration * 1000; // Reine Spielzeit in ms
+    const totalDuration = playDuration + curtainDelay;
+
+    barInterval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+
+        if (elapsed < curtainDelay) {
+            // Phase 1: Vorhang ist noch zu, Balken bleibt zu 100% voll
+            timerBar.style.width = '100%';
+        } else {
+            // Phase 2: Vorhang ist offen, Balken schrumpft
+            const timeInPlayPhase = elapsed - curtainDelay;
+            const remainingPercent = Math.max(0, 100 - (timeInPlayPhase / playDuration) * 100);
+
+            timerBar.style.width = `${remainingPercent}%`;
+
+            // Farbwechsel-Effekt: Wird rot, wenn weniger als 30% der Zeit übrig sind!
+            if (remainingPercent < 30) {
+                timerBar.className = "bg-gradient-to-r from-red-600 to-rose-500 h-full w-full rounded-full animate-pulse";
+            }
+        }
+
+        if (elapsed >= totalDuration) {
+            clearInterval(barInterval);
+        }
+    }, 100);
+}
+
+function stopVisualTimer() {
+    if (barInterval) clearInterval(barInterval);
+    const timerBarContainer = document.getElementById('timer-bar-container');
+    if (timerBarContainer) timerBarContainer.classList.add('hidden');
+}
+
+function changeVolume(value) {
+    currentVolume = parseInt(value);
+
+    // 1. YouTube-Player sofort anpassen, falls er existiert
+    if (player && typeof player.setVolume === 'function') {
+        player.setVolume(currentVolume);
+    }
+
+    // 2. Textanzeige (z.B. "75%") aktualisieren
+    const volumeText = document.getElementById('volume-text');
+    if (volumeText) volumeText.innerText = `${currentVolume}%`;
+
+    // 3. Icon dynamisch anpassen (Stumm / Leise / Laut)
+    const volumeIcon = document.getElementById('volume-icon');
+    if (volumeIcon) {
+        if (currentVolume === 0) volumeIcon.innerText = "🔇";
+        else if (currentVolume < 40) volumeIcon.innerText = "🔈";
+        else if (currentVolume < 75) volumeIcon.innerText = "🔉";
+        else volumeIcon.innerText = "🔊";
     }
 }
