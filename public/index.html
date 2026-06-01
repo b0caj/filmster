@@ -143,13 +143,6 @@
                     </div>
                 </div>
 
-                <div id="timer-bar-container"
-                    class="w-full bg-gray-900 h-3 rounded-full mt-4 overflow-hidden border border-gray-800 hidden">
-                    <div id="timer-bar"
-                        class="bg-gradient-to-r from-[#f5a623] to-amber-500 h-full w-full transition-all duration-100 ease-linear rounded-full">
-                    </div>
-                </div>
-
                 <div class="w-full flex items-center justify-end gap-3 mt-3 px-1 text-gray-400">
                     <span id="volume-icon" class="text-sm select-none">🔊</span>
                     <input id="volume-slider" type="range" min="0" max="100" value="100"
@@ -168,6 +161,25 @@
                     <button id="next-round-btn"
                         class="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer">Nächste
                         Runde ➡️</button>
+                </div>
+            </div>
+            <div id="timer-bar-container" class="w-full mt-5 hidden select-none">
+                <div
+                    class="flex justify-between items-center mb-1.5 px-1 text-xs tracking-wider uppercase font-semibold text-gray-400">
+                    <span class="flex items-center gap-1">⏱️ <span id="timer-status-text">Warten auf
+                            Filmstart...</span></span>
+                    <span id="timer-percentage-text" class="font-mono text-[#f5a623]">100%</span>
+                </div>
+
+                <div
+                    class="w-full bg-gray-950 h-4 rounded-full overflow-hidden border border-gray-800/80 p-[3px] shadow-[inset_0_2px_4px_rgba(0,0,0,0.8)] relative">
+                    <div
+                        class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,#fff_10%,transparent_11%)] bg-[size:12px_100%] pointer-events-none">
+                    </div>
+
+                    <div id="timer-bar"
+                        class="h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-orange bg-gradient-to-r from-amber-500 via-[#f5a623] to-yellow-400">
+                    </div>
                 </div>
             </div>
             <p id="status-subtext" class="text-gray-500 text-sm mt-4"><span id="status-icon">🎬</span> Video & Sound

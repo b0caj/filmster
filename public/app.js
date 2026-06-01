@@ -581,12 +581,18 @@ function onPlayerStateChange(event) {
 function startVisualTimer() {
     const timerBarContainer = document.getElementById('timer-bar-container');
     const timerBar = document.getElementById('timer-bar');
+    const statusText = document.getElementById('timer-status-text');
+    const percentText = document.getElementById('timer-percentage-text');
+
     if (!timerBar || !timerBarContainer || maxClipDuration <= 0) return;
 
-    // Balken anzeigen und auf 100% voll setzen
+    // Sichtbarkeit & Basis-Zustand herstellen
     timerBarContainer.classList.remove('hidden');
     timerBar.style.width = '100%';
-    timerBar.className = "bg-gradient-to-r from-[#f5a623] to-amber-500 h-full w-full rounded-full"; // Standardfarbe (Orange)
+    timerBar.className = "h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-orange";
+
+    if (statusText) statusText.innerText = "Vorstellung startet gleich...";
+    if (percentText) percentText.innerText = "100%";
 
     if (barInterval) clearInterval(barInterval);
 
@@ -599,18 +605,25 @@ function startVisualTimer() {
         const elapsed = Date.now() - startTime;
 
         if (elapsed < curtainDelay) {
-            // Phase 1: Vorhang ist noch zu, Balken bleibt zu 100% voll
+            // Phase 1: Vorhang öffnet sich noch im Hintergrund
             timerBar.style.width = '100%';
+            if (statusText) statusText.innerText = "Vorhang öffnet sich...";
+            if (percentText) percentText.innerText = "100%";
         } else {
-            // Phase 2: Vorhang ist offen, Balken schrumpft
+            // Phase 2: Video läuft sichtbar, Balken schrumpft
             const timeInPlayPhase = elapsed - curtainDelay;
             const remainingPercent = Math.max(0, 100 - (timeInPlayPhase / playDuration) * 100);
 
             timerBar.style.width = `${remainingPercent}%`;
+            if (percentText) percentText.innerText = `${Math.ceil(remainingPercent)}%`;
+            if (statusText) statusText.innerText = "Film ab! Raten läuft...";
 
-            // Farbwechsel-Effekt: Wird rot, wenn weniger als 30% der Zeit übrig sind!
+            // Kritische Phase: Unter 30% wechselt das Design auf das rote Neon-Pulsieren
             if (remainingPercent < 30) {
-                timerBar.className = "bg-gradient-to-r from-red-600 to-rose-500 h-full w-full rounded-full animate-pulse";
+                timerBar.className = "h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-red";
+                if (statusText) statusText.className = "text-red-500 animate-pulse font-bold";
+                if (percentText) percentText.className = "font-mono text-red-500 animate-pulse font-bold";
+                if (statusText) statusText.innerText = "🚨 Schnell! Die Zeit läuft ab!";
             }
         }
 
@@ -624,6 +637,12 @@ function stopVisualTimer() {
     if (barInterval) clearInterval(barInterval);
     const timerBarContainer = document.getElementById('timer-bar-container');
     if (timerBarContainer) timerBarContainer.classList.add('hidden');
+
+    // Text-Klassen wieder auf Standard setzen für den nächsten Durchlauf
+    const statusText = document.getElementById('timer-status-text');
+    const percentText = document.getElementById('timer-percentage-text');
+    if (statusText) statusText.className = "flex items-center gap-1";
+    if (percentText) percentText.className = "font-mono text-[#f5a623]";
 }
 
 function changeVolume(value) {

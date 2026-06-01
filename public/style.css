@@ -49,3 +49,30 @@ body {
     opacity: 0 !important;
     transition-delay: 4.6s !important; 
 }
+
+/* --- HOCHWERTIGES TIMER DESIGN --- */
+
+/* Orangefarbenes Glühen im Normalzustand */
+.timer-glow-orange {
+    box-shadow: 0 0 10px rgba(245, 166, 35, 0.5), 0 0 4px rgba(245, 166, 35, 0.3);
+    background: linear-gradient(90deg, #d48c16, #f5a623, #fcd34d) !important;
+}
+
+/* Rotes, pulsierendes Alarm-Glühen für die letzten Sekunden */
+.timer-glow-red {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8), 0 0 6px rgba(239, 68, 68, 0.4);
+    background: linear-gradient(90deg, #b91c1c, #ef4444, #fca5a5) !important;
+    animation: timerPulse 800ms infinite alternate ease-in-out;
+}
+
+/* Pulsier-Animation für den Balken und Text bei Zeitnot */
+@keyframes timerPulse {
+    from {
+        opacity: 0.85;
+        filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.5));
+    }
+    to {
+        opacity: 1;
+        filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.9));
+    }
+}
