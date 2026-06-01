@@ -10,6 +10,7 @@ let isActivePlayer = false;
 let myTimeline = [];
 let player;
 let isPlaying = false;
+let currentRoomMode = "movies";
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -32,7 +33,8 @@ socket.on('roomCreated', ({ roomCode, players }) => {
     document.getElementById('room-code-display').innerText = `# ${roomCode}`;
     document.getElementById('lobby-code-display').innerText = roomCode;
     document.getElementById('start-game-btn').classList.remove('hidden');
-    
+    document.getElementById('game-mode-select').disabled = false; // Host darf wählen
+
     document.getElementById('start-game-btn').onclick = () => {
         socket.emit('startGame', currentRoomCode);
     };
@@ -52,6 +54,8 @@ socket.on('joinSuccess', (roomCode) => {
     currentRoomCode = roomCode;
     myId = socket.id;
     document.getElementById('room-code-display').innerText = `# ${roomCode}`;
+    document.getElementById('lobby-code-display').innerText = roomCode
+    document.getElementById('game-mode-select').disabled = true; // Mitspieler dürfen NICHT wählen
     showScreen('screen-lobby');
 });
 
@@ -77,7 +81,7 @@ socket.on('gameWon', (data) => {
     // Sieger-Pop-up anzeigen und Namen eintragen
     const winnerScreen = document.getElementById('winner-screen');
     const winnerName = document.getElementById('winner-name');
-    
+
     if (winnerScreen && winnerName) {
         winnerName.innerText = data.winnerName;
         winnerScreen.classList.remove('hidden');
@@ -90,7 +94,7 @@ socket.on('gameWon', (data) => {
 socket.on('gameStarted', (data) => {
     showScreen('screen-game');
     document.getElementById('round-display').classList.remove('hidden');
-    
+
     const me = data.players.find(p => p.id === myId);
     myTimeline = me.timeline;
 
@@ -111,7 +115,7 @@ function initRound(data) {
     if (isActivePlayer) {
         instText.innerText = "Du bist dran! Höre das Intro und ordne es in DEINE Timeline ein.";
         instText.className = "text-[#f5a623] font-semibold text-lg mb-4";
-        
+
         // Aktiver Spieler: Sieht den Button und darf aufs Overlay klicken
         if (playBtn) {
             playBtn.classList.remove('hidden');
@@ -126,7 +130,7 @@ function initRound(data) {
         const activePlayerObj = data.players.find(p => p.id === data.activePlayerId);
         instText.innerText = `${activePlayerObj.name} ist am Zug...`;
         instText.className = "text-gray-400 font-semibold text-lg mb-4";
-        
+
         // Passiver Spieler: Sieht KEINEN Play-Button und darf nicht klicken
         if (playBtn) playBtn.classList.add('hidden');
         if (overlay) {
@@ -155,13 +159,13 @@ function initRound(data) {
             height: '100%',
             width: '100%',
             videoId: data.youtubeId,
-            playerVars: { 
-                'start': data.startAt, 
-                'controls': 0, 
-                'autoplay': 0, 
+            playerVars: {
+                'start': data.startAt,
+                'controls': 0,
+                'autoplay': 0,
                 'modestbranding': 1,
                 'rel': 0,
-                'origin': window.location.origin 
+                'origin': window.location.origin
             }
         });
     } else {
@@ -179,32 +183,31 @@ function updateGamePlayersList(players, activePlayerId) {
 
     const list = document.getElementById('game-players-list');
     list.innerHTML = "";
-    
-    const currentMyId = socket.id; 
+
+    const currentMyId = socket.id;
 
     players.forEach(p => {
         const isCurrent = p.id === activePlayerId;
         const isMe = (p.id === currentMyId);
-        
+
         if (window.openTimelines[p.id] === undefined) {
             window.openTimelines[p.id] = false;
         }
 
         const playerContainer = document.createElement('div');
         playerContainer.className = "flex flex-col gap-1 w-full";
-        
+
         const playerCard = document.createElement('div');
-        playerCard.className = `p-4 rounded-lg flex items-center justify-between transition ${
-            isCurrent 
-                ? "bg-[#241e17] border border-[#f5a623]" 
+        playerCard.className = `p-4 rounded-lg flex items-center justify-between transition ${isCurrent
+                ? "bg-[#241e17] border border-[#f5a623]"
                 : "bg-[#20222b] border border-gray-800 hover:border-gray-700"
-        } ${!isMe ? 'cursor-pointer' : ''}`;
-        
+            } ${!isMe ? 'cursor-pointer' : ''}`;
+
         if (!isMe) {
             playerCard.onclick = () => {
                 const timelineDiv = document.getElementById(`external-timeline-${p.id}`);
                 const arrowSpan = document.getElementById(`arrow-${p.id}`);
-                
+
                 if (timelineDiv.classList.contains('hidden')) {
                     timelineDiv.classList.remove('hidden');
                     window.openTimelines[p.id] = true;
@@ -230,12 +233,12 @@ function updateGamePlayersList(players, activePlayerId) {
             </div>
             <div class="flex items-center gap-1 text-[#f5a623] font-bold">⭐ ${p.score}</div>
         `;
-        
+
         playerContainer.appendChild(playerCard);
 
         const externalTimelineDiv = document.createElement('div');
         externalTimelineDiv.id = `external-timeline-${p.id}`;
-        
+
         // KORREKTUR: max-h-80 und no-scrollbar hinzugefügt 🛠️
         if (!window.openTimelines[p.id]) {
             externalTimelineDiv.className = "hidden pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-80 overflow-y-auto no-scrollbar";
@@ -244,7 +247,7 @@ function updateGamePlayersList(players, activePlayerId) {
         }
 
         const sortedExternalTimeline = [...p.timeline].sort((a, b) => a.year - b.year);
-        
+
         if (sortedExternalTimeline.length === 0) {
             externalTimelineDiv.innerHTML = `<p class="text-xs text-gray-500 py-1">Noch keine Filme in der Timeline.</p>`;
         } else {
@@ -268,7 +271,7 @@ let blindTimeout = null;
 
 function toggleAudio() {
     if (!player || typeof player.playVideo !== 'function') return;
-    
+
     if (!isPlaying) {
         // Lokal abspielen
         localPlay();
@@ -286,21 +289,21 @@ function localPlay() {
     if (!player) return;
     player.playVideo();
     isPlaying = true;
-    
+
     const playBtn = document.getElementById('play-btn');
     const blind = document.getElementById('video-blind');
     const blindText = document.getElementById('blind-text');
-    
+
     if (blindText) blindText.innerText = "Intro wird geladen...";
     if (blind) blind.classList.remove('hidden');
-    
+
     if (blindTimeout) clearTimeout(blindTimeout);
     blindTimeout = setTimeout(() => {
         if (blind && isPlaying) {
             blind.classList.add('hidden');
         }
     }, 5000); // 5 Sekunden Blende beibehalten
-    
+
     // Play-Button anpassen (wird für passive Spieler via CSS eh versteckt)
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "⏸";
@@ -313,15 +316,15 @@ function localPause() {
     if (!player) return;
     player.pauseVideo();
     isPlaying = false;
-    
+
     const playBtn = document.getElementById('play-btn');
     const blind = document.getElementById('video-blind');
     const blindText = document.getElementById('blind-text');
-    
+
     if (blindTimeout) clearTimeout(blindTimeout);
     if (blind) blind.classList.remove('hidden');
     if (blindText) blindText.innerText = "Pausiert...";
-    
+
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "▶";
         playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
@@ -340,7 +343,7 @@ socket.on('onSyncPause', () => {
 function renderTimeline(disabled) {
     const container = document.getElementById('timeline-container');
     if (!container) return;
-    
+
     container.innerHTML = "";
     myTimeline.sort((a, b) => a.year - b.year);
 
@@ -353,7 +356,7 @@ function renderTimeline(disabled) {
         if (i === myTimeline.length - 1) {
             container.appendChild(createPlusButton(`Nach ${myTimeline[i].year}`, i, disabled));
         } else {
-            container.appendChild(createPlusButton(`Zwischen ${myTimeline[i].year} & ${myTimeline[i+1].year}`, i, disabled));
+            container.appendChild(createPlusButton(`Zwischen ${myTimeline[i].year} & ${myTimeline[i + 1].year}`, i, disabled));
         }
     }
 
@@ -384,20 +387,20 @@ function createPlusButton(text, index, disabled) {
 function handleGuess(guessedIndex) {
     if (blindTimeout) clearTimeout(blindTimeout);
     if (player) player.pauseVideo();
-    
+
     // Blende komplett verstecken bei der Auflösung, damit JEDER das Video sehen kann!
     const blind = document.getElementById('video-blind');
     if (blind) blind.classList.add('hidden');
-    socket.emit('submitGuess', { roomCode: currentRoomCode, guessedIndex: guessedIndex }); 
+    socket.emit('submitGuess', { roomCode: currentRoomCode, guessedIndex: guessedIndex });
 }
 
 socket.on('roundResolved', (data) => {
     if (player) player.pauseVideo();
-    
+
     if (data.activePlayerId === myId) {
         myTimeline = data.updatedTimeline;
     }
-    
+
     renderTimeline(true);
 
     document.getElementById('play-btn').classList.add('hidden');
@@ -456,7 +459,7 @@ function goToLobby() {
     // Je nachdem, wie deine Ansichten benannt sind (z.B. 'lobby-screen' anzeigen, 'game-screen' verstecken)
     document.getElementById('game-screen').classList.add('hidden');
     document.getElementById('lobby-screen').classList.remove('hidden');
-    
+
     // Dem Server optional sagen, dass wir zurück in der Lobby sind
     // socket.emit('backToLobby', currentRoomCode);
 }
@@ -464,3 +467,21 @@ function goToLobby() {
 function onYouTubeIframeAPIReady() {
     // Bleibt leer, da wir den Player dynamisch in initRound() erzeugen!
 }
+
+// Hilfsfunktion um den Raumcode in die Zwischenablage zu kopieren
+function copyRoomCode() {
+    if (!currentRoomCode) return;
+    navigator.clipboard.writeText(currentRoomCode);
+}
+
+function changeGameMode() {
+    if (!amIHost) return;
+    const selectedMode = document.getElementById('game-mode-select').value;
+    socket.emit('updateGameMode', { roomCode: currentRoomCode, mode: selectedMode });
+}
+
+// Server teilt allen im Raum mit, dass der Modus geändert wurde
+socket.on('gameModeUpdated', (mode) => {
+    currentRoomMode = mode;
+    document.getElementById('game-mode-select').value = mode;
+});

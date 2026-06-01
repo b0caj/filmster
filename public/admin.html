@@ -3,114 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmster - Admin Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Impact&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Database Admin Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: #e0e0e0; padding: 40px; margin: 0; }
+        .container { max-width: 600px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h1 { margin-top: 0; color: #ffffff; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #b3b3b3; }
+        select, input[type="text"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #333; border-radius: 6px; background: #2a2a2a; color: #fff; box-sizing: border-box; font-size: 16px; }
+        select:focus, input:focus { border-color: #00adb5; outline: none; }
+        button { background: #00adb5; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #007a80; }
+        .info-box { background: #252525; padding: 15px; border-radius: 6px; border-left: 4px solid #00adb5; margin-bottom: 25px; }
+        .info-box p { margin: 5px 0; }
+        .progress { float: right; font-size: 14px; color: #888; background: #333; padding: 2px 8px; border-radius: 10px; }
+        .message { font-weight: bold; text-align: center; color: #00adb5; font-size: 18px; }
+    </style>
 </head>
-<body class="bg-[#0b0c10] text-white min-h-screen flex flex-col justify-between font-sans">
+<body>
 
-    <header class="flex justify-between items-center px-8 py-4 border-b border-gray-800">
-        <div class="flex items-center gap-2">
-            <span class="text-2xl">🛠️</span>
-            <h1 class="text-2xl uppercase tracking-wider font-bold text-[#f5a623]">Filmster Admin</h1>
+<div class="container">
+    <h1>Database Linker 🛠️</h1>
+    
+    <!-- NEU: Auswahl des Modus -->
+    <div class="form-group">
+        <label for="modeSelect">Welche Datenbank bearbeiten?</label>
+        <select id="modeSelect" onchange="loadNextItem()">
+            <option value="movies">🎬 Filme & Serien (movies.json)</option>
+            <option value="games">🎮 Videospiele (games.json)</option>
+        </select>
+    </div>
+
+    <div id="loadingArea">
+        <div class="info-box">
+            <span class="progress" id="progressText">- / -</span>
+            <p><strong>Aktueller Titel:</strong> <span id="displayTitle" style="color:#fff; font-size:18px;">Lädt...</span></p>
+            <p><strong>Jahr:</strong> <span id="displayYear">-</span></p>
         </div>
-        <div class="text-gray-400 text-sm">
-            Fortschritt: <span id="progress-display" class="text-white font-bold">0 / 0</span>
-        </div>
-    </header>
 
-    <main class="flex-1 flex flex-col items-center justify-center p-6 max-w-lg mx-auto w-full gap-6">
-        <div class="w-full bg-[#16171e] border border-gray-800 p-8 rounded-2xl shadow-2xl flex flex-col gap-6">
-            
-            <div class="text-center">
-                <span class="text-xs font-bold uppercase tracking-wider text-gray-500 block mb-1">Aktueller Film</span>
-                <h2 id="movie-title" class="text-3xl font-bold text-white leading-tight">Lade...</h2>
-                <p id="movie-year" class="text-lg text-[#f5a623] font-mono mt-1">0000</p>
+        <form id="updateForm" onsubmit="submitData(event)">
+            <input type="hidden" id="hiddenTitle">
+            <input type="hidden" id="hiddenYear">
+
+            <div class="form-group">
+                <label for="youtubeId">YouTube Video-ID:</label>
+                <input type="text" id="youtubeId" placeholder="z.B. qIcTM8WXFjk (Nur die ID, nicht den ganzen Link!)" required>
             </div>
 
-            <div class="flex justify-center">
-                <button onclick="searchOnYouTube()" class="bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition cursor-pointer">
-                    🔺 Auf YouTube suchen
-                </button>
+            <div class="form-group">
+                <label for="startAt">Startzeit (in Sekunden - optional):</label>
+                <input type="number" id="startAt" value="0" min="0">
             </div>
 
-            <div class="border-t border-gray-800 my-2"></div>
+            <button type="submit">Speichern & Nächster Eintrag</button>
+        </form>
+    </div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">YouTube Video-ID</label>
-                <input type="text" id="yt-id-input" placeholder="Z.B. 4wvpdBnfiZo (Nur die ID, nicht den ganzen Link!)" class="w-full bg-[#0b0c10] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#f5a623] font-mono text-sm">
-                <p class="text-gray-500 text-[10px] mt-1">Hinweis: Die ID steht in der URL hinter "v=" (z.B. youtube.com/watch?v=<b>4wvpdBnfiZo</b>)</p>
-            </div>
+    <div id="finishedArea" class="message" style="display: none;">
+        <p id="finishedMessage">Alle Einträge sind vollständig! 🎉</p>
+    </div>
+</div>
 
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Startsekunde (Optional)</label>
-                <input type="number" id="start-input" value="0" min="0" class="w-full bg-[#0b0c10] border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#f5a623] font-mono text-sm">
-            </div>
+<script>
+    // Holt den nächsten unvollständigen Eintrag vom Server
+    function loadNextItem() {
+        const mode = document.getElementById('modeSelect').value;
+        
+        // Formular zurücksetzen
+        document.getElementById('youtubeId').value = "";
+        document.getElementById('startAt').value = "0";
+        
+        fetch(`/api/admin/next-empty?mode=${mode}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.finished) {
+                    document.getElementById('loadingArea').style.display = 'none';
+                    document.getElementById('finishedArea').style.display = 'block';
+                    document.getElementById('finishedMessage').innerText = data.message;
+                } else {
+                    document.getElementById('loadingArea').style.display = 'block';
+                    document.getElementById('finishedArea').style.display = 'none';
+                    
+                    // Sichtbare Daten füllen
+                    document.getElementById('displayTitle').innerText = data.title;
+                    document.getElementById('displayYear').innerText = data.year;
+                    document.getElementById('progressText').innerText = data.progress;
+                    
+                    // Unsichtbare Formulardaten für den Post-Request füllen
+                    document.getElementById('hiddenTitle').value = data.title;
+                    document.getElementById('hiddenYear').value = data.year;
+                    document.getElementById('youtubeId').focus();
+                }
+            })
+            .catch(err => console.error("Fehler beim Laden:", err));
+    }
 
-            <button onclick="saveCurrentMovie()" class="w-full bg-[#f5a623] hover:bg-[#d48c16] text-black font-bold py-3 rounded-xl transition cursor-pointer text-sm uppercase tracking-wider">
-                💾 Speichern & Nächster Film
-            </button>
-        </div>
-    </main>
+    // Sendet die eingetragenen Daten an den Server
+    function submitData(event) {
+        event.preventDefault();
+        
+        const mode = document.getElementById('modeSelect').value;
+        const title = document.getElementById('hiddenTitle').value;
+        const year = document.getElementById('hiddenYear').value;
+        const youtubeId = document.getElementById('youtubeId').value;
+        const startAt = document.getElementById('startAt').value;
 
-    <script>
-        let currentMovie = null;
-
-        async function loadNext() {
-            document.getElementById('yt-id-input').value = "";
-            document.getElementById('start-input').value = "0";
-
-            const res = await fetch('/api/admin/next-empty');
-            const data = await res.json();
-
-            if (data.finished) {
-                document.getElementById('movie-title').innerText = data.message;
-                document.getElementById('movie-year').innerText = "";
-                document.getElementById('yt-id-input').disabled = true;
-                document.getElementById('start-input').disabled = true;
-                return;
-            }
-
-            currentMovie = data;
-            document.getElementById('movie-title').innerText = data.title;
-            document.getElementById('movie-year').innerText = data.year;
-            document.getElementById('progress-display').innerText = data.progress;
-        }
-
-        function searchOnYouTube() {
-            if (!currentMovie) return;
-            const query = encodeURIComponent(`${currentMovie.title} ${currentMovie.year} intro soundtrack theme`);
-            window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
-        }
-
-        async function saveCurrentMovie() {
-            const ytId = document.getElementById('yt-id-input').value.trim();
-            const startAt = document.getElementById('start-input').value.trim();
-
-            if (!ytId) return alert("Bitte trage eine YouTube-ID ein!");
-
-            // Daten an den Server senden
-            const response = await fetch('/api/admin/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: currentMovie.title,
-                    year: currentMovie.year,
-                    youtubeId: ytId,
-                    startAt: startAt
-                })
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                loadNext(); // Sofort den nächsten Film laden!
+        fetch('/api/admin/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, year, youtubeId, startAt, mode })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Sofort den nächsten leeren Eintrag laden
+                loadNextItem();
             } else {
-                alert("Fehler beim Speichern!");
+                alert("Fehler beim Speichern: " + data.error);
             }
-        }
+        })
+        .catch(err => console.error("Fehler beim Senden:", err));
+    }
 
-        // Beim Laden der Seite direkt den ersten Film anfordern
-        loadNext();
-    </script>
+    // Beim ersten Laden der Seite direkt starten
+    window.onload = loadNextItem;
+</script>
 </body>
 </html>
