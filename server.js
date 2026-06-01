@@ -9,13 +9,63 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// WICHTIG: Erlaubt dem Server, JSON-Daten von Formularen zu lesen
+app.use(express.json());
+
+// ADMIN-API: Nächsten Film ohne YouTube-ID heraussuchen
+app.get('/api/admin/next-empty', (req, res) => {
+    const nextMovie = movieDatabase.find(m => !m.youtubeId || m.youtubeId.trim() === "");
+    if (!nextMovie) {
+        return res.json({ message: "Alle Filme sind vollständig! 🎉", finished: true });
+    }
+    // Berechne auch kurz, wie weit wir schon sind
+    const filledCount = movieDatabase.filter(m => m.youtubeId && m.youtubeId.trim() !== "").length;
+    res.json({
+        title: nextMovie.title,
+        year: nextMovie.year,
+        progress: `${filledCount} / ${movieDatabase.length}`,
+        finished: false
+    });
+});
+
+// ADMIN-API: Filmdaten speichern und movies.json updaten
+app.post('/api/admin/update', (req, res) => {
+    const { title, year, youtubeId, startAt } = req.body;
+    
+    // Film in der Live-Datenbank suchen
+    const movie = movieDatabase.find(m => m.title === title && m.year === parseInt(year));
+    
+    if (!movie) return res.status(404).json({ error: "Film nicht gefunden!" });
+
+    // Werte updaten
+    movie.youtubeId = youtubeId.trim();
+    movie.startAt = parseInt(startAt) || 0;
+
+    // In die movies.json Datei auf der Festplatte schreiben
+    try {
+        fs.writeFileSync(path.join(__dirname, 'movies.json'), JSON.stringify(movieDatabase, null, 2), 'utf8');
+        console.log(`[Admin] '${title}' erfolgreich geupdatet.`);
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Fehler beim Speichern der movies.json:", error);
+        res.status(500).json({ error: "Datei-Schreibfehler!" });
+    }
+});
+
 // Filmdatenbank
-const movieDatabase = [
-    { title: "Star Wars", year: 1977, youtubeId: "4wvpdBnfiZo", startAt: 5 },
-    { title: "König der Löwen", year: 1994, youtubeId: "GibiNy4d4gc", startAt: 0 },
-    { title: "Game of Thrones", year: 2011, youtubeId: "TZE9gVF1QbA", startAt: 0 },
-    { title: "Stranger Things", year: 2016, youtubeId: "b9EkMc79ZSU", startAt: 0 }
-];
+const fs = require('fs');
+let movieDatabase = [];
+
+try {
+    const rawData = fs.readFileSync(path.join(__dirname, 'movies.json'), 'utf8');
+    movieDatabase = JSON.parse(rawData);
+    console.log(`Erfolgreich ${movieDatabase.length} Filme und Serien geladen!`);
+} catch (error) {
+    console.error("Fehler beim Laden der movies.json! Nutze leere Datenbank.", error);
+    movieDatabase = [
+        { title: "Notfall-Klassiker", year: 2000, youtubeId: "4wvpdBnfiZo", startAt: 0 }
+    ];
+}
 
 const rooms = {};
 

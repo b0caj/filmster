@@ -1,0 +1,6002 @@
+[
+  {
+    "title": "Jurassic Park",
+    "year": 1993,
+    "youtubeId": "E8WaFvwtphY",
+    "startAt": 5
+  },
+  {
+    "title": "Man lernt nie aus",
+    "year": 2015,
+    "youtubeId": "x7bmt7_svd4",
+    "startAt": 0
+  },
+  {
+    "title": "Fifty Shades of Grey - Befreite Lust",
+    "year": 2018,
+    "youtubeId": "EVYfeHnS-QM",
+    "startAt": 120
+  },
+  {
+    "title": "Star Trek Into Darkness",
+    "year": 2013,
+    "youtubeId": "QAEkuVgt6Aw",
+    "startAt": 0
+  },
+  {
+    "title": "Vaiana",
+    "year": 2016,
+    "youtubeId": "HR-_SFpKyC8",
+    "startAt": 0
+  },
+  {
+    "title": "Eclipse - Bis(s) zum Abendrot",
+    "year": 2010,
+    "youtubeId": "kX2DKZcDM-o",
+    "startAt": 0
+  },
+  {
+    "title": "Die Unfassbaren 2",
+    "year": 2016,
+    "youtubeId": "YmGBAiHnK0U",
+    "startAt": 0
+  },
+  {
+    "title": "The First Avenger: Civil War",
+    "year": 2016,
+    "youtubeId": "dKrVegVI0Us",
+    "startAt": 0
+  },
+  {
+    "title": "Predator",
+    "year": 1987,
+    "youtubeId": "t-KhE8T6Btk",
+    "startAt": 0
+  },
+  {
+    "title": "Twilight - Biss zum Morgengrauen",
+    "year": 2008,
+    "youtubeId": "qhDPJ7ozL6s",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und der Feuerkelch",
+    "year": 2005,
+    "youtubeId": "80kuiBq95So",
+    "startAt": 0
+  },
+  {
+    "title": "Ant-Man and the Wasp",
+    "year": 2018,
+    "youtubeId": "z1T6LK6697s",
+    "startAt": 0
+  },
+  {
+    "title": "Soul",
+    "year": 2020,
+    "youtubeId": "txdUE10OopA",
+    "startAt": 0
+  },
+  {
+    "title": "Kingsman: The Golden Circle",
+    "year": 2017,
+    "youtubeId": "01AySy3H39M",
+    "startAt": 0
+  },
+  {
+    "title": "His Dark Materials",
+    "year": 2019,
+    "youtubeId": "uRaT0QXAxCw",
+    "startAt": 0
+  },
+  {
+    "title": "Kill Bill - Volume 2",
+    "year": 2004,
+    "youtubeId": "NoD1oT6MByI",
+    "startAt": 0
+  },
+  {
+    "title": "Transformers: Ära des Untergangs",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Bestimmung - Allegiant",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Ding aus einer anderen Welt",
+    "year": 1982,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Flash",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Imitation Game - Ein streng geheimes Leben",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jurassic Park III",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Forrest Gump",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Verblendung",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Midnight in Paris",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Maze Runner - Die Auserwählten im Labyrinth",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Simpsons",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious 9",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lilo & Stitch",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible II",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lost in Translation",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lion - Der lange Weg nach Hause",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious Five",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Interstellar",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men 2",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ocean's Twelve",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Book of Eli",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Witch",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Adam",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Notting Hill",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batman",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "House of the Dragon",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Jessica Jones",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "E.T. - Der Außerirdische",
+    "year": 1982,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rush - Alles für den Sieg",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Final Destination",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "House of Cards",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pirates of the Caribbean - Am Ende der Welt",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminal",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Aliens - Die Rückkehr",
+    "year": 1986,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Die letzten Jedi",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bones - Die Knochenjägerin",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Futurama",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "FROM",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious 8",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men Origins: Wolverine",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Matrix Reloaded",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Better Call Saul",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jäger des verlorenen Schatzes",
+    "year": 1981,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fear the Walking Dead",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Peacemaker",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sex Education",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alles steht Kopf 2",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Creed - Rocky's Legacy",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Brooklyn Nine-Nine",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Percy Jackson - Diebe im Olymp",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Findet Nemo",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gattaca",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Hobbit - Eine unerwartete Reise",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dahmer - Monster: Die Geschichte von Jeffrey Dahmer",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvels - Moon Knight",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kevin - Allein zu Haus",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rick and Morty",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shining",
+    "year": 1980,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Barbie",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Iron Man 2",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Love, Death & Robots",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und der Halbblutprinz",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und die Heiligtümer des Todes - Teil 1",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Source Code",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ice Age 3 - Die Dinosaurier sind los",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Blacklist",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The 100",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Fast and the Furious",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Doctor Strange",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ginny & Georgia",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marriage Story",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Für immer Shrek",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Game of Thrones",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jurassic World - Das gefallene Königreich",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Mumie kehrt zurück",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Life",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alles eine Frage der Zeit",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Bear: King of the Kitchen",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "John Wick",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ich - Einfach unverbesserlich 2",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Sopranos",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "INVINCIBLE",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dumm und Dümmer",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Captain America: The First Avenger",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Toy Story 2",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Game - Das Geschenk seines Lebens",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batman v Superman: Dawn of Justice",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Good Place",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Full Metal Jacket",
+    "year": 1987,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Umbrella Academy",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Silver Linings",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Departed - Unter Feinden",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Two and a Half Men",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Stirb langsam - Ein guter Tag zum Sterben",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Stargate",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Titanic",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Für immer Adaline",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pirates of the Caribbean - Fluch der Karibik 2",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hawaii Five-0",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Euphoria",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rom",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Panther",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ben 10",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Predestination",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mulan",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Looper",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Unbreakable - Unzerbrechlich",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "After Passion",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Logan - The Wolverine",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wednesday",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Love, Victor",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Mentalist",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gran Torino",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "GoodFellas",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Maske",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nocturnal Animals",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Valerian - Die Stadt der tausend Planeten",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious - Neues Modell. Originalteile.",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Schacht",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Trek: Picard",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das erstaunliche Leben des Walter Mitty",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sing",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Day After Tomorrow",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Assassin's Creed",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ratatouille",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nightcrawler - Jede Nacht hat ihren Preis",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shōgun",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Vergessene Welt: Jurassic Park",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Verschwiegen",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cloverfield",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Daredevil",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shang-Chi and the Legend of the Ten Rings",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scream - Schrei!",
+    "year": 1996,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nachts im Museum 2",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Expendables",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Agents of S.H.I.E.L.D.",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Fenster zum Hof",
+    "year": 1954,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Eyes Wide Shut",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Mirror",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fantastic Four - Rise of the Silver Surfer",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jumanji",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Inglourious Basterds",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Last Dance",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Große Haie - Kleine Fische",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Planet der Affen - Revolution",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Phantastische Tierwesen und wo sie zu finden sind",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fight Club",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Léon - Der Profi",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Orphan Black",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Django Unchained",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lost in Space - Verschollen zwischen fremden Welten",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avatar - Aufbruch nach Pandora",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bad Boys for Life",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Batman",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Episode III - Die Rache der Sith",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Club der toten Dichter",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Birds of Prey - The Emancipation of Harley Quinn",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Olympus Has Fallen - Die Welt in Gefahr",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "96 Hours - Taken 2",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Donnie Darko",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "SpongeBob Schwammkopf",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Im Auftrag des Teufels",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Breaking Dawn - Bis(s) zum Ende der Nacht - Teil 2",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kill Bill - Volume 1",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Joker",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gen V",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rio",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "I Am Legend",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jack Reacher",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Tribute von Panem - Catching Fire",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Hüter des Lichts",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Taxi Driver",
+    "year": 1976,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sonic the Hedgehog",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "You – Du wirst mich lieben",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Pate - Teil II",
+    "year": 1974,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Super 8",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Monster AG",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sherlock Holmes",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die fabelhafte Welt der Amélie",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Under the Dome",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Foundation",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "BlacKkKlansman",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Indiana Jones und der letzte Kreuzzug",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dune: Part Two",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Es - Welcome to Derry",
+    "year": 2025,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Codename U.N.C.L.E.",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Klick",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Wolf of Wall Street",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tarzan",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und der Orden des Phönix",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "John Wick: Kapitel 2",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Once Upon a Time... in Hollywood",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Buch von Boba Fett",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Baymax - Riesiges Robowabohu",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rambo",
+    "year": 1982,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Real Steel",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Schweigen der Lämmer",
+    "year": 1991,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die üblichen Verdächtigen",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "R.E.D. - Älter. Härter. Besser.",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Megamind",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Herr der Ringe - Die Gefährten",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Passengers",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der gestiefelte Kater: Der letzte Wunsch",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Unfassbaren",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ein ganzes halbes Jahr",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Castlevania",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zack Snyder's Justice League",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ghost in the Shell",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Schöne und das Biest",
+    "year": 1991,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alice im Wunderland: Hinter den Spiegeln",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Purge - Die Säuberung",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Birdman oder (Die unverhoffte Macht der Ahnungslosigkeit)",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Coco - Lebendiger als das Leben!",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "12 Years a Slave",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Stranger Things",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Episode II - Angriff der Klonkrieger",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Trek Beyond",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prometheus - Dunkle Zeichen",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ted 2",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die fantastische Welt von Oz",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Es Kapitel 2",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scary Movie",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wir sind die Millers",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Arrested Development",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Arrival",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die fantastische Welt von Gumball",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Conjuring 2",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "SEAL Team",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Malcolm mittendrin",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fantastic Four",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "MINDHUNTER",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Grimm",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious 7",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ralph reichts",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Anne with an E",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rapunzel - Neu verföhnt",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "WALL·E - Der Letzte räumt die Erde auf",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Einer flog über das Kuckucksnest",
+    "year": 1975,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The IT Crowd",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jackie Brown",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Catch Me If You Can",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Maze Runner - Die Auserwählten in der Todeszone",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Saw",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chucky",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Wire",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Venom: Let There Be Carnage",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dexter",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die zwölf Geschworenen",
+    "year": 1957,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cinderella",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Constantine",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Conjuring - Die Heimsuchung",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der seltsame Fall des Benjamin Button",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cloud Atlas",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "New Girl",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bad Boys - Harte Jungs",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bruce Allmächtig",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "3 Body Problem",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Crown",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man: Across the Spider-Verse",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Thor: Love and Thunder",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "9-1-1 Notruf L.A.",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Legende von Korra",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Outsider",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Maleficent - Die dunkle Fee",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious Spy Racers",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Planet der Affen - Prevolution",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Captain Marvel",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wanted",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Polarexpress",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Simpsons - Der Film",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "True Blood",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Verurteilten",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Tribute von Panem - Mockingjay Teil 2",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Uncharted",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Schindlers Liste",
+    "year": 1993,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Toy Story",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Grease",
+    "year": 1978,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Transformers - Die Rache",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Split",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Criminal Minds",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Hateful 8",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nachts im Museum",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Matrix",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Iron Man",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible - Phantom Protokoll",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "2001: Odyssee im Weltraum",
+    "year": 1968,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A Quiet Place",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jurassic World - Ein neues Zeitalter",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Dark Knight Rises",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Call Me by Your Name",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Big Short",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cars",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Watchmen",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Into the Wild",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sex and the City",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Supergirl",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Modern Family",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Killer's Bodyguard",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ms. Marvel",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Schneewittchen und die sieben Zwerge",
+    "year": 1938,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Mandalorian",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "James Bond 007 - Skyfall",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible - Fallout",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "300: Rise of an Empire",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ghost Whisperer - Stimmen aus dem Jenseits",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Narcos",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Purge: Anarchy",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "WandaVision",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wolverine - Weg des Kriegers",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Band of Brothers - Wir waren wie Brüder",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ready Player One",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminator 3 - Rebellion der Maschinen",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Venom",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men: Apocalypse",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ghostbusters - Die Geisterjäger",
+    "year": 1984,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "iZombie",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "James Bond 007 - Keine Zeit zu sterben",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Justice League",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "10 Cloverfield Lane",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hercules",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zurück in die Zukunft II",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Amazing Spider-Man 2: Rise of Electro",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Outlander",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der weiße Hai",
+    "year": 1975,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Gods",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Stirb langsam",
+    "year": 1988,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Watchmen - Die Wächter",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Exorzist",
+    "year": 1973,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Arcane",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fluch der Karibik",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bridgerton",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Bestimmung - Insurgent",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rain Man",
+    "year": 1988,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Drachenzähmen leicht gemacht",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Imperium schlägt zurück",
+    "year": 1980,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gangs of New York",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ad Astra - Zu den Sternen",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Primal",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tropic Thunder",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious: Hobbs & Shaw",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Transformers",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Kissing Booth",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Elementary",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Aquaman",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mare of Easttown",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zombieland",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Damengambit",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rogue One: A Star Wars Story",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Hobbit - Die Schlacht der fünf Heere",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jojo Rabbit",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hacksaw Ridge - Die Entscheidung",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Madagascar 2",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scarface",
+    "year": 1983,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "BoJack Horseman",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sex, Explained",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Toy Story 3",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Transformers: The Last Knight",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pearl Harbor",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Succession",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scorpion",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mad Men",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Oppenheimer",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Blind Side - Die große Chance",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "How to Get Away with Murder",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Trek",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Oblivion",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Law & Order: Special Victims Unit",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dunkirk",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Three Billboards Outside Ebbing, Missouri",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sherlock Holmes - Spiel im Schatten",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "50 erste Dates",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Reservoir Dogs - Wilde Hunde",
+    "year": 1992,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jumanji: Willkommen im Dschungel",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "No Country for Old Men",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kindsköpfe",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Children of Men",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Insidious",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sausage Party - Es geht um die Wurst",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Act",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Pate - Teil III",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jurassic World",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Breakfast Club",
+    "year": 1985,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kick-Ass",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "12 Monkeys",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "(500) Days of Summer",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Fast and the Furious: Tokyo Drift",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Aladdin",
+    "year": 1992,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "District 9",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Narcos Mexico",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Troja",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ice Age 2 - Jetzt taut's",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alles steht Kopf",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Maze Runner - Die Auserwählten in der Brandwüste",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "10 Dinge, die ich an Dir hasse",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Big Lebowski",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A Quiet Place 2",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Herr der Ringe - Die zwei Türme",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spuk in Hill House",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A Beautiful Mind - Genie und Wahnsinn",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hinter der Gartenmauer",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alita: Battle Angel",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Oben",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Argo",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dark",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mr. Robot",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Uhrwerk Orange",
+    "year": 1971,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Stolz und Vorurteil",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man 2",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men: Der letzte Widerstand",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible - Rogue Nation",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Kardashians",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Der Aufstieg Skywalkers",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jupiter Ascending",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Captain Phillips",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Brokeback Mountain",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Smallville",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Es",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Men in Black 3",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der König der Löwen",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Lobster",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ich - Einfach unverbesserlich 3",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "True Detective",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Breaking Dawn - Bis(s) zum Ende der Nacht - Teil 1",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ash vs Evil Dead",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Charlie und die Schokoladenfabrik",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Hustle",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Altered Carbon – Das Unsterblichkeitsprogramm",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das fünfte Element",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Others",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kingsman: The Secret Service",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Big Fish - Der Zauber, der ein Leben zur Legende macht",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Locke & Key",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Unglaublichen 2",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lie to Me",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sons of Anarchy",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "iCarly",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Silicon Valley",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Thor: Tag der Entscheidung",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mord im Orient-Express",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Deadpool",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Courage der feige Hund",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shape of Water - Das Flüstern des Wassers",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Million Dollar Baby",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shrek der Dritte",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "James Bond 007 - Casino Royale",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Illuminati",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Blade Runner 2049",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fringe - Grenzfälle des FBI",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Homeland",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "To All the Boys I've Loved Before",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und der Stein der Weisen",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Da Vinci Code - Sakrileg",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mysterious Mermaids",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ice Age",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Madagascar",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wir",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der große Gatsby",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Knives Out - Mord ist Familiensache",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "In Time - Deine Zeit läuft ab",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "I Am Not Okay with This",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avengers: Age of Ultron",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Krieg der Sterne",
+    "year": 1977,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sieben",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Halo",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's The Punisher",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Slumdog Millionär",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sleepy Hollow",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Man of Steel",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Emily in Paris",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tote Mädchen lügen nicht",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Top Gun - Sie fürchten weder Tod noch Teufel",
+    "year": 1986,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avengers: Infinity War",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Nun",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nerve",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alien - Das unheimliche Wesen aus einer fremden Welt",
+    "year": 1979,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Community",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mulholland Drive - Straße der Finsternis",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Butterfly Effect",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Blade Runner",
+    "year": 1982,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Men in Black",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Widow",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dexter: New Blood",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "xXx - Die Rückkehr des Xander Cage",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Rookie",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hawkeye",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Good Doctor",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gossip Girl",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminator 2 - Tag der Abrechnung",
+    "year": 1991,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Strain",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Marsianer - Rettet Mark Watney",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Impossible",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ocean's Eleven",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ring",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Originals",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Expendables 2",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mamma Mia!",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Boss Baby",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fate: The Winx Saga",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Drive",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sicario",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sense8",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spuk in Bly Manor",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American History X",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Selbst ist die Braut",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Snatch - Schweine und Diamanten",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Falcon and the Winter Soldier",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Phantastische Tierwesen: Grindelwalds Verbrechen",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ted Lasso",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Obi-Wan Kenobi",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Raya und der letzte Drache",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hangover",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hachiko - Eine wunderbare Freundschaft",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Vermächtnis der Tempelritter",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Dad",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sweet Tooth",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "24",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Edge of Tomorrow",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Psycho",
+    "year": 1960,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chilling Adventures of Sabrina",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tenet",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pokémon: Meisterdetektiv Pikachu",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Supernatural",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "28 Days Later",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man: No Way Home",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Requiem for a Dream",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kill the Boss",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cinderella",
+    "year": 1950,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dr. House",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Yellowstone",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "La La Land",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Office",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Green Book - Eine besondere Freundschaft",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible",
+    "year": 1996,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "What If...?",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men: Zukunft ist Vergangenheit",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star gegen die Mächte des Bösen",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pirates of the Caribbean - Fremde Gezeiten",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und die Kammer des Schreckens",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Crazy, Stupid, Love.",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pirates of the Caribbean - Salazars Rache",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ant-Man",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Bourne Verschwörung",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Good Will Hunting",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das ist das Ende",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Drake & Josh",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men: Erste Entscheidung",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chaos im Netz",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Top Gun: Maverick",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pans Labyrinth",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hannibal",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ohne Limit",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Witcher",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zodiac - Die Spur des Killers",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prey",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "We Bare Bears - Bären wie wir",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Young Sheldon",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gotham",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Big Bang Theory",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shrek 2 - Der tollkühne Held kehrt zurück",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Doom Patrol",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bad Neighbors",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Orange Is the New Black",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Teenage Mutant Ninja Turtles",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "John Wick: Kapitel 3",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Big Little Lies",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "S.W.A.T.",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Silo",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Aladdin",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men: Dark Phoenix",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "I, Robot",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Grey's Anatomy",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wie ein einziger Tag",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Thor - The Dark Kingdom",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Beauty",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mortal Kombat",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Warcraft: The Beginning",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "X-Men",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ice Age 4 - Voll verschoben",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Independence Day",
+    "year": 1996,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Pacific",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Green Mile",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Horror Story",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Pie",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avatar - Der Herr der Elemente",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "La Brea",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Blood Diamond",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Teen Wolf",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Godzilla",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Xena",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "300",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Es",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A World Beyond",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spartacus",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Legacies",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Unglaublichen",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Insatiable",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "8 Mile",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ted",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fargo",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Adventure Time - Abenteuerzeit mit Finn und Jake",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chernobyl",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Little Women",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Le Mans 66 - Gegen jede Chance",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Freunde mit gewissen Vorzügen",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hänsel und Gretel: Hexenjäger",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "It Follows",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batmans Rückkehr",
+    "year": 1992,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fargo",
+    "year": 1996,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Doctor Who",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kung Fu Panda 2",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Merida - Legende der Highlands",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Guardians of the Galaxy Vol. 3",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Social Network",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lost",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Deadpool & Wolverine",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sandman",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lucifer",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Man in the High Castle",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Panther: Wakanda Forever",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pretty Woman",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's The Avengers",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Findet Dorie",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Carnival Row",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Junge im gestreiften Pyjama",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "96 Hours",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminator: Die Erlösung",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rampage - Big meets Bigger",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Indiana Jones und das Königreich des Kristallschädels",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Insel der besonderen Kinder",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Croods",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Herr der Ringe: Die Ringe der Macht",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Once Upon a Time - Es war einmal ...",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Baby Driver",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Little Miss Sunshine",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Truman Show",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shameless - Nicht ganz nüchtern",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Willkommen in Gravity Falls",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Edward mit den Scherenhänden",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Blade",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mad Max: Fury Road",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A Star Is Born",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Revenant - Der Rückkehrer",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Deadpool 2",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Grand Budapest Hotel",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "CSI - Den Tätern auf der Spur",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Suits",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Return of the First Avenger",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Auslöschung",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spotlight",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wonder Woman",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bube, Dame, König, grAS",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Juno",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminator: Genisys",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Guardians of the Galaxy Vol. 2",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Charmed - Zauberhafte Hexen",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Mumie",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Legends of Tomorrow",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Magicians",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zurück in die Zukunft",
+    "year": 1985,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Akte X - Die unheimlichen Fälle des FBI",
+    "year": 1993,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mystic River",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "New Moon - Biss zur Mittagsstunde",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Legion",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Hobbit - Smaugs Einöde",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sin City",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Matrix Revolutions",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zoomania",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die wilden Siebziger",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rango",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sex/Life",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "1917",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The King’s Speech - Die Rede des Königs",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der König der Löwen",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "White Collar",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avatar: The Way of Water",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batwoman",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Last Kingdom",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pets",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scott Pilgrim gegen den Rest der Welt",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "127 Hours",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Her",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prestige - Die Meister der Magie",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Pianist",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chappie",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das grosse Krabbeln",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Boss Baby: wieder im Geschäft",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Sails",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Memento",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Rad der Zeit",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fleabag",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pacific Rim",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Twin Peaks",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man: A New Universe",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tom Clancy's Jack Ryan",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Monster Uni",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Super Mario Bros. Film",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Skins – Hautnah",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Adolescence",
+    "year": 2025,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man 3",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hot Fuzz - Zwei abgewichste Profis",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Banshee",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "2 Fast 2 Furious",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bohemian Rhapsody",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Focus",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Zurück in die Zukunft III",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chicago Fire",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The End of the F***ing World",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Manifest",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "2 Broke Girls",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Handmaid's Tale - Der Report der Magd",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Terminator",
+    "year": 1984,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Captain Fantastic - Einmal Wildnis und zurück",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ex Machina",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cast Away - Verschollen",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Buffy - Im Bann der Dämonen",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Rückkehr der Jedi-Ritter",
+    "year": 1983,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hugo Cabret",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sully",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Last Samurai",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ein Königreich für ein Lama",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Krieg der Welten",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Suicide Squad",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Penny Dreadful",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prisoners",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Entdeckung der Unendlichkeit",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Armageddon - Das jüngste Gericht",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hangover 2",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Snowpiercer",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gravity",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Amazing Spider-Man",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Streben nach Glück",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hotel Transsilvanien",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jungfrau (40), männlich, sucht ...",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Corpse Bride - Hochzeit mit einer Leiche",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tomb Raider",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kampf der Titanen",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shutter Island",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fast & Furious 6",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Scream Queens",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Heroes",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bates Motel",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gladiator",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Drachenzähmen leicht gemacht 3: Die geheime Welt",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Raumschiff Enterprise: Das nächste Jahrhundert",
+    "year": 1987,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Glass",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dallas Buyers Club",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Navy CIS",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Peaky Blinders - Gangs of Birmingham",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fifty Shades of Grey",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Life of Pi - Schiffbruch mit Tiger",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel’s The Defenders",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Teufel trägt Prada",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Das Erwachen der Macht",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Solo: A Star Wars Story",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Project X",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sieben Leben",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Sniper",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Apocalypse Now",
+    "year": 1979,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und die Heiligtümer des Todes - Teil 2",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Vergiss mein nicht!",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "American Psycho",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Get Out",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Breaking Bad",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batman",
+    "year": 1992,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Noch nie in meinem Leben",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Seinfeld",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Batman Begins",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mission: Impossible III",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Walking Dead",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Whiplash",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "21 Jump Street",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Family Guy",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "2012",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Regular Show – Völlig abgedreht",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Men in Black II",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Reacher",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "After Earth",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Don't Breathe",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Sixth Sense",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Guardians of the Galaxy",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mother!",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "James Bond 007 - Ein Quantum Trost",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jumanji: The Next Level",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ich - Einfach unverbesserlich",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Jungle Book",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Und täglich grüßt das Murmeltier",
+    "year": 1993,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gone Girl - Das perfekte Opfer",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Snow White and the Huntsman",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Vielleicht lieber morgen",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Only Murders in the Building",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prison Break",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Minions",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Agent Carter",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Transformers 3",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "James Bond 007 - Spectre",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Raised by Wolves",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Killing Eve",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cars 2",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Schicksal ist ein mieser Verräter",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Chroniken von Narnia: Der König von Narnia",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Arielle, die Meerjungfrau",
+    "year": 1989,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cobra Kai",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kung Fu Panda",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "TRON: Legacy",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Moonlight",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Inception",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hereditary - Das Vermächtnis",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Bestimmung - Divergent",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shadow and Bone - Legenden der Grisha",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "11.22.63 - Der Anschlag",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alice im Wunderland",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "She-Hulk: Die Anwältin",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "CSI: Miami",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Parks and Recreation",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Speed",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Rocky",
+    "year": 1976,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Mumie",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man: Homecoming",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Loki",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "How I Met Your Mother",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "King Kong",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ozark",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Das Bourne Ultimatum",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Raumschiff Enterprise",
+    "year": 1966,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Herz aus Stahl",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Irishman",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Pate",
+    "year": 1972,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Knight Rider",
+    "year": 1982,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Suicide Squad",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der unglaubliche Hulk",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Heartstopper",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "John Wick: Kapitel 4",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Harry Potter und der Gefangene von Askaban",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Free Guy",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Desperate Housewives",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "1899",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mr. Bean",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Archer",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "See - Reich der Blinden",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Elysium",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Einfach zu haben",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Avengers: Endgame",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Schöne und das Biest",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Orville",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Tribute von Panem - The Hunger Games",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Titans",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Planet der Affen - Survival",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Good Omens",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pongo und Perdita",
+    "year": 1961,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Black Swan",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "V wie Vendetta",
+    "year": 2006,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Herr der Ringe - Die Rückkehr des Königs",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bird Box - Schließe deine Augen",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Nice Guys",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pulp Fiction",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mr. & Mrs. Smith",
+    "year": 2005,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "There Will Be Blood",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Constantine",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pixels",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Girls Club - Vorsicht bissig!",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: Episode I - Die dunkle Bedrohung",
+    "year": 1999,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Jurassic World: Neue Abenteuer",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fallout",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Spider-Man: Far From Home",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Expanse",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Blindspot",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dark Shadows",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Vikings",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Victorious",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Baywatch",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Seven Deadly Sins",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Dune",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Sherlock",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Luke Cage",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Person of Interest",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Purge - Die Säuberung",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Eiskönigin - Völlig unverfroren",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Iron Man 3",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Green Lantern",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lucy",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "World War Z",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Chroniken von Narnia: Prinz Kaspian von Narnia",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hazbin Hotel",
+    "year": 2024,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Braveheart",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shrek - Der tollkühne Held",
+    "year": 2001,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shazam!",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Selena: Die Serie",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Battlestar Galactica",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Heat",
+    "year": 1995,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Arrow",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Drachenzähmen leicht gemacht 2",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hidden Figures - Unerkannte Heldinnen",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Superbad",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Bourne Identität",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Alien: Covenant",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Your Honor",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Resident Evil",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Eiskönigin 2",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Luca",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Riverdale",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Indiana Jones und der Tempel des Todes",
+    "year": 1984,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Boys",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ziemlich beste Freunde",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Fifty Shades of Grey - Gefährliche Liebe",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Firefly - Der Aufbruch der Serenity",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Severance",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nobody",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Soldat James Ryan",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Greatest Showman",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Superman & Lois",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kevin - Allein in New York",
+    "year": 1992,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Friends",
+    "year": 1994,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Marvel's Iron Fist",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pretty Little Liars",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Eternals",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Die Tribute von Panem - Mockingjay Teil 1",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Lego Movie",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Seattle Firefighters - Die jungen Helden",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "San Andreas",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Doctor Strange in the Multiverse of Madness",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Accountant",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Grinch",
+    "year": 2000,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Everything Everywhere All at Once",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Godzilla II: King of the Monsters",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Gifted",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Prince of Persia - Der Sand der Zeit",
+    "year": 2010,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tulsa King",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The White Lotus",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Chicago P.D.",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Godzilla vs. Kong",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Cruella",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Last of Us",
+    "year": 2023,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hellboy",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "A Toy Story: Alles hört auf kein Kommando",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Monster bei der Arbeit",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Vampire Diaries",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Trainspotting - Neue Helden",
+    "year": 1996,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Minority Report",
+    "year": 2002,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wonder Woman 1984",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Andor",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Lady Bird",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Help",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "This Is Us - Das ist Leben",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Nightmare Before Christmas",
+    "year": 1993,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Midsommar",
+    "year": 2019,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Westworld",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Encanto",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hancock",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Coraline",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Equalizer",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "South Park",
+    "year": 1997,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Unser Kosmos: Die Reise geht weiter",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Taboo",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "The Cabin in the Woods",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Raum",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Mulan",
+    "year": 1998,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Upload",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Willkommen im Haus der Eulen",
+    "year": 2020,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Don't Look Up",
+    "year": 2021,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Pitch Perfect",
+    "year": 2012,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ocean's 13",
+    "year": 2007,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Beetlejuice",
+    "year": 1988,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Wunder",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bridge of Spies: Der Unterhändler",
+    "year": 2015,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Gremlins - Kleine Monster",
+    "year": 1984,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Tatsächlich... Liebe",
+    "year": 2003,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Hangover 3",
+    "year": 2013,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "22 Jump Street",
+    "year": 2014,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Bullet Train",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Shaun of the Dead",
+    "year": 2004,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ocean's 8",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Meg",
+    "year": 2018,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Kong: Skull Island",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Trek: Discovery",
+    "year": 2017,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Glass Onion: A Knives Out Mystery",
+    "year": 2022,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Ja-Sager",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Castle",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Ghostbusters",
+    "year": 2016,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Thor",
+    "year": 2011,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Der Prinz von Bel-Air",
+    "year": 1990,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Big Time Rush",
+    "year": 2009,
+    "youtubeId": "",
+    "startAt": 0
+  },
+  {
+    "title": "Star Wars: The Clone Wars",
+    "year": 2008,
+    "youtubeId": "",
+    "startAt": 0
+  }
+]
