@@ -11,6 +11,8 @@ let myTimeline = [];
 let player;
 let isPlaying = false;
 let currentRoomMode = "movies";
+let maxClipDuration = 15; // Standardmäßig 15 Sekunden
+let clipTimer = null;     // Hält den JavaScript-Timer
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -34,6 +36,7 @@ socket.on('roomCreated', ({ roomCode, players }) => {
     document.getElementById('lobby-code-display').innerText = roomCode;
     document.getElementById('start-game-btn').classList.remove('hidden');
     document.getElementById('game-mode-select').disabled = false; // Host darf wählen
+    document.getElementById('clip-duration-select').disabled = false; // Host darf Dauer wählen
 
     document.getElementById('start-game-btn').onclick = () => {
         socket.emit('startGame', currentRoomCode);
@@ -102,6 +105,7 @@ socket.on('gameStarted', (data) => {
 });
 
 function initRound(data) {
+    if (clipTimer) clearTimeout(clipTimer);
     document.getElementById('round-display').innerText = `⏱️ Runde ${data.round}/${data.totalRounds}`;
     currentMovieData = data;
     isActivePlayer = (data.activePlayerId === myId);
@@ -154,6 +158,11 @@ function initRound(data) {
     if (blind) blind.classList.remove('hidden');
     if (blindText) blindText.innerText = "Bereit für das nächste Intro...";
 
+    const blindIcon = blind ? blind.querySelector('span') : null;
+    if (blindIcon) {
+        blindIcon.innerText = (currentRoomMode === 'games') ? '🎮' : '🎬';
+    }
+
     if (!player) {
         player = new YT.Player('yt-player', {
             height: '100%',
@@ -166,6 +175,9 @@ function initRound(data) {
                 'modestbranding': 1,
                 'rel': 0,
                 'origin': window.location.origin
+            },
+            events: {
+                'onStateChange': onPlayerStateChange
             }
         });
     } else {
@@ -199,8 +211,8 @@ function updateGamePlayersList(players, activePlayerId) {
 
         const playerCard = document.createElement('div');
         playerCard.className = `p-4 rounded-lg flex items-center justify-between transition ${isCurrent
-                ? "bg-[#241e17] border border-[#f5a623]"
-                : "bg-[#20222b] border border-gray-800 hover:border-gray-700"
+            ? "bg-[#241e17] border border-[#f5a623]"
+            : "bg-[#20222b] border border-gray-800 hover:border-gray-700"
             } ${!isMe ? 'cursor-pointer' : ''}`;
 
         if (!isMe) {
@@ -287,6 +299,7 @@ function toggleAudio() {
 
 function localPlay() {
     if (!player) return;
+    
     player.playVideo();
     isPlaying = true;
 
@@ -302,9 +315,8 @@ function localPlay() {
         if (blind && isPlaying) {
             blind.classList.add('hidden');
         }
-    }, 5000); // 5 Sekunden Blende beibehalten
+    }, 5000);
 
-    // Play-Button anpassen (wird für passive Spieler via CSS eh versteckt)
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "⏸";
         playBtn.className = "absolute bottom-4 left-4 w-10 h-10 rounded-full bg-[#f5a623]/80 hover:bg-[#d48c16] text-black text-sm flex items-center justify-center transition-all shadow-lg cursor-pointer z-20";
@@ -317,18 +329,27 @@ function localPause() {
     player.pauseVideo();
     isPlaying = false;
 
+    // Timer sofort löschen, da das Video gestoppt wurde
+    if (clipTimer) clearTimeout(clipTimer);
+
+    // NEU: Sofort im Hintergrund an den Runden-Anfang zurückspringen!
+    if (currentMovieData && typeof currentMovieData.startAt !== 'undefined') {
+        player.seekTo(currentMovieData.startAt, true);
+    }
+
     const playBtn = document.getElementById('play-btn');
     const blind = document.getElementById('video-blind');
-    const blindText = document.getElementById('blind-text');
-
-    if (blindTimeout) clearTimeout(blindTimeout);
-    if (blind) blind.classList.remove('hidden');
-    if (blindText) blindText.innerText = "Pausiert...";
-
+    
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "▶";
         playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
     }
+
+    // Blindfeld wieder anzeigen, damit niemand das Standbild sieht
+    if (blind) blind.classList.remove('hidden');
+    
+    const blindText = document.getElementById('blind-text');
+    if (blindText) blindText.innerText = "Gestoppt. Nächster Versuch startet wieder von vorn!";
 }
 
 // NETZWERK-LISTENER: Wenn der Server sagt, dass ein anderer Spieler gestartet/pausiert hat
@@ -366,10 +387,15 @@ function renderTimeline(disabled) {
     }, 50);
 }
 
+// NACHHER (KORRIGIERT 🎮):
 function createMovieCard(movie) {
     const div = document.createElement('div');
     div.className = "w-full bg-[#20222b] border border-gray-800 p-2 rounded-xl flex items-center gap-2 shadow-sm shrink-0";
-    div.innerHTML = `<div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-md shrink-0">🎬</div>
+
+    // Dynamisches Icon basierend auf dem aktuellen Modus
+    const modeIcon = (currentRoomMode === 'games') ? '🎮' : '🎬';
+
+    div.innerHTML = `<div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-md shrink-0">${modeIcon}</div>
                      <div class="truncate"><h4 class="font-bold text-xs text-white truncate max-w-[150px]">${movie.title}</h4><p class="text-[10px] text-[#f5a623] font-mono mt-0.5">${movie.year}</p></div>`;
     return div;
 }
@@ -484,4 +510,57 @@ function changeGameMode() {
 socket.on('gameModeUpdated', (mode) => {
     currentRoomMode = mode;
     document.getElementById('game-mode-select').value = mode;
+
+    const icon = (mode === 'games') ? '🎮' : '🎬';
+    const headerIcon = document.getElementById('header-logo-icon');
+    const statusIcon = document.getElementById('status-icon');
+
+    if (headerIcon) headerIcon.innerText = icon;
+    if (statusIcon) statusIcon.innerText = icon;
 });
+
+function changeClipDuration() {
+    if (!amIHost) return;
+    const selectedDuration = parseInt(document.getElementById('clip-duration-select').value);
+    socket.emit('updateClipDuration', { roomCode: currentRoomCode, duration: selectedDuration });
+}
+
+// Server teilt allen im Raum mit, dass die Zeit geändert wurde
+socket.on('clipDurationUpdated', (duration) => {
+    maxClipDuration = duration;
+    document.getElementById('clip-duration-select').value = duration;
+});
+
+function onPlayerStateChange(event) {
+    // 1 = YT.PlayerState.PLAYING
+    if (event.data === 1) {
+        isPlaying = true;
+
+        // Falls noch ein alter Timer läuft, löschen
+        if (clipTimer) clearTimeout(clipTimer);
+
+        // Wenn maxClipDuration auf 0 steht, ist es unbegrenzt
+        if (maxClipDuration > 0) {
+            clipTimer = setTimeout(() => {
+                if (player && typeof player.stopVideo === 'function') {
+                    player.stopVideo(); // Video stoppen
+                }
+                isPlaying = false;
+
+                // Blindfeld wieder anzeigen und Text ändern
+                const blind = document.getElementById('video-blind');
+                const blindText = document.getElementById('blind-text');
+                if (blind) blind.classList.remove('hidden');
+                if (blindText) blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
+
+                console.log("Clip-Dauer erreicht. Video automatisch gestoppt.");
+            }, maxClipDuration * 1000); // Sekunden in Millisekunden umrechnen
+        }
+    } else {
+        // Wenn das Video pausiert oder gestoppt wird, löschen wir den Timer ebenfalls zur Sicherheit
+        if (event.data === 2 || event.data === 0) {
+            if (clipTimer) clearTimeout(clipTimer);
+        }
+        isPlaying = false;
+    }
+}

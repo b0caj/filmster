@@ -189,6 +189,22 @@ socket.on('startGame', (roomCode) => {
         io.to(roomCode).emit('gameModeUpdated', mode);
     });
 
+    // Event für Spielmodus-Wechsel (hast du schon)
+    socket.on('updateGameMode', ({ roomCode, mode }) => {
+        const room = rooms[roomCode];
+        if (!room || room.host !== socket.id) return;
+        room.mode = mode;
+        io.to(roomCode).emit('gameModeUpdated', mode);
+    });
+
+    // NEU: Event für die Änderung der Clip-Dauer ⏱️
+    socket.on('updateClipDuration', ({ roomCode, duration }) => {
+        const room = rooms[roomCode];
+        if (!room || room.host !== socket.id) return;
+        room.clipDuration = duration; // Auf dem Server speichern
+        io.to(roomCode).emit('clipDurationUpdated', duration);
+    });
+
     socket.on('syncPlay', (roomCode) => {
         const room = rooms[roomCode];
         if (!room) return;
