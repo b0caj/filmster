@@ -1,6 +1,22 @@
-/* Eigene CSS-Regeln für Schriftarten */
 body {
     font-family: 'Inter', sans-serif;
+    /* Radialer Hintergrund: Schafft die Illusion eines abgedunkelten Kinosaals */
+    background: radial-gradient(circle at center, #12131c 0%, #07070a 70%, #020203 100%) !important;
+    min-height: screen;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Ein subtiles Muster im Hintergrund, das an Wandverkleidungen im Kino erinnert */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.015;
+    pointer-events: none;
+    background-image: radial-gradient(#ffffff 1px, transparent 1px);
+    background-size: 24px 24px;
+    z-index: 0;
 }
 
 .logo-font {
