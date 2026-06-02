@@ -23,14 +23,14 @@ app.get('/api/admin/next-empty', (req, res) => {
     const currentDb = (mode === 'games') ? gameDatabase : movieDatabase;
 
     const nextItem = currentDb.find(m => !m.youtubeId || m.youtubeId.trim() === "");
-    
+
     if (!nextItem) {
         return res.json({ message: "Alle Einträge in dieser Liste sind vollständig! 🎉", finished: true });
     }
 
     // Berechne den aktuellen Fortschritt
     const filledCount = currentDb.filter(m => m.youtubeId && m.youtubeId.trim() !== "").length;
-    
+
     res.json({
         title: nextItem.title,
         year: nextItem.year,
@@ -42,7 +42,7 @@ app.get('/api/admin/next-empty', (req, res) => {
 // ADMIN-API: Daten speichern und die entsprechende JSON-Datei updaten
 app.post('/api/admin/update', (req, res) => {
     const { title, year, youtubeId, startAt, mode } = req.body;
-    
+
     const isGames = (mode === 'games');
     const currentDb = isGames ? gameDatabase : movieDatabase;
     const fileName = isGames ? 'games.json' : 'movies.json';
@@ -141,52 +141,71 @@ io.on('connection', (socket) => {
     });
 
     // 3. SPIEL STARTEN
-socket.on('startGame', (roomCode) => {
+    // Event für Spiel-Ablauf-Wechsel
+    socket.on('updateGameType', ({ roomCode, type }) => {
         const room = rooms[roomCode];
         if (!room || room.host !== socket.id) return;
-
-        // Dynamisch die richtige Datenbank anhand des gewählten Modus wählen
-        const chosenDatabase = (room.mode === "games") ? gameDatabase : movieDatabase;
-
-        // Playlist filtern und mischen
-        room.playlist = chosenDatabase
-            .filter(m => m.youtubeId && m.youtubeId.trim() !== "")
-            .sort(() => Math.random() - 0.5);
-
-        if (room.playlist.length === 0) {
-            return socket.emit('errorMsg', "Die ausgewählte Datenbank hat keine spielbaren Einträge!");
-        }
-
-        room.gameStarted = true;
-        room.currentRound = 0;
-        room.activePlayerIndex = 0;
-
-        // Jedem Spieler eine Startkarte geben
-        room.players.forEach(p => {
-            p.timeline = [room.playlist[room.currentRound]];
-            room.currentRound++;
-        });
-
-        const nextItem = room.playlist[room.currentRound];
-        const activePlayer = room.players[room.activePlayerIndex];
-
-        io.to(roomCode).emit('gameStarted', {
-            round: 1,
-            totalRounds: room.playlist.length,
-            activePlayerId: activePlayer.id,
-            youtubeId: nextItem.youtubeId,
-            startAt: nextItem.startAt || 0,
-            players: room.players
-        });
+        room.gameType = type;
+        io.to(roomCode).emit('gameTypeUpdated', type);
     });
 
-    socket.on('updateGameMode', ({ roomCode, mode }) => {
+    // 3. SPIEL STARTEN (KUGELSICHER)
+    // 3. SPIEL STARTEN (Vom Host ausgelöst)
+    socket.on('startGame', (data) => {
+        // Falls der Client ein Objekt sendet, entpacken wir es, ansonsten nutzen wir es als roomCode (Fallback)
+        const roomCode = (data && data.roomCode) ? data.roomCode : data;
+
         const room = rooms[roomCode];
         if (!room || room.host !== socket.id) return;
 
-        room.mode = mode;
-        // Alle im Raum über den neuen Modus informieren (damit sich das Dropdown bei allen ändert)
-        io.to(roomCode).emit('gameModeUpdated', mode);
+        // Einstellungen aus dem Objekt im Raum speichern (oder Standardwerte nutzen)
+        room.gameStarted = true;
+        room.mode = (data && data.mode) ? data.mode : "movies";
+        room.gameType = (data && data.type) ? data.type : "classic";
+        room.winLimit = (data && data.winLimit) ? parseInt(data.winLimit) : 10;
+
+        // Die richtige Datenbank wählen (Spiele oder Filme)
+        const chosenDatabase = (room.mode === "games") ? gameDatabase : movieDatabase;
+
+        // Playlist erstellen: Nur Einträge mit gültiger YouTube-ID
+        const validItems = chosenDatabase.filter(m => m.youtubeId && m.youtubeId.trim() !== "");
+
+        if (validItems.length === 0) {
+            console.log("Fehler: Keine gültigen Einträge in der gewählten Datenbank gefunden!");
+            return;
+        }
+
+        // Playlist zufällig mischen
+        room.playlist = [...validItems].sort(() => Math.random() - 0.5);
+        room.currentRound = 0;
+        room.submittedGuesses = {}; // Für den Simultanmodus zurücksetzen
+
+        // Timelines aller Spieler mit der ersten Karte befüllen
+        const firstMovie = room.playlist[room.currentRound];
+        room.players.forEach(p => {
+            p.timeline = [{ ...firstMovie }];
+            p.score = 0;
+        });
+
+        // Nächsten Film vorbereiten (Runde 1 im Spiel wird Index 1 der Playlist sein)
+        room.currentRound = 1;
+        const nextMovie = room.playlist[room.currentRound];
+
+        // Aktiven Spieler bestimmen (für den klassischen Modus)
+        room.activePlayerIndex = 0;
+        const activePlayer = room.players[room.activePlayerIndex];
+
+        // Event an alle Clients senden, dass das Spiel startet
+        io.to(roomCode).emit('gameStarted', {
+            round: room.currentRound,
+            activePlayerId: activePlayer.id,
+            youtubeId: nextMovie.youtubeId,
+            startAt: nextMovie.startAt || 0,
+            players: room.players,
+            gameType: room.gameType,
+            totalRounds: room.playlist.length,
+            winLimit: room.winLimit // Sendet das Limit ans Frontend
+        });
     });
 
     // Event für Spielmodus-Wechsel (hast du schon)
@@ -205,6 +224,13 @@ socket.on('startGame', (roomCode) => {
         io.to(roomCode).emit('clipDurationUpdated', duration);
     });
 
+    socket.on('updateWinLimit', ({ roomCode, limit }) => {
+        const room = rooms[roomCode];
+        if (!room || room.host !== socket.id) return;
+        room.winLimit = limit; // Auf dem Server speichern
+        io.to(roomCode).emit('winLimitUpdated', limit);
+    });
+
     socket.on('syncPlay', (roomCode) => {
         const room = rooms[roomCode];
         if (!room) return;
@@ -219,55 +245,108 @@ socket.on('startGame', (roomCode) => {
         socket.to(roomCode).emit('onSyncPause');
     });
 
-// 4. TIPP AUSWERTEN (WASSERDICHTE LOGIK FÜR JAHRGÄNGE 🛠️)
+    // 4. TIPP AUSWERTEN (WASSERDICHTE LOGIK FÜR JAHRGÄNGE 🛠️)
+    // 4. TIPP AUSWERTEN (DIE WEICHE FÜR BEIDE MODI)
     socket.on('submitGuess', ({ roomCode, guessedIndex }) => {
         const room = rooms[roomCode];
         if (!room) return;
 
-        if (room.activePlayerIndex >= room.players.length) {
-            room.activePlayerIndex = 0;
-        }
-
-        const activePlayer = room.players[room.activePlayerIndex];
         const currentItem = room.playlist[room.currentRound];
-        const playerTimeline = activePlayer.timeline;
 
-        // Mathematisch exakte Prüfung für die Zeitleiste (inkl. gleicher Jahreszahlen)
-        let correctIndex = -1;
-        for (let i = 0; i < playerTimeline.length; i++) {
-            if (currentItem.year >= playerTimeline[i].year) {
-                correctIndex = i;
-            }
-        }
+        if (room.gameType === "simultaneous") {
+            // --- 🚀 SIMULTAN-MODUS LOGIK ---
+            room.submittedGuesses[socket.id] = guessedIndex;
 
-        const isCorrect = (guessedIndex === correctIndex);
+            const totalPlayers = room.players.length;
+            const totalGuesses = Object.keys(room.submittedGuesses).length;
 
-        if (isCorrect) {
-            // Karte exakt an der richtigen Stelle in die Timeline schieben
-            activePlayer.timeline.splice(guessedIndex + 1, 0, currentItem);
-            activePlayer.score++;
+            if (totalGuesses >= totalPlayers) {
+                const results = room.players.map(p => {
+                    const pGuess = room.submittedGuesses[p.id];
 
-            // Prüfung auf Sieg (Standard: Wer zuerst 10 Karten hat, gewinnt)
-            if (activePlayer.timeline.length >= 10) {
-                io.to(roomCode).emit('gameWon', {
-                    winnerName: activePlayer.name,
-                    timeline: activePlayer.timeline
+                    const leftYear = pGuess >= 0 ? p.timeline[pGuess].year : -Infinity;
+                    const rightYear = (pGuess + 1) < p.timeline.length ? p.timeline[pGuess + 1].year : Infinity;
+
+                    const isCorrect = (currentItem.year >= leftYear && currentItem.year <= rightYear);
+
+                    if (isCorrect) {
+                        p.timeline.splice(pGuess + 1, 0, { ...currentItem });
+                        p.score++;
+                    }
+
+                    return {
+                        id: p.id,
+                        name: p.name,
+                        isCorrect,
+                        updatedTimeline: p.timeline
+                    };
                 });
-                room.gameStarted = false;
-                return;
-            }
-        }
 
-        // Ergebnis an alle senden (Variablen neutral benannt, damit es für Filme & Games passt)
-        io.to(roomCode).emit('roundResolved', {
-            isCorrect,
-            title: currentItem.title,
-            year: currentItem.year,
-            players: room.players,
-            playerName: activePlayer.name,
-            activePlayerId: activePlayer.id,
-            updatedTimeline: playerTimeline
-        });
+                // 1. ZUERST: Runde auflösen, damit alle Clients die neue Karte sehen
+                io.to(roomCode).emit('simultaneousRoundResolved', {
+                    title: currentItem.title,
+                    year: currentItem.year,
+                    players: room.players,
+                    results: results,
+                    winLimit: room.winLimit
+                });
+
+                // 2. DANACH: Kurz warten (z.B. 1,5 Sekunden), damit die Animation durchlaufen kann, dann auf Sieg prüfen
+                setTimeout(() => {
+                    const winner = room.players.find(p => p.timeline.length >= room.winLimit);
+                    if (winner) {
+                        io.to(roomCode).emit('gameWon', {
+                            winnerName: winner.name,
+                            timeline: winner.timeline
+                        });
+                        room.gameStarted = false;
+                    }
+                }, 1500); // 1500 Millisekunden Verzögerung (kannst du an deine CSS-Animation anpassen)
+            } else {
+                io.to(roomCode).emit('playerSubmittedStatus', Object.keys(room.submittedGuesses));
+            }
+
+        } else {
+            // --- 🎬 KLASSISCHER MODUS LOGIK ---
+            if (room.activePlayerIndex >= room.players.length) {
+                room.activePlayerIndex = 0;
+            }
+
+            const activePlayer = room.players[room.activePlayerIndex];
+            const playerTimeline = activePlayer.timeline;
+
+            const leftYear = guessedIndex >= 0 ? playerTimeline[guessedIndex].year : -Infinity;
+            const rightYear = (guessedIndex + 1) < playerTimeline.length ? playerTimeline[guessedIndex + 1].year : Infinity;
+
+            const isCorrect = (currentItem.year >= leftYear && currentItem.year <= rightYear);
+
+            if (isCorrect) {
+                activePlayer.timeline.splice(guessedIndex + 1, 0, { ...currentItem });
+                activePlayer.score++;
+            }
+
+            // 1. ZUERST: Das Runden-Ergebnis senden, damit die Karte in die Timeline rutscht
+            io.to(roomCode).emit('roundResolved', {
+                isCorrect,
+                title: currentItem.title,
+                year: currentItem.year,
+                players: room.players,
+                playerName: activePlayer.name,
+                activePlayerId: activePlayer.id,
+                updatedTimeline: playerTimeline
+            });
+
+            // 2. DANACH: Mit einer kleinen Verzögerung prüfen, ob das Spiel vorbei ist
+            setTimeout(() => {
+                if (activePlayer.timeline.length >= room.winLimit) {
+                    io.to(roomCode).emit('gameWon', {
+                        winnerName: activePlayer.name,
+                        timeline: activePlayer.timeline
+                    });
+                    room.gameStarted = false;
+                }
+            }, 1500); // Gibt dem Client Zeit für die Einrast-Animation
+        }
     });
 
     // 5. NÄCHSTE RUNDE
@@ -277,22 +356,28 @@ socket.on('startGame', (roomCode) => {
 
         room.currentRound++;
 
+        // Sind wir am Ende der Playlist angekommen?
         if (room.currentRound >= room.playlist.length) {
             io.to(roomCode).emit('gameOver', room.players);
             delete rooms[roomCode];
             return;
         }
 
+        // Simultan-Tipps für die neue Runde zurücksetzen!
+        room.submittedGuesses = {};
+
         room.activePlayerIndex = (room.activePlayerIndex + 1) % room.players.length;
         const nextMovie = room.playlist[room.currentRound];
         const activePlayer = room.players[room.activePlayerIndex];
 
         io.to(roomCode).emit('nextRoundStarted', {
-            round: room.currentRound + 1,
+            round: room.currentRound, // Die Runde entspricht unserem Index (startet bei 1)
             activePlayerId: activePlayer.id,
             youtubeId: nextMovie.youtubeId,
-            startAt: nextMovie.startAt,
-            players: room.players
+            startAt: nextMovie.startAt || 0,
+            players: room.players,
+            gameType: room.gameType, // Wichtig für den Client!
+            winLimit: room.winLimit
         });
     });
 });

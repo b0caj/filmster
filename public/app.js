@@ -6,7 +6,7 @@ let myId = "";
 let amIHost = false;
 let currentMovieData = null;
 let isActivePlayer = false;
-
+let submittedPlayers = []; // Speichert die IDs der Spieler, die im Simultanmodus schon getippt haben
 let myTimeline = [];
 let player;
 let isPlaying = false;
@@ -15,6 +15,7 @@ let maxClipDuration = 15; // Standardmäßig 15 Sekunden
 let clipTimer = null;     // Hält den JavaScript-Timer
 let barInterval = null; // Hält das Intervall für den visuellen Balken
 let currentVolume = 100; // Standardmäßig volle Lautstärke (100%)
+let currentRoomType = "classic"; // Speichert, ob normal oder simultan gespielt wird
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -39,9 +40,21 @@ socket.on('roomCreated', ({ roomCode, players }) => {
     document.getElementById('start-game-btn').classList.remove('hidden');
     document.getElementById('game-mode-select').disabled = false; // Host darf wählen
     document.getElementById('clip-duration-select').disabled = false; // Host darf Dauer wählen
+    document.getElementById('game-type-select').disabled = false;
 
     document.getElementById('start-game-btn').onclick = () => {
-        socket.emit('startGame', currentRoomCode);
+        // Die aktuell ausgewählten Werte aus der Lobby auslesen
+        const mode = document.getElementById('game-mode-select').value; // 'movies' oder 'games'
+        const type = document.getElementById('game-type-select').value; // 'classic' oder 'simultaneous'
+        const winLimit = parseInt(document.getElementById('win-limit-select').value) || 10;
+
+        // WICHTIG: Als Objekt senden, da der Server es jetzt so erwartet
+        socket.emit('startGame', { 
+            roomCode: currentRoomCode,
+            mode: mode,
+            type: type,
+            winLimit: winLimit
+        });
     };
 
     updateLobbyPlayers(players);
@@ -106,12 +119,62 @@ socket.on('gameStarted', (data) => {
     initRound(data);
 });
 
+socket.on('gameStarted', (data) => {
+    showScreen('screen-game');
+    document.getElementById('round-display').classList.remove('hidden');
+
+    currentRoomType = data.gameType || "classic";
+
+    // Eigene Timeline sicher als tiefe Kopie aus den Serverdaten übernehmen
+    const me = data.players.find(p => p.id === myId);
+    if (me && me.timeline) {
+        myTimeline = JSON.parse(JSON.stringify(me.timeline));
+    } else {
+        myTimeline = [];
+    }
+
+    initRound(data);
+});
+
+socket.on('leaveRoom', ({ roomCode }) => {
+    const room = rooms[roomCode];
+    if (!room) return;
+
+    // Spieler aus dem Raum-Array entfernen
+    room.players = room.players.filter(p => p.id !== socket.id);
+
+    // Socket den Raum verlassen lassen
+    socket.leave(roomCode);
+
+    // Wenn der Raum jetzt leer ist, löschen wir ihn
+    if (room.players.length === 0) {
+        delete rooms[roomCode];
+    } else {
+        // Sonst die aktualisierte Spielerliste an die verbleibenden Spieler senden
+        io.to(roomCode).emit('roomData', {
+            roomCode,
+            players: room.players,
+            gameStarted: room.gameStarted
+        });
+    }
+});
+
 function initRound(data) {
     if (clipTimer) clearTimeout(clipTimer);
     stopVisualTimer();
-    document.getElementById('round-display').innerText = `⏱️ Runde ${data.round}/${data.totalRounds}`;
+    const maxMovies = data.winLimit || 10;
+    document.getElementById('round-display').innerText = `⏱️ Film ${data.round + 1}/${maxMovies}`;
     currentMovieData = data;
-    isActivePlayer = (data.activePlayerId === myId);
+    currentRoomType = data.gameType || "classic";
+
+    submittedPlayers = []; // Warte-Liste für die neue Runde leeren!
+
+    // Im Simultanmodus sind für die Timeline ALLE Spieler aktiv
+    if (currentRoomType === "simultaneous") {
+        isActivePlayer = true;
+    } else {
+        isActivePlayer = (data.activePlayerId === myId);
+    }
 
     updateGamePlayersList(data.players, data.activePlayerId);
 
@@ -122,30 +185,51 @@ function initRound(data) {
     const playBtn = document.getElementById('play-btn');
     const overlay = document.getElementById('video-protection-overlay');
 
-    if (isActivePlayer) {
-        instText.innerText = "Du bist dran! Höre das Intro und ordne es in DEINE Timeline ein.";
-        instText.className = "text-[#f5a623] font-semibold text-lg mb-4";
+    if (currentRoomType === "simultaneous") {
+        instText.innerText = "🚀 Simultan-Modus: Alle raten! Der Host startet das Video.";
+        instText.className = "text-amber-400 font-bold text-lg mb-4";
 
-        // Aktiver Spieler: Sieht den Button und darf aufs Overlay klicken
-        if (playBtn) {
-            playBtn.classList.remove('hidden');
-            playBtn.innerText = "▶";
-            playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
-        }
-        if (overlay) {
-            overlay.onclick = () => toggleAudio();
-            overlay.style.cursor = "pointer";
+        // NUR DER HOST DARF STEUERN
+        if (amIHost) {
+            if (playBtn) {
+                playBtn.classList.remove('hidden');
+                playBtn.innerText = "▶";
+                playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
+            }
+            if (overlay) {
+                overlay.onclick = () => toggleAudio();
+                overlay.style.cursor = "pointer";
+            }
+        } else {
+            if (playBtn) playBtn.classList.add('hidden');
+            if (overlay) {
+                overlay.onclick = null;
+                overlay.style.cursor = "default";
+            }
         }
     } else {
-        const activePlayerObj = data.players.find(p => p.id === data.activePlayerId);
-        instText.innerText = `${activePlayerObj.name} ist am Zug...`;
-        instText.className = "text-gray-400 font-semibold text-lg mb-4";
-
-        // Passiver Spieler: Sieht KEINEN Play-Button und darf nicht klicken
-        if (playBtn) playBtn.classList.add('hidden');
-        if (overlay) {
-            overlay.onclick = null;
-            overlay.style.cursor = "default";
+        // --- KLASSISCHER MODUS (Unverändert) ---
+        if (isActivePlayer) {
+            instText.innerText = "Du bist dran! Höre das Intro und ordne es in DEINE Timeline ein.";
+            instText.className = "text-[#f5a623] font-semibold text-lg mb-4";
+            if (playBtn) {
+                playBtn.classList.remove('hidden');
+                playBtn.innerText = "▶";
+                playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
+            }
+            if (overlay) {
+                overlay.onclick = () => toggleAudio();
+                overlay.style.cursor = "pointer";
+            }
+        } else {
+            const activePlayerObj = data.players.find(p => p.id === data.activePlayerId);
+            instText.innerText = `${activePlayerObj.name} ist am Zug...`;
+            instText.className = "text-gray-400 font-semibold text-lg mb-4";
+            if (playBtn) playBtn.classList.add('hidden');
+            if (overlay) {
+                overlay.onclick = null;
+                overlay.style.cursor = "default";
+            }
         }
     }
 
@@ -187,11 +271,19 @@ function initRound(data) {
             }
         });
     } else {
-        player.loadVideoById({ videoId: data.youtubeId, startSeconds: data.startAt });
+        console.log("Aktueller Player-Status:", player);
+        if (player && typeof player.loadVideoById === 'function') {
+            player.loadVideoById({
+                'videoId': data.youtubeId,
+                'startSeconds': data.startAt || 0
+            });
+        } else {
+            console.warn("YouTube Player ist noch nicht bereit, überspringe Laden.");
+        }
         player.pauseVideo();
     }
 
-    renderTimeline(!isActivePlayer);
+    renderTimeline(currentRoomType === "classic" ? !isActivePlayer : false);
 }
 
 function updateGamePlayersList(players, activePlayerId) {
@@ -238,6 +330,19 @@ function updateGamePlayersList(players, activePlayerId) {
             };
         }
 
+        // Den Status-Badge dynamisch berechnen
+        let statusBadge = "";
+        if (currentRoomType === "simultaneous") {
+            if (submittedPlayers.includes(p.id)) {
+                statusBadge = '<div class="text-xs text-green-400 border border-green-700/50 bg-green-900/30 px-1.5 py-0.5 rounded mt-1 w-max">✅ Fertig</div>';
+            } else {
+                statusBadge = '<div class="text-xs text-gray-400 border border-gray-700 bg-gray-800 px-1.5 py-0.5 rounded mt-1 w-max animate-pulse">⏳ Überlegt</div>';
+            }
+        } else {
+            if (isCurrent) statusBadge = '<div class="text-xs text-[#f5a623] mt-1">Am Zug</div>';
+            else statusBadge = `<div class="text-xs text-gray-500 mt-1">${isMe ? 'Deine eigene Reihe' : 'Timeline anzeigen'}</div>`;
+        }
+
         playerCard.innerHTML = `
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-full bg-gray-700 text-white font-bold flex items-center justify-center">${p.name[0]}</div>
@@ -246,7 +351,7 @@ function updateGamePlayersList(players, activePlayerId) {
                         ${p.name} ${isMe ? '(Du)' : ''} 
                         ${!isMe ? `<span id="arrow-${p.id}" class="text-xs text-gray-500">${window.openTimelines[p.id] ? '▲' : '▼'}</span>` : ''}
                     </div>
-                    ${isCurrent ? '<div class="text-xs text-[#f5a623]">Am Zug</div>' : `<div class="text-xs text-gray-500">${isMe ? 'Deine eigene Reihe' : 'Timeline anzeigen'}</div>`}
+                    ${statusBadge}
                 </div>
             </div>
             <div class="flex items-center gap-1 text-[#f5a623] font-bold">⭐ ${p.score}</div>
@@ -412,11 +517,21 @@ function createPlusButton(text, index, disabled) {
 
 function handleGuess(guessedIndex) {
     if (blindTimeout) clearTimeout(blindTimeout);
-    if (player) player.pauseVideo();
 
-    // Blende komplett verstecken bei der Auflösung, damit JEDER das Video sehen kann!
-    const blind = document.getElementById('video-blind');
-    if (blind) blind.classList.add('hidden');
+    // Die eigene Timeline SOFORT einfrieren (versteckt die Buttons)
+    renderTimeline(true);
+
+    if (currentRoomType === "simultaneous") {
+        const instText = document.getElementById('instruction-text');
+        if (instText) {
+            instText.innerText = "⏳ Tipp eingeloggt! Warte auf die restlichen Spieler...";
+            instText.className = "text-yellow-500 font-semibold text-lg mb-4 animate-pulse";
+        }
+    } else {
+        const blind = document.getElementById('video-blind');
+        if (blind) blind.classList.add('hidden');
+    }
+
     socket.emit('submitGuess', { roomCode: currentRoomCode, guessedIndex: guessedIndex });
 }
 
@@ -464,7 +579,8 @@ socket.on('nextRoundStarted', (data) => {
         activePlayerId: data.activePlayerId,
         youtubeId: data.youtubeId,
         startAt: data.startAt,
-        players: data.players
+        players: data.players,
+        gameType: data.gameType
     });
 });
 
@@ -506,6 +622,18 @@ function changeGameMode() {
     socket.emit('updateGameMode', { roomCode: currentRoomCode, mode: selectedMode });
 }
 
+function changeGameType() {
+    if (!amIHost) return;
+    const selectedType = document.getElementById('game-type-select').value;
+    socket.emit('updateGameType', { roomCode: currentRoomCode, type: selectedType });
+}
+
+socket.on('gameTypeUpdated', (type) => {
+    currentRoomType = type;
+    const select = document.getElementById('game-type-select');
+    if (select) select.value = type;
+});
+
 // Server teilt allen im Raum mit, dass der Modus geändert wurde
 socket.on('gameModeUpdated', (mode) => {
     currentRoomMode = mode;
@@ -530,6 +658,17 @@ socket.on('clipDurationUpdated', (duration) => {
     maxClipDuration = duration;
     document.getElementById('clip-duration-select').value = duration;
 });
+
+function changeWinLimit() {
+    if (!amIHost) return;
+    const selectedLimit = parseInt(document.getElementById('win-limit-select').value);
+    socket.emit('updateWinLimit', { roomCode: currentRoomCode, limit: selectedLimit });
+}
+
+socket.on('winLimitUpdated', (limit) => {
+    winLimit = limit;
+    document.getElementById('win-limit-select').value = limit;
+})
 
 function onPlayerStateChange(event) {
     // 1 = YT.PlayerState.PLAYING
@@ -666,3 +805,124 @@ function changeVolume(value) {
         else volumeIcon.innerText = "🔊";
     }
 }
+
+// --- NEUE EVENTS FÜR SIMULTAN-MODUS ---
+
+// --- NEUE EVENTS FÜR SIMULTAN-MODUS ---
+
+// 1. Live-Status: Jemand hat getippt!
+socket.on('playerSubmittedStatus', (submittedIds) => {
+    submittedPlayers = submittedIds;
+    // Liste sofort neu zeichnen, damit die ⏳ zu ✅ werden
+    if (currentMovieData && currentMovieData.players) {
+        updateGamePlayersList(currentMovieData.players, currentMovieData.activePlayerId);
+    }
+});
+
+// 2. Das große Finale: Alle haben getippt!
+socket.on('simultaneousRoundResolved', (data) => {
+    if (player) player.pauseVideo();
+
+    // 1. Deine aktualisierte Karte aus den Serverdaten holen
+    const myResult = data.results.find(r => r.id === myId);
+    if (myResult) {
+        myTimeline = myResult.updatedTimeline;
+    }
+    renderTimeline(true);
+
+    // 2. Video für alle freilegen
+    document.getElementById('play-btn').classList.add('hidden');
+    const blind = document.getElementById('video-blind');
+    if (blind) blind.classList.add('hidden');
+
+    document.getElementById('revealed-title').innerText = data.title;
+    document.getElementById('revealed-year').innerText = data.year;
+    document.getElementById('reveal-zone').classList.remove('hidden');
+
+    // 3. Auswertungs-Text bauen
+    const instText = document.getElementById('instruction-text');
+    const winners = data.results.filter(r => r.isCorrect).map(r => r.name);
+
+    if (winners.length > 0) {
+        instText.innerText = `🌟 Richtig getippt von: ${winners.join(', ')}!`;
+        instText.className = "text-green-500 font-bold text-lg mb-4";
+    } else {
+        instText.innerText = `😢 Niemand lag richtig!`;
+        instText.className = "text-red-500 font-bold text-lg mb-4";
+    }
+
+    // Punkte aktualisieren
+    updateGamePlayersList(data.players, null);
+
+    // Host-Steuerung für nächste Runde
+    const nextBtn = document.getElementById('next-round-btn');
+    if (amIHost) {
+        nextBtn.innerText = "Nächste Runde ➡️";
+        nextBtn.className = "mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer";
+        nextBtn.onclick = () => socket.emit('requestNextRound', currentRoomCode);
+    } else {
+        nextBtn.innerText = "Warte auf Host...";
+        nextBtn.className = "mt-4 bg-gray-700 text-gray-400 px-6 py-2 rounded-lg font-bold cursor-not-allowed";
+        nextBtn.onclick = null;
+    }
+});
+
+function leaveAndGoHome() {
+    // 1. Dem Server sagen, dass wir den Raum verlassen
+    if (currentRoomCode) {
+        socket.emit('leaveRoom', { roomCode: currentRoomCode });
+    }
+
+    // 2. Clientseitige Variablen zurücksetzen
+    currentRoomCode = "";
+    myTimeline = [];
+    amIHost = false;
+    isActivePlayer = false;
+
+    // 3. Ansichten zurücksetzen
+    // Falls das Video noch läuft, stoppen
+    if (player && typeof player.pauseVideo === 'function') {
+        player.pauseVideo();
+    }
+
+    // Siegerscreen verstecken (da dieser "fixed fixed-0" liegt und showScreen überlagern würde)
+    const winnerScreen = document.getElementById('winner-screen');
+    if (winnerScreen) winnerScreen.classList.add('hidden');
+
+    // Rundenzähler oben im Header verstecken
+    document.getElementById('round-display').classList.add('hidden');
+    document.getElementById('room-code-display').innerText = "# DEIN_CODE";
+
+    // Zurück zum Startbildschirm wechseln
+    showScreen('screen-start');
+}
+
+// Event-Listener registrieren, sobald das Dokument bereit ist
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. Filmklappe & Schriftzug oben links ("Filmster") klickbar machen
+    // Da das Icon und das H1 in einem gemeinsamen flex-Container liegen, greifen wir den Container:
+    const headerLogo = document.querySelector('header .flex.items-center.gap-2');
+    if (headerLogo) {
+        headerLogo.style.cursor = 'pointer';
+        headerLogo.addEventListener('click', () => {
+            // Sicherheitsabfrage, falls man sich gerade mitten im Spiel befindet
+            const gameScreen = document.getElementById('screen-game');
+            if (gameScreen && !gameScreen.classList.contains('hidden')) {
+                if (confirm("Möchtest du das laufende Spiel wirklich verlassen? Du verlierst deinen Fortschritt.")) {
+                    leaveAndGoHome();
+                }
+            } else {
+                // Aus der Lobby oder dem Siegerscreen direkt ohne Abfrage zurück
+                leaveAndGoHome();
+            }
+        });
+    }
+
+    // 2. "Zurück zur Lobby"-Button auf dem Siegerscreen aktivieren
+    const backToLobbyBtn = document.getElementById('back-to-lobby-btn');
+    if (backToLobbyBtn) {
+        backToLobbyBtn.addEventListener('click', () => {
+            leaveAndGoHome();
+        });
+    }
+});

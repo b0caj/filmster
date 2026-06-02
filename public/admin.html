@@ -1,132 +1,254 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Admin Dashboard</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: #e0e0e0; padding: 40px; margin: 0; }
-        .container { max-width: 600px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        h1 { margin-top: 0; color: #ffffff; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #b3b3b3; }
-        select, input[type="text"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #333; border-radius: 6px; background: #2a2a2a; color: #fff; box-sizing: border-box; font-size: 16px; }
-        select:focus, input:focus { border-color: #00adb5; outline: none; }
-        button { background: #00adb5; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; transition: background 0.2s; }
-        button:hover { background: #007a80; }
-        .info-box { background: #252525; padding: 15px; border-radius: 6px; border-left: 4px solid #00adb5; margin-bottom: 25px; }
-        .info-box p { margin: 5px 0; }
-        .progress { float: right; font-size: 14px; color: #888; background: #333; padding: 2px 8px; border-radius: 10px; }
-        .message { font-weight: bold; text-align: center; color: #00adb5; font-size: 18px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #ffffff;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #b3b3b3;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: #2a2a2a;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        select:focus,
+        input:focus {
+            border-color: #00adb5;
+            outline: none;
+        }
+
+        button {
+            background: #00adb5;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #007a80;
+        }
+
+        .info-box {
+            background: #252525;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #00adb5;
+            margin-bottom: 25px;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+        }
+
+        .progress {
+            float: right;
+            font-size: 14px;
+            color: #888;
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .message {
+            font-weight: bold;
+            text-align: center;
+            color: #00adb5;
+            font-size: 18px;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h1>Database Linker 🛠️</h1>
-    
-    <!-- NEU: Auswahl des Modus -->
-    <div class="form-group">
-        <label for="modeSelect">Welche Datenbank bearbeiten?</label>
-        <select id="modeSelect" onchange="loadNextItem()">
-            <option value="movies">🎬 Filme & Serien (movies.json)</option>
-            <option value="games">🎮 Videospiele (games.json)</option>
-        </select>
-    </div>
+    <div class="container">
+        <h1>Database Linker 🛠️</h1>
 
-    <div id="loadingArea">
-        <div class="info-box">
-            <span class="progress" id="progressText">- / -</span>
-            <p><strong>Aktueller Titel:</strong> <span id="displayTitle" style="color:#fff; font-size:18px;">Lädt...</span></p>
-            <p><strong>Jahr:</strong> <span id="displayYear">-</span></p>
+        <!-- NEU: Auswahl des Modus -->
+        <div class="form-group">
+            <label for="modeSelect">Welche Datenbank bearbeiten?</label>
+            <select id="modeSelect" onchange="loadNextItem()">
+                <option value="movies">🎬 Filme & Serien (movies.json)</option>
+                <option value="games">🎮 Videospiele (games.json)</option>
+            </select>
         </div>
 
-        <form id="updateForm" onsubmit="submitData(event)">
-            <input type="hidden" id="hiddenTitle">
-            <input type="hidden" id="hiddenYear">
-
-            <div class="form-group">
-                <label for="youtubeId">YouTube Video-ID:</label>
-                <input type="text" id="youtubeId" placeholder="z.B. qIcTM8WXFjk (Nur die ID, nicht den ganzen Link!)" required>
+        <div id="loadingArea">
+            <div class="info-box">
+                <span class="progress" id="progressText">- / -</span>
+                <p><strong>Aktueller Titel:</strong> <span id="displayTitle"
+                        style="color:#fff; font-size:18px;">Lädt...</span></p>
+                <p><strong>Jahr:</strong> <span id="displayYear">-</span></p>
             </div>
 
-            <div class="form-group">
-                <label for="startAt">Startzeit (in Sekunden - optional):</label>
-                <input type="number" id="startAt" value="0" min="0">
-            </div>
+            <form id="updateForm" onsubmit="submitData(event)">
+                <input type="hidden" id="hiddenTitle">
+                <input type="hidden" id="hiddenYear">
 
-            <button type="submit">Speichern & Nächster Eintrag</button>
-        </form>
+                <div class="form-group">
+                    <label for="youtubeId">YouTube Video-ID:</label>
+                    <input type="text" id="youtubeId"
+                        placeholder="z.B. qIcTM8WXFjk (Nur die ID, nicht den ganzen Link!)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="startAt">Startzeit (in Sekunden - optional):</label>
+                    <input type="number" id="startAt" value="0" min="0">
+                </div>
+
+                <div class="form-group">
+                    <button type="button" onclick="testVideo()"
+                        style="width: 100%; padding: 12px; background: #f5a623; border: none; border-radius: 6px; color: black; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                        🔍 Video testen
+                    </button>
+                </div>
+
+                <div id="preview-box"
+                    style="margin-top: 20px; border: 2px solid #333; padding: 10px; border-radius: 6px; display: none;">
+                    <label style="color: #f5a623; margin-bottom: 10px;">Vorschau:</label>
+                    <iframe id="test-iframe" width="100%" height="315" src="" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+
+                <button type="submit">Speichern & Nächster Eintrag</button>
+            </form>
+        </div>
+
+        <div id="finishedArea" class="message" style="display: none;">
+            <p id="finishedMessage">Alle Einträge sind vollständig! 🎉</p>
+        </div>
     </div>
 
-    <div id="finishedArea" class="message" style="display: none;">
-        <p id="finishedMessage">Alle Einträge sind vollständig! 🎉</p>
-    </div>
-</div>
+    <script>
+        // Holt den nächsten unvollständigen Eintrag vom Server
+        function loadNextItem() {
+            const mode = document.getElementById('modeSelect').value;
 
-<script>
-    // Holt den nächsten unvollständigen Eintrag vom Server
-    function loadNextItem() {
-        const mode = document.getElementById('modeSelect').value;
-        
-        // Formular zurücksetzen
-        document.getElementById('youtubeId').value = "";
-        document.getElementById('startAt').value = "0";
-        
-        fetch(`/api/admin/next-empty?mode=${mode}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.finished) {
-                    document.getElementById('loadingArea').style.display = 'none';
-                    document.getElementById('finishedArea').style.display = 'block';
-                    document.getElementById('finishedMessage').innerText = data.message;
-                } else {
-                    document.getElementById('loadingArea').style.display = 'block';
-                    document.getElementById('finishedArea').style.display = 'none';
-                    
-                    // Sichtbare Daten füllen
-                    document.getElementById('displayTitle').innerText = data.title;
-                    document.getElementById('displayYear').innerText = data.year;
-                    document.getElementById('progressText').innerText = data.progress;
-                    
-                    // Unsichtbare Formulardaten für den Post-Request füllen
-                    document.getElementById('hiddenTitle').value = data.title;
-                    document.getElementById('hiddenYear').value = data.year;
-                    document.getElementById('youtubeId').focus();
-                }
-            })
-            .catch(err => console.error("Fehler beim Laden:", err));
-    }
+            // Formular zurücksetzen
+            document.getElementById('youtubeId').value = "";
+            document.getElementById('startAt').value = "0";
 
-    // Sendet die eingetragenen Daten an den Server
-    function submitData(event) {
-        event.preventDefault();
-        
-        const mode = document.getElementById('modeSelect').value;
-        const title = document.getElementById('hiddenTitle').value;
-        const year = document.getElementById('hiddenYear').value;
-        const youtubeId = document.getElementById('youtubeId').value;
-        const startAt = document.getElementById('startAt').value;
+            fetch(`/api/admin/next-empty?mode=${mode}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.finished) {
+                        document.getElementById('loadingArea').style.display = 'none';
+                        document.getElementById('finishedArea').style.display = 'block';
+                        document.getElementById('finishedMessage').innerText = data.message;
+                    } else {
+                        document.getElementById('loadingArea').style.display = 'block';
+                        document.getElementById('finishedArea').style.display = 'none';
 
-        fetch('/api/admin/update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, year, youtubeId, startAt, mode })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                // Sofort den nächsten leeren Eintrag laden
-                loadNextItem();
-            } else {
-                alert("Fehler beim Speichern: " + data.error);
+                        // Sichtbare Daten füllen
+                        document.getElementById('displayTitle').innerText = data.title;
+                        document.getElementById('displayYear').innerText = data.year;
+                        document.getElementById('progressText').innerText = data.progress;
+
+                        // Unsichtbare Formulardaten für den Post-Request füllen
+                        document.getElementById('hiddenTitle').value = data.title;
+                        document.getElementById('hiddenYear').value = data.year;
+                        document.getElementById('youtubeId').focus();
+                    }
+                })
+                .catch(err => console.error("Fehler beim Laden:", err));
+        }
+
+        function testVideo() {
+            const videoId = document.getElementById('youtubeId').value.trim();
+            if (!videoId) {
+                alert("Bitte zuerst eine YouTube-ID eingeben!");
+                return;
             }
-        })
-        .catch(err => console.error("Fehler beim Senden:", err));
-    }
 
-    // Beim ersten Laden der Seite direkt starten
-    window.onload = loadNextItem;
-</script>
+            const iframe = document.getElementById('test-iframe');
+            const previewBox = document.getElementById('preview-box');
+
+            // Setze die URL des Iframe
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+
+            // Blende den Container ein
+            previewBox.style.display = 'block';
+        }
+
+        // Sendet die eingetragenen Daten an den Server
+        function submitData(event) {
+            event.preventDefault();
+
+            const mode = document.getElementById('modeSelect').value;
+            const title = document.getElementById('hiddenTitle').value;
+            const year = document.getElementById('hiddenYear').value;
+            const youtubeId = document.getElementById('youtubeId').value;
+            const startAt = document.getElementById('startAt').value;
+
+            fetch('/api/admin/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, year, youtubeId, startAt, mode })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Sofort den nächsten leeren Eintrag laden
+                        loadNextItem();
+                    } else {
+                        alert("Fehler beim Speichern: " + data.error);
+                    }
+                })
+                .catch(err => console.error("Fehler beim Senden:", err));
+        }
+
+        // Beim ersten Laden der Seite direkt starten
+        window.onload = loadNextItem;
+    </script>
 </body>
+
 </html>
