@@ -16,6 +16,7 @@ let clipTimer = null;     // Hält den JavaScript-Timer
 let barInterval = null; // Hält das Intervall für den visuellen Balken
 let currentVolume = 100; // Standardmäßig volle Lautstärke (100%)
 let currentRoomType = "classic"; // Speichert, ob normal oder simultan gespielt wird
+let roundResolved = false; // Flag um zu verhindern, dass Timer startet, wenn Runde aufgelöst ist
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -160,6 +161,7 @@ socket.on('leaveRoom', ({ roomCode }) => {
 });
 
 function initRound(data) {
+    roundResolved = false; // Reset flag for new round
     if (clipTimer) clearTimeout(clipTimer);
     stopVisualTimer();
     const maxMovies = data.winLimit || 10;
@@ -538,7 +540,17 @@ function handleGuess(guessedIndex) {
 }
 
 socket.on('roundResolved', (data) => {
-    if (player) player.pauseVideo();
+    roundResolved = true; // Prevent timer from starting
+    // Video continues playing in background during results
+    // Resume playback if it was paused by timer
+    if (player && typeof player.playVideo === 'function') {
+        player.playVideo();
+    }
+    isPlaying = true;
+
+    // Deactivate timer so full clip can be seen
+    if (clipTimer) clearTimeout(clipTimer);
+    stopVisualTimer();
 
     if (data.activePlayerId === myId) {
         myTimeline = data.updatedTimeline;
@@ -548,7 +560,9 @@ socket.on('roundResolved', (data) => {
 
     document.getElementById('play-btn').classList.add('hidden');
     document.getElementById('revealed-title').innerText = data.title;
-    document.getElementById('revealed-year').innerText = data.year;
+    const revealedYear = document.getElementById('revealed-year');
+    revealedYear.innerText = data.year;
+    revealedYear.style.color = data.isCorrect ? '#22c55e' : '#ef4444';
     document.getElementById('reveal-zone').classList.remove('hidden');
 
     const instText = document.getElementById('instruction-text');
@@ -686,7 +700,8 @@ function onPlayerStateChange(event) {
         if (clipTimer) clearTimeout(clipTimer);
 
         // Wenn maxClipDuration auf 0 steht, ist es unbegrenzt
-        if (maxClipDuration > 0) {
+        // Aber: Kein Timer starten, wenn die Runde bereits aufgelöst ist
+        if (maxClipDuration > 0 && !roundResolved) {
             // RECHNUNG: Eingestellte Zeit (z.B. 15s * 1000 = 15000ms) + 4,6 Sekunden Vorhang-Wartezeit (4600ms)
             const totalDurationMs = (maxClipDuration * 1000) + 4600;
 
@@ -832,7 +847,17 @@ socket.on('playerSubmittedStatus', (submittedIds) => {
 
 // 2. Das große Finale: Alle haben getippt!
 socket.on('simultaneousRoundResolved', (data) => {
-    if (player) player.pauseVideo();
+    roundResolved = true; // Prevent timer from starting
+    // Video continues playing in background during results
+    // Resume playback if it was paused by timer
+    if (player && typeof player.playVideo === 'function') {
+        player.playVideo();
+    }
+    isPlaying = true;
+
+    // Deactivate timer so full clip can be seen
+    if (clipTimer) clearTimeout(clipTimer);
+    stopVisualTimer();
 
     // 1. Deine aktualisierte Karte aus den Serverdaten holen
     const myResult = data.results.find(r => r.id === myId);
@@ -847,7 +872,10 @@ socket.on('simultaneousRoundResolved', (data) => {
     if (blind) blind.classList.add('hidden');
 
     document.getElementById('revealed-title').innerText = data.title;
-    document.getElementById('revealed-year').innerText = data.year;
+    const revealedYear = document.getElementById('revealed-year');
+    revealedYear.innerText = data.year;
+    const anyCorrect = data.results.some(r => r.isCorrect);
+    revealedYear.style.color = anyCorrect ? '#22c55e' : '#ef4444';
     document.getElementById('reveal-zone').classList.remove('hidden');
 
     // 3. Auswertungs-Text bauen

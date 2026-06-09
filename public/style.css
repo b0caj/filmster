@@ -41,7 +41,7 @@ body::before {
 /* Basis-Zustand: Wenn der Vorhang GESCHLOSSEN ist, schließt er sich SOFORT (0s Delay) */
 #curtain-left,
 #curtain-right {
-    transition: transform 400ms ease-in-out;
+    transition: transform 150ms ease-in-out;
     transition-delay: 0s !important;
 }
 
