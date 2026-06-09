@@ -271,7 +271,6 @@ function initRound(data) {
             }
         });
     } else {
-        console.log("Aktueller Player-Status:", player);
         if (player && typeof player.loadVideoById === 'function') {
             player.loadVideoById({
                 'videoId': data.youtubeId,
@@ -283,7 +282,6 @@ function initRound(data) {
         if (player && typeof player.pauseVideo === 'function') {
             player.pauseVideo();
         } else {
-            console.log("YouTube Player hat pauseVideo noch nicht geladen, überspringe Pause.");
         }
     }
 
@@ -708,16 +706,25 @@ function onPlayerStateChange(event) {
                 if (blindText) {
                     blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
                 }
-
-                console.log("Clip-Dauer erreicht. Video automatisch gestoppt.");
             }, totalDurationMs); // Nutzt jetzt die verlängerte Laufzeit
         }
     } else {
         // Wenn das Video pausiert oder gestoppt wird, löschen wir den Timer ebenfalls zur Sicherheit
         if (event.data === 2 || event.data === 0) {
             if (clipTimer) clearTimeout(clipTimer);
+            // Vorhang wieder schließen und Text ändern
+            const blind = document.getElementById('video-blind');
+            const blindText = document.getElementById('blind-text');
+
+            if (blind) {
+                blind.classList.remove('curtain-open');
+            }
+            if (blindText) {
+                blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
+            }
         }
         isPlaying = false;
+
     }
 }
 
