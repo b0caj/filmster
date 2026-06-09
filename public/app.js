@@ -49,7 +49,7 @@ socket.on('roomCreated', ({ roomCode, players }) => {
         const winLimit = parseInt(document.getElementById('win-limit-select').value) || 10;
 
         // WICHTIG: Als Objekt senden, da der Server es jetzt so erwartet
-        socket.emit('startGame', { 
+        socket.emit('startGame', {
             roomCode: currentRoomCode,
             mode: mode,
             type: type,
@@ -280,7 +280,11 @@ function initRound(data) {
         } else {
             console.warn("YouTube Player ist noch nicht bereit, überspringe Laden.");
         }
-        player.pauseVideo();
+        if (player && typeof player.pauseVideo === 'function') {
+            player.pauseVideo();
+        } else {
+            console.log("YouTube Player hat pauseVideo noch nicht geladen, überspringe Pause.");
+        }
     }
 
     renderTimeline(currentRoomType === "classic" ? !isActivePlayer : false);
