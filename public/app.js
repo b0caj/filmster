@@ -17,6 +17,11 @@ let barInterval = null; // Hält das Intervall für den visuellen Balken
 let currentVolume = 100; // Standardmäßig volle Lautstärke (100%)
 let currentRoomType = "classic"; // Speichert, ob normal oder simultan gespielt wird
 let roundResolved = false; // Flag um zu verhindern, dass Timer startet, wenn Runde aufgelöst ist
+let currentClipDuration = 15; // Duration used for the currently running round, can be extended
+let clipTimerEndTime = null; // Timestamp when the current round's timer should end
+let visualTimerEndTime = null;
+let timerStartTimestamp = null;
+let hasBoughtExtraTime = false; // Tracks whether the local player already purchased bonus time this round
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -170,6 +175,11 @@ function initRound(data) {
     currentRoomType = data.gameType || "classic";
 
     submittedPlayers = []; // Warte-Liste für die neue Runde leeren!
+    hasBoughtExtraTime = false;
+    currentClipDuration = maxClipDuration;
+    clipTimerEndTime = null;
+    visualTimerEndTime = null;
+    timerStartTimestamp = null;
 
     // Im Simultanmodus sind für die Timeline ALLE Spieler aktiv
     if (currentRoomType === "simultaneous") {
@@ -179,6 +189,8 @@ function initRound(data) {
     }
 
     updateGamePlayersList(data.players, data.activePlayerId);
+    const me = data.players.find(p => p.id === myId);
+    updateBuyExtraTimeButton(me ? me.coins : 0);
 
     const blind = document.getElementById('video-blind');
     if (blind) blind.classList.remove('curtain-open');
@@ -358,7 +370,10 @@ function updateGamePlayersList(players, activePlayerId) {
                     ${statusBadge}
                 </div>
             </div>
-            <div class="flex items-center gap-1 text-[#f5a623] font-bold">⭐ ${p.score}</div>
+            <div class="flex flex-col items-end gap-1 text-right">
+                <div class="flex items-center gap-1 text-[#f5a623] font-bold">⭐ ${p.score}</div>
+                <div class="flex items-center gap-1 text-[#facc15] font-bold">🪙 ${p.coins || 0}</div>
+            </div>
         `;
 
         playerContainer.appendChild(playerCard);
@@ -414,8 +429,32 @@ function toggleAudio() {
 
 function localPlay() {
     if (!player) return;
+    // Ensure the player is loaded at the designated start time.
+    // Use loadVideoById with startSeconds to force the correct start position
+    if (currentMovieData && currentMovieData.youtubeId) {
+        try {
+            if (typeof player.loadVideoById === 'function') {
+                player.loadVideoById({
+                    videoId: currentMovieData.youtubeId,
+                    startSeconds: currentMovieData.startAt || 0
+                });
+            } else if (typeof player.seekTo === 'function' && typeof currentMovieData.startAt !== 'undefined') {
+                player.seekTo(currentMovieData.startAt, true);
+            }
+        } catch (e) {
+            // Fallback: try to seek if load failed
+            if (typeof player.seekTo === 'function' && typeof currentMovieData.startAt !== 'undefined') {
+                player.seekTo(currentMovieData.startAt, true);
+            }
+        }
+    }
 
-    player.playVideo();
+    // Small delay to let the player apply the start position reliably, then play
+    setTimeout(() => {
+        if (player && typeof player.playVideo === 'function') {
+            player.playVideo();
+        }
+    }, 150);
     isPlaying = true;
 
     const playBtn = document.getElementById('play-btn');
@@ -442,6 +481,9 @@ function localPause() {
     stopVisualTimer();
 
     if (clipTimer) clearTimeout(clipTimer);
+    clipTimerEndTime = null;
+    visualTimerEndTime = null;
+
 
     if (currentMovieData && typeof currentMovieData.startAt !== 'undefined') {
         player.seekTo(currentMovieData.startAt, true);
@@ -494,6 +536,55 @@ function renderTimeline(disabled) {
     setTimeout(() => {
         container.scrollTop = container.scrollHeight;
     }, 50);
+}
+
+function requestExtraTime() {
+    if (currentRoomType !== 'simultaneous') return;
+    if (hasBoughtExtraTime) return;
+    socket.emit('buyExtraTime', { roomCode: currentRoomCode });
+}
+
+function updateBuyExtraTimeButton(coins) {
+    const button = document.getElementById('buy-extra-time-btn');
+    if (!button) return;
+
+    const canBuy = currentRoomType === 'simultaneous' && !roundResolved && !submittedPlayers.includes(myId) && !hasBoughtExtraTime;
+    const hasEnough = (coins || 0) >= 4;
+
+    if (canBuy && hasEnough) {
+        button.classList.remove('hidden');
+        button.disabled = false;
+        button.innerText = '🪙 +5 Sek. für 4 Coins';
+    } else if (currentRoomType === 'simultaneous' && !roundResolved && !submittedPlayers.includes(myId) && !hasBoughtExtraTime) {
+        button.classList.remove('hidden');
+        button.disabled = true;
+        button.innerText = '🪙 Nicht genug Coins';
+    } else {
+        button.classList.add('hidden');
+    }
+}
+
+function onRoundTimerExpired() {
+    if (player && typeof player.stopVideo === 'function') {
+        player.stopVideo();
+    }
+    isPlaying = false;
+
+    const blind = document.getElementById('video-blind');
+    const blindText = document.getElementById('blind-text');
+
+    if (blind) blind.classList.remove('curtain-open');
+    if (blindText) blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
+}
+
+function resetClipTimer() {
+    if (!clipTimerEndTime) return;
+    if (clipTimer) clearTimeout(clipTimer);
+
+    const remainingMs = Math.max(0, clipTimerEndTime - Date.now());
+    clipTimer = setTimeout(() => {
+        onRoundTimerExpired();
+    }, remainingMs);
 }
 
 // NACHHER (KORRIGIERT 🎮):
@@ -699,29 +790,15 @@ function onPlayerStateChange(event) {
         // Falls noch ein alter Timer läuft, löschen
         if (clipTimer) clearTimeout(clipTimer);
 
-        // Wenn maxClipDuration auf 0 steht, ist es unbegrenzt
+        // Wenn currentClipDuration auf 0 steht, ist es unbegrenzt
         // Aber: Kein Timer starten, wenn die Runde bereits aufgelöst ist
-        if (maxClipDuration > 0 && !roundResolved) {
+        if (currentClipDuration > 0 && !roundResolved) {
             // RECHNUNG: Eingestellte Zeit (z.B. 15s * 1000 = 15000ms) + 4,6 Sekunden Vorhang-Wartezeit (4600ms)
-            const totalDurationMs = (maxClipDuration * 1000) + 4600;
-
-            clipTimer = setTimeout(() => {
-                if (player && typeof player.stopVideo === 'function') {
-                    player.stopVideo(); // Video stoppen
-                }
-                isPlaying = false;
-
-                // Vorhang wieder schließen und Text ändern
-                const blind = document.getElementById('video-blind');
-                const blindText = document.getElementById('blind-text');
-
-                if (blind) {
-                    blind.classList.remove('curtain-open');
-                }
-                if (blindText) {
-                    blindText.innerText = "⏱️ Zeit abgelaufen! Platziere jetzt deine Karte.";
-                }
-            }, totalDurationMs); // Nutzt jetzt die verlängerte Laufzeit
+            const totalDurationMs = (currentClipDuration * 1000) + 4600;
+            clipTimerEndTime = Date.now() + totalDurationMs;
+            visualTimerEndTime = clipTimerEndTime;
+            timerStartTimestamp = Date.now();
+            resetClipTimer();
         }
     } else {
         // Wenn das Video pausiert oder gestoppt wird, löschen wir den Timer ebenfalls zur Sicherheit
@@ -749,59 +826,56 @@ function startVisualTimer() {
     const statusText = document.getElementById('timer-status-text');
     const percentText = document.getElementById('timer-percentage-text');
 
-    if (!timerBar || !timerBarContainer || maxClipDuration <= 0) return;
-
-    // Sichtbarkeit & Basis-Zustand herstellen
-    timerBarContainer.classList.remove('hidden');
-    timerBar.style.width = '100%';
-    timerBar.className = "h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-orange";
-
-    if (statusText) statusText.innerText = "Vorstellung startet gleich...";
-    if (percentText) percentText.innerText = "100%";
+    if (!timerBar || !timerBarContainer || currentClipDuration <= 0) return;
 
     if (barInterval) clearInterval(barInterval);
 
-    const startTime = Date.now();
     const curtainDelay = 4600; // 4,6 Sekunden Vorhangzeit
-    const playDuration = maxClipDuration * 1000; // Reine Spielzeit in ms
+    const playDuration = currentClipDuration * 1000; // Reine Spielzeit in ms
     const totalDuration = playDuration + curtainDelay;
 
-    barInterval = setInterval(() => {
-        const elapsed = Date.now() - startTime;
+    // Keep the timer bar hidden for the first 4.6 seconds (curtain is closed)
+    timerBarContainer.classList.add('hidden');
 
-        if (elapsed < curtainDelay) {
-            // Phase 1: Vorhang öffnet sich noch im Hintergrund
-            timerBar.style.width = '100%';
-            if (statusText) statusText.innerText = "Vorhang öffnet sich...";
-            if (percentText) percentText.innerText = "100%";
-        } else {
-            // Phase 2: Video läuft sichtbar, Balken schrumpft
-            const timeInPlayPhase = elapsed - curtainDelay;
-            const remainingPercent = Math.max(0, 100 - (timeInPlayPhase / playDuration) * 100);
+    // After curtain delay, show the timer and start the visual countdown
+    setTimeout(() => {
+        timerBarContainer.classList.remove('hidden');
+        timerBar.style.width = '100%';
+        timerBar.className = "h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-orange";
 
+        if (statusText) statusText.innerText = "Film ab! Raten läuft...";
+        if (percentText) percentText.innerText = "100%";
+
+        barInterval = setInterval(() => {
+            const now = Date.now();
+            const remainingMs = Math.max(0, visualTimerEndTime - now);
+            const totalMs = Math.max(1, visualTimerEndTime - (timerStartTimestamp + curtainDelay));
+            const elapsedSinceVisible = now - (timerStartTimestamp + curtainDelay);
+
+            const remainingPercent = Math.max(0, (remainingMs / totalMs) * 100);
             timerBar.style.width = `${remainingPercent}%`;
             if (percentText) percentText.innerText = `${Math.ceil(remainingPercent)}%`;
-            if (statusText) statusText.innerText = "Film ab! Raten läuft...";
 
-            // Kritische Phase: Unter 30% wechselt das Design auf das rote Neon-Pulsieren
             if (remainingPercent < 30) {
                 timerBar.className = "h-full w-full rounded-full transition-all duration-100 ease-linear timer-glow-red";
                 if (statusText) statusText.className = "text-red-500 animate-pulse font-bold";
                 if (percentText) percentText.className = "font-mono text-red-500 animate-pulse font-bold";
                 if (statusText) statusText.innerText = "🚨 Schnell! Die Zeit läuft ab!";
             }
-        }
 
-        if (elapsed >= totalDuration) {
-            clearInterval(barInterval);
-        }
-    }, 100);
+            if (remainingMs <= 0) {
+                clearInterval(barInterval);
+            }
+        }, 100);
+    }, curtainDelay);
 }
 
 function stopVisualTimer() {
     if (barInterval) clearInterval(barInterval);
     const timerBarContainer = document.getElementById('timer-bar-container');
     if (timerBarContainer) timerBarContainer.classList.add('hidden');
+    visualTimerEndTime = null;
+    clipTimerEndTime = null;
 
     // Text-Klassen wieder auf Standard setzen für den nächsten Durchlauf
     const statusText = document.getElementById('timer-status-text');
@@ -843,6 +917,42 @@ socket.on('playerSubmittedStatus', (submittedIds) => {
     if (currentMovieData && currentMovieData.players) {
         updateGamePlayersList(currentMovieData.players, currentMovieData.activePlayerId);
     }
+    const me = currentMovieData?.players?.find(p => p.id === myId);
+    updateBuyExtraTimeButton(me ? me.coins : 0);
+});
+
+socket.on('timeExtensionGranted', (data) => {
+    if (!data || typeof data.extraSeconds !== 'number') return;
+
+    if (data.playerId === myId) {
+        currentClipDuration += data.extraSeconds;
+        if (clipTimerEndTime) {
+            clipTimerEndTime += data.extraSeconds * 1000;
+            visualTimerEndTime += data.extraSeconds * 1000;
+            resetClipTimer();
+        }
+        hasBoughtExtraTime = true;
+    }
+
+    if (data.players) {
+        updateGamePlayersList(data.players, currentMovieData?.activePlayerId);
+    }
+
+    const button = document.getElementById('buy-extra-time-btn');
+    if (button) {
+        if (data.playerId === myId) {
+            button.classList.add('hidden');
+        } else {
+            const me = data.players?.find(p => p.id === myId);
+            updateBuyExtraTimeButton(me ? me.coins : 0);
+        }
+    }
+
+    const instText = document.getElementById('instruction-text');
+    if (instText) {
+        instText.innerText = `🪙 ${data.playerName} hat 5 Extra-Sekunden gekauft!`;
+        instText.className = "text-amber-400 font-bold text-lg mb-4";
+    }
 });
 
 // 2. Das große Finale: Alle haben getippt!
@@ -883,7 +993,12 @@ socket.on('simultaneousRoundResolved', (data) => {
     const winners = data.results.filter(r => r.isCorrect).map(r => r.name);
 
     if (winners.length > 0) {
-        instText.innerText = `🌟 Richtig getippt von: ${winners.join(', ')}!`;
+        const coinsText = data.results
+            .filter(r => r.isCorrect)
+            .map(r => `${r.name} +${r.coinsEarned}🪙`)
+            .join(', ');
+
+        instText.innerText = `🌟 Richtig getippt von: ${winners.join(', ')}! ${coinsText}`;
         instText.className = "text-green-500 font-bold text-lg mb-4";
     } else {
         instText.innerText = `😢 Niemand lag richtig!`;

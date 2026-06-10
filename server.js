@@ -106,6 +106,7 @@ io.on('connection', (socket) => {
                 id: socket.id,
                 name: playerName,
                 score: 0,
+                coins: 0,
                 isHost: true,
                 timeline: createInitialTimeline()
             }],
@@ -131,6 +132,7 @@ io.on('connection', (socket) => {
             id: socket.id,
             name: playerName,
             score: 0,
+            coins: 0,
             isHost: false,
             timeline: createInitialTimeline()
         });
@@ -178,13 +180,16 @@ io.on('connection', (socket) => {
         // Playlist zufällig mischen
         room.playlist = [...validItems].sort(() => Math.random() - 0.5);
         room.currentRound = 0;
-        room.submittedGuesses = {}; // Für den Simultanmodus zurücksetzen
+        room.submittedGuesses = []; // Für den Simultanmodus zurücksetzen
+        room.timeExtensions = {};
+        room.purchasedExtraTime = {};
 
         // Timelines aller Spieler mit der ersten Karte befüllen
         const firstMovie = room.playlist[room.currentRound];
         room.players.forEach(p => {
             p.timeline = [{ ...firstMovie }];
             p.score = 0;
+            p.coins = 0;
         });
 
         // Nächsten Film vorbereiten (Runde 1 im Spiel wird Index 1 der Playlist sein)
@@ -238,6 +243,40 @@ io.on('connection', (socket) => {
         socket.to(roomCode).emit('onSyncPlay');
     });
 
+    socket.on('buyExtraTime', ({ roomCode }) => {
+        const room = rooms[roomCode];
+        if (!room) return;
+        if (room.gameType !== 'simultaneous') {
+            return socket.emit('errorMsg', 'Extra-Zeit ist nur im Simultanmodus verfügbar.');
+        }
+
+        const player = room.players.find(p => p.id === socket.id);
+        if (!player) return;
+        if (player.coins < 4) {
+            return socket.emit('errorMsg', 'Du hast nicht genug Coins für 5 Extra-Sekunden.');
+        }
+
+        const currentRoundExtensions = room.purchasedExtraTime[room.currentRound] || new Set();
+        if (currentRoundExtensions.has(socket.id)) {
+            return socket.emit('errorMsg', 'Du hast bereits 5 Extra-Sekunden für diese Runde gekauft.');
+        }
+
+        player.coins -= 4;
+        if (!room.purchasedExtraTime[room.currentRound]) {
+            room.purchasedExtraTime[room.currentRound] = new Set();
+        }
+        room.purchasedExtraTime[room.currentRound].add(socket.id);
+        room.timeExtensions[room.currentRound] = (room.timeExtensions[room.currentRound] || 0) + 5;
+
+        io.to(roomCode).emit('timeExtensionGranted', {
+            playerId: player.id,
+            playerName: player.name,
+            extraSeconds: 5,
+            players: room.players,
+            totalExtraSeconds: room.timeExtensions[room.currentRound]
+        });
+    });
+
     // SYNC: Video pausieren für alle im Raum
     socket.on('syncPause', (roomCode) => {
         const room = rooms[roomCode];
@@ -255,14 +294,17 @@ io.on('connection', (socket) => {
 
         if (room.gameType === "simultaneous") {
             // --- 🚀 SIMULTAN-MODUS LOGIK ---
-            room.submittedGuesses[socket.id] = guessedIndex;
+            if (!room.submittedGuesses.some(entry => entry.id === socket.id)) {
+                room.submittedGuesses.push({ id: socket.id, guessedIndex, timestamp: Date.now() });
+            }
 
             const totalPlayers = room.players.length;
-            const totalGuesses = Object.keys(room.submittedGuesses).length;
+            const totalGuesses = room.submittedGuesses.length;
 
             if (totalGuesses >= totalPlayers) {
-                const results = room.players.map(p => {
-                    const pGuess = room.submittedGuesses[p.id];
+                const results = room.submittedGuesses.map(entry => {
+                    const p = room.players.find(player => player.id === entry.id);
+                    const pGuess = entry.guessedIndex;
 
                     const leftYear = pGuess >= 0 ? p.timeline[pGuess].year : -Infinity;
                     const rightYear = (pGuess + 1) < p.timeline.length ? p.timeline[pGuess + 1].year : Infinity;
@@ -278,8 +320,24 @@ io.on('connection', (socket) => {
                         id: p.id,
                         name: p.name,
                         isCorrect,
-                        updatedTimeline: p.timeline
+                        updatedTimeline: p.timeline,
+                        guessedIndex: pGuess
                     };
+                });
+
+                const correctResults = results.filter(r => r.isCorrect);
+                correctResults.forEach((result, index) => {
+                    const coinsEarned = Math.max(1, correctResults.length - index);
+                    const player = room.players.find(p => p.id === result.id);
+                    if (player) {
+                        player.coins = (player.coins || 0) + coinsEarned;
+                    }
+                    result.coinsEarned = coinsEarned;
+                });
+
+                const incorrectResults = results.filter(r => !r.isCorrect);
+                incorrectResults.forEach(result => {
+                    result.coinsEarned = 0;
                 });
 
                 // 1. ZUERST: Runde auflösen, damit alle Clients die neue Karte sehen
@@ -303,7 +361,7 @@ io.on('connection', (socket) => {
                     }
                 }, 1500); // 1500 Millisekunden Verzögerung (kannst du an deine CSS-Animation anpassen)
             } else {
-                io.to(roomCode).emit('playerSubmittedStatus', Object.keys(room.submittedGuesses));
+                io.to(roomCode).emit('playerSubmittedStatus', room.submittedGuesses.map(entry => entry.id));
             }
 
         } else {
@@ -364,7 +422,7 @@ io.on('connection', (socket) => {
         }
 
         // Simultan-Tipps für die neue Runde zurücksetzen!
-        room.submittedGuesses = {};
+        room.submittedGuesses = [];
 
         room.activePlayerIndex = (room.activePlayerIndex + 1) % room.players.length;
         const nextMovie = room.playlist[room.currentRound];
