@@ -351,7 +351,7 @@ io.on('connection', (socket) => {
 
                 // 2. DANACH: Kurz warten (z.B. 1,5 Sekunden), damit die Animation durchlaufen kann, dann auf Sieg prüfen
                 setTimeout(() => {
-                    const winner = room.players.find(p => p.timeline.length >= room.winLimit);
+                    const winner = room.players.find(p => (p.timeline.length - 1) >= room.winLimit);
                     if (winner) {
                         io.to(roomCode).emit('gameWon', {
                             winnerName: winner.name,
@@ -396,7 +396,7 @@ io.on('connection', (socket) => {
 
             // 2. DANACH: Mit einer kleinen Verzögerung prüfen, ob das Spiel vorbei ist
             setTimeout(() => {
-                if (activePlayer.timeline.length >= room.winLimit) {
+                if ((activePlayer.timeline.length -1)>= room.winLimit) {
                     io.to(roomCode).emit('gameWon', {
                         winnerName: activePlayer.name,
                         timeline: activePlayer.timeline
