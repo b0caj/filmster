@@ -183,11 +183,55 @@
 
                 <div id="reveal-zone"
                     class="hidden absolute inset-0 bg-[#0b0c10]/15 flex flex-col items-center justify-center p-6 z-30">
-                    <h3 id="revealed-title" class="text-2xl font-bold text-white">???</h3>
-                    <p id="revealed-year" class="text-xl text-[#f5a623] font-bold mt-1">0000</p>
-                    <button id="next-round-btn"
-                        class="mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer">Nächste
-                        Runde ➡️</button>
+                    <div
+                        class="ticket-wrap w-full max-w-md">
+
+                        <div class="ticket" aria-label="Movie ticket">
+                            <div class="ticket__top">
+                                <div class="ticket__badge">
+                                    <span id="revealed-type" class="ticket__badge-text">🎬 Film</span>
+                                </div>
+                                <div class="ticket__brand">FILMSTER CINEMA</div>
+                            </div>
+
+                            <div class="ticket__cutlines" aria-hidden="true">
+                                <span></span><span></span>
+                            </div>
+
+                            <div class="ticket__body">
+                                <div class="ticket__meta">
+                                    <span class="ticket__meta-label">Vorstellung</span>
+                                    <span class="ticket__meta-value" id="ticket-meta-room">Heute • 19:30</span>
+                                </div>
+
+                                <h3 id="revealed-title" class="ticket__title">???</h3>
+
+                                <div class="ticket__yearrow">
+                                    <span class="ticket__year-label">Release</span>
+                                    <span id="revealed-year" class="ticket__year">0000</span>
+                                </div>
+
+                                <div class="ticket__details">
+                                    <div class="ticket__detail">
+                                        <span class="ticket__detail-k">Kino</span>
+                                        <span class="ticket__detail-v">Saalkarte</span>
+                                    </div>
+                                    <div class="ticket__detail">
+                                        <span class="ticket__detail-k">Platz</span>
+                                        <span class="ticket__detail-v" id="ticket-seat">G-12</span>
+                                    </div>
+                                </div>
+
+                                <div class="ticket__barcode" aria-hidden="true"></div>
+                            </div>
+
+                            <div class="ticket__bottom">
+                                <button id="next-round-btn" class="ticket__next">
+                                    Nächste Runde ➡️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="timer-bar-container" class="w-full mt-5 hidden select-none">
@@ -212,7 +256,9 @@
             <button id="buy-extra-time-btn"
                 class="hidden w-full mt-4 bg-[#171b27] border border-[#f5a623] text-[#f5a623] px-4 py-3 rounded-xl font-semibold hover:bg-[#f5a623]/10 transition cursor-pointer"
                 onclick="requestExtraTime()">🪙 +5 Sek. für 4 Coins</button>
-            <p id="status-subtext" class="text-gray-500 text-sm mt-4"><span id="status-icon">🎬</span> Video & Sound
+            <div class="flex justify-center my-4">
+            </div>
+                    <p id="status-subtext" class="text-gray-500 text-sm mt-4"><span id="status-icon">🎬</span> Video & Sound
                 laufen synchron – ordne den Titel zeitlich ein!</p>
         </div>
 

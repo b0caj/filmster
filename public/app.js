@@ -142,6 +142,48 @@ socket.on('gameStarted', (data) => {
     initRound(data);
 });
 
+// Keyboard navigation for timeline insert zones
+window.addEventListener('keydown', (e) => {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+    if (container.classList.contains('hidden')) return;
+
+    const activeButtons = Array.from(container.querySelectorAll('[data-timeline-action="insert"]'));
+    const hasButtons = activeButtons.length > 0;
+    if (!hasButtons) return;
+
+    // only handle if user is likely interacting with game (avoid fighting with lobby inputs)
+    const activeTag = (document.activeElement && document.activeElement.tagName) ? document.activeElement.tagName.toLowerCase() : '';
+    const isTyping = ['input', 'textarea', 'select'].includes(activeTag) || document.activeElement?.isContentEditable;
+    if (isTyping) return;
+
+    // If timeline is frozen/disabled, do nothing
+    const anyEnabled = activeButtons.some(b => !b.disabled && !b.classList.contains('cursor-not-allowed') && b.tabIndex !== -1);
+    if (!anyEnabled) return;
+
+    if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextIndex = Math.min(timelineFocusIndex + 1, activeButtons.length - 1);
+        setTimelineFocus(nextIndex);
+    } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevIndex = Math.max(timelineFocusIndex - 1, 0);
+        setTimelineFocus(prevIndex);
+    } else if (e.key === 'Home') {
+        e.preventDefault();
+        setTimelineFocus(0);
+    } else if (e.key === 'End') {
+        e.preventDefault();
+        setTimelineFocus(activeButtons.length - 1);
+    } else if (e.key === 'Enter') {
+        if (timelineFocusIndex >= 0 && timelineFocusIndex < timelineFocusButtons.length) {
+            e.preventDefault();
+            timelineFocusButtons[timelineFocusIndex].click();
+        }
+    }
+});
+
+
 socket.on('leaveRoom', ({ roomCode }) => {
     const room = rooms[roomCode];
     if (!room) return;
@@ -312,7 +354,16 @@ function updateGamePlayersList(players, activePlayerId) {
 
     const currentMyId = socket.id;
 
-    players.forEach(p => {
+    // 🛠️ LIVE-SCOREBOARD SORTIERUNG: 
+    // Wir kopieren das Array und sortieren die Spieler absteigend nach richtig erratenen Filmen (Timeline-Länge - 2 Startkarten)
+    const sortedPlayers = [...players].sort((a, b) => {
+        const correctA = (a.timeline ? a.timeline.length : 2) - 1;
+        const correctB = (b.timeline ? b.timeline.length : 2) - 1;
+        return correctB - correctA; // Höchste Punktzahl zuerst
+    });
+
+    // Wir mappen nun über das sortierte Array (sortedPlayers statt players)
+    sortedPlayers.forEach((p, rankIndex) => {
         const isCurrent = p.id === activePlayerId;
         const isMe = (p.id === currentMyId);
 
@@ -323,11 +374,20 @@ function updateGamePlayersList(players, activePlayerId) {
         const playerContainer = document.createElement('div');
         playerContainer.className = "flex flex-col gap-1 w-full";
 
+        const rank = rankIndex + 1;
+        const isRank1 = rank === 1;
+
+        // Berechnung der Punkte für die Anzeige im Badge
+        const correctlyPlacedCount = (p.timeline ? p.timeline.length : 2) - 1;
+
         const playerCard = document.createElement('div');
-        playerCard.className = `p-4 rounded-lg flex items-center justify-between transition ${isCurrent
-            ? "bg-[#241e17] border border-[#f5a623]"
-            : "bg-[#20222b] border border-gray-800 hover:border-gray-700"
-            } ${!isMe ? 'cursor-pointer' : ''}`;
+        playerCard.className = `filmster-leaderboard-row p-2 rounded-lg transition ${isCurrent
+            ? "filmster-leaderboard-row--active"
+            : "filmster-leaderboard-row--default"
+            } ${isRank1 ? 'filmster-leaderboard-row--gold' : ''} ${!isMe ? 'cursor-pointer' : ''}`;
+
+        // Rank-Pill (golden fürs #1)
+        const rankPillClass = isRank1 ? 'filmster-rank-pill--gold' : 'filmster-rank-pill--default';
 
         if (!isMe) {
             playerCard.onclick = () => {
@@ -350,38 +410,50 @@ function updateGamePlayersList(players, activePlayerId) {
         let statusBadge = "";
         if (currentRoomType === "simultaneous") {
             if (submittedPlayers.includes(p.id)) {
-                statusBadge = '<div class="text-xs text-green-400 border border-green-700/50 bg-green-900/30 px-1.5 py-0.5 rounded mt-1 w-max">✅ Fertig</div>';
+                statusBadge = '<div class="text-xs text-green-300 border border-green-700/50 bg-green-900/30 px-1.5 py-0.5 rounded mt-2 w-max">✅ Fertig</div>';
             } else {
-                statusBadge = '<div class="text-xs text-gray-400 border border-gray-700 bg-gray-800 px-1.5 py-0.5 rounded mt-1 w-max animate-pulse">⏳ Überlegt</div>';
+                statusBadge = '<div class="text-xs text-gray-300 border border-gray-700/60 bg-gray-800/60 px-1.5 py-0.5 rounded mt-2 w-max animate-pulse">⏳ Überlegt</div>';
             }
         } else {
-            if (isCurrent) statusBadge = '<div class="text-xs text-[#f5a623] mt-1">Am Zug</div>';
-            else statusBadge = `<div class="text-xs text-gray-500 mt-1">${isMe ? 'Deine eigene Reihe' : 'Timeline anzeigen'}</div>`;
+            if (isCurrent) statusBadge = '<div class="text-xs text-[#f5a623] mt-2 font-semibold">Am Zug</div>';
+            else statusBadge = `<div class="text-xs text-gray-500 mt-2">${isMe ? 'Deine eigene Reihe' : 'Timeline anzeigen'}</div>`;
         }
 
+        // 💡 Leaderboard Render
+        const avatarLetter = (p.name && p.name.length) ? p.name[0].toUpperCase() : '?';
         playerCard.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gray-700 text-white font-bold flex items-center justify-center">${p.name[0]}</div>
-                <div>
-                    <div class="font-bold text-sm flex items-center gap-1">
-                        ${p.name} ${isMe ? '(Du)' : ''} 
+            <div class="flex items-center gap-3 w-full">
+                <div class="flex flex-col items-center justify-center mr-1">
+                    <div class="${rankPillClass} filmster-rank-pill">${rank}</div>
+                    ${isRank1 ? '<div class="text-[10px] text-yellow-300/90 font-bold mt-1">TOP</div>' : ''}
+                </div>
+
+                <div class="w-8 h-8 rounded-full bg-gray-800 text-white font-bold flex items-center justify-center border border-gray-700">
+                    ${avatarLetter}
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2">
+                        <div class="font-bold text-sm truncate">${p.name} ${isMe ? '(Du)' : ''}</div>
                         ${!isMe ? `<span id="arrow-${p.id}" class="text-xs text-gray-500">${window.openTimelines[p.id] ? '▲' : '▼'}</span>` : ''}
                     </div>
+                    <div class="text-xs text-zinc-400 font-medium mt-0.5">🎬 ${correctlyPlacedCount} richtig</div>
                     ${statusBadge}
                 </div>
-            </div>
-            <div class="flex flex-col items-end gap-1 text-right">
-                <div class="flex items-center gap-1 text-[#f5a623] font-bold">⭐ ${p.score}</div>
-                <div class="flex items-center gap-1 text-[#facc15] font-bold">🪙 ${p.coins || 0}</div>
+
+                <div class="flex flex-col items-end gap-1 text-right">
+                    <div class="flex items-center gap-1 text-[#f5a623] font-extrabold">⭐ ${p.score}</div>
+                    <div class="flex items-center gap-1 text-[#facc15] font-bold">🪙 ${p.coins || 0}</div>
+                </div>
             </div>
         `;
+
 
         playerContainer.appendChild(playerCard);
 
         const externalTimelineDiv = document.createElement('div');
         externalTimelineDiv.id = `external-timeline-${p.id}`;
 
-        // KORREKTUR: max-h-80 und no-scrollbar hinzugefügt 🛠️
         if (!window.openTimelines[p.id]) {
             externalTimelineDiv.className = "hidden pl-4 pr-2 py-2 flex flex-col gap-1 bg-[#111217] rounded-b-lg border-x border-b border-gray-900 max-h-80 overflow-y-auto no-scrollbar";
         } else {
@@ -512,6 +584,51 @@ socket.on('onSyncPause', () => {
     localPause();
 });
 
+let timelineFocusIndex = -1;
+let timelineFocusButtons = [];
+
+function setupTimelineKeyboardNavigation(disabled) {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    timelineFocusButtons = Array.from(container.querySelectorAll('[data-timeline-action="insert"]'));
+
+    // Reset focus if current index is out of bounds or disabled
+    if (disabled) {
+        timelineFocusIndex = -1;
+    } else {
+        if (timelineFocusIndex < 0 || timelineFocusIndex >= timelineFocusButtons.length) {
+            timelineFocusIndex = Math.max(0, timelineFocusButtons.length - 1);
+        }
+    }
+
+    setTimelineFocus(timelineFocusIndex);
+}
+
+function setTimelineFocus(index) {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    // remove old active state
+    timelineFocusButtons.forEach(btn => btn.classList.remove('timeline-insert--focused'));
+
+    if (index < 0 || index >= timelineFocusButtons.length) return;
+
+    timelineFocusIndex = index;
+    const btn = timelineFocusButtons[index];
+    btn.classList.add('timeline-insert--focused');
+
+    // keep in view
+    const btnRect = btn.getBoundingClientRect();
+    const contRect = container.getBoundingClientRect();
+
+    if (btnRect.top < contRect.top + 8) {
+        container.scrollTop -= (contRect.top + 8 - btnRect.top);
+    } else if (btnRect.bottom > contRect.bottom - 8) {
+        container.scrollTop += (btnRect.bottom - (contRect.bottom - 8));
+    }
+}
+
 function renderTimeline(disabled) {
     const container = document.getElementById('timeline-container');
     if (!container) return;
@@ -522,21 +639,26 @@ function renderTimeline(disabled) {
     // Abstand auf gap-2 verringert für Kompaktheit
     container.className = "flex flex-col items-center gap-2 max-h-[650px] overflow-y-auto no-scrollbar";
 
-    container.appendChild(createPlusButton(`Vor ${myTimeline[0].year}`, -1, disabled));
+    // Top insertion zone
+    container.appendChild(createPlusButton(`Vor ${myTimeline[0].year}`, -1, disabled, true));
     for (let i = 0; i < myTimeline.length; i++) {
         container.appendChild(createMovieCard(myTimeline[i]));
         if (i === myTimeline.length - 1) {
-            container.appendChild(createPlusButton(`Nach ${myTimeline[i].year}`, i, disabled));
+            container.appendChild(createPlusButton(`Nach ${myTimeline[i].year}`, i, disabled, false));
         } else {
-            container.appendChild(createPlusButton(`Zwischen ${myTimeline[i].year} & ${myTimeline[i + 1].year}`, i, disabled));
+            container.appendChild(createPlusButton(`Zwischen ${myTimeline[i].year} & ${myTimeline[i + 1].year}`, i, disabled, false));
         }
     }
+
+    // Setup keyboard navigation after DOM is built
+    setupTimelineKeyboardNavigation(disabled);
 
     // Automatischer Scroll-Effekt: Scrollt sanft nach unten, wenn ein neues Element dazukommt
     setTimeout(() => {
         container.scrollTop = container.scrollHeight;
     }, 50);
 }
+
 
 function requestExtraTime() {
     if (currentRoomType !== 'simultaneous') return;
@@ -590,25 +712,36 @@ function resetClipTimer() {
 // NACHHER (KORRIGIERT 🎮):
 function createMovieCard(movie) {
     const div = document.createElement('div');
-    div.className = "w-full bg-[#20222b] border border-gray-800 p-2 rounded-xl flex items-center gap-2 shadow-sm shrink-0";
+    div.className = "w-full bg-[#20222b] border border-gray-800 p-1.5 rounded-xl flex items-center gap-2 shadow-sm shrink-0";
 
     // Dynamisches Icon basierend auf dem aktuellen Modus
     const modeIcon = (currentRoomMode === 'games') ? '🎮' : '🎬';
 
-    div.innerHTML = `<div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-md shrink-0">${modeIcon}</div>
-                     <div class="truncate"><h4 class="font-bold text-xs text-white truncate max-w-[150px]">${movie.title}</h4><p class="text-[10px] text-[#f5a623] font-mono mt-0.5">${movie.year}</p></div>`;
+    div.innerHTML = `<div class="w-7 h-7 bg-gray-800 rounded-lg flex items-center justify-center text-[13px] shrink-0">${modeIcon}</div>
+                     <div class="truncate flex-1 min-w-0"><h4 class="font-bold text-[11px] text-white truncate">${movie.title}</h4><p class="text-[10px] text-[#f5a623] font-mono mt-0.5">${movie.year}</p></div>`;
     return div;
 }
 
-function createPlusButton(text, index, disabled) {
+function createPlusButton(text, index, disabled, isInitial) {
     const btn = document.createElement('button');
-    btn.className = `w-full border border-dashed border-[#f5a623]/30 text-[#f5a623] text-[11px] py-1.5 rounded-lg font-medium transition shrink-0 ${disabled ? 'opacity-10 cursor-not-allowed' : 'hover:bg-[#f5a623]/10 cursor-pointer'}`;
-    btn.innerText = `➕ ${text}`;
+    btn.className = `timeline-insert w-full border border-dashed border-[#f5a623]/30 text-[#f5a623] text-[11px] py-1 rounded-lg font-medium transition shrink-0 ${disabled ? 'opacity-10 cursor-not-allowed' : 'hover:bg-[#f5a623]/10 cursor-pointer'}`;
+    btn.dataset.timelineAction = 'insert';
+    btn.dataset.insertIndex = String(index);
+    btn.type = 'button';
+
+    btn.innerHTML = `➕ <span class="timeline-insert__label">${text}</span>`;
+
+    // keyboard focus for the initial insert zone
+    if (!disabled && isInitial) {
+        // will be adjusted by setupTimelineKeyboardNavigation()
+    }
+
     if (!disabled) {
         btn.onclick = () => handleGuess(index);
     }
     return btn;
 }
+
 
 function handleGuess(guessedIndex) {
     if (blindTimeout) clearTimeout(blindTimeout);
@@ -616,7 +749,12 @@ function handleGuess(guessedIndex) {
     // Die eigene Timeline SOFORT einfrieren (versteckt die Buttons)
     renderTimeline(true);
 
+    // stop any keyboard focus
+    timelineFocusButtons = [];
+    timelineFocusIndex = -1;
+
     if (currentRoomType === "simultaneous") {
+
         const instText = document.getElementById('instruction-text');
         if (instText) {
             instText.innerText = "⏳ Tipp eingeloggt! Warte auf die restlichen Spieler...";
@@ -653,7 +791,16 @@ socket.on('roundResolved', (data) => {
     document.getElementById('revealed-title').innerText = data.title;
     const revealedYear = document.getElementById('revealed-year');
     revealedYear.innerText = data.year;
+
     revealedYear.style.color = data.isCorrect ? '#22c55e' : '#ef4444';
+    revealedYear.style.borderColor = data.isCorrect ? '#22c55e' : '#ef4444';
+    revealedYear.style.backgroundColor = data.isCorrect ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
+
+    const revealedType = document.getElementById('revealed-type');
+    if (revealedType) {
+        revealedType.innerText = (currentRoomMode === 'games') ? '🎮 Spiel' : '🎬 Film';
+    }
+
     document.getElementById('reveal-zone').classList.remove('hidden');
 
     const instText = document.getElementById('instruction-text');
@@ -984,8 +1131,18 @@ socket.on('simultaneousRoundResolved', (data) => {
     document.getElementById('revealed-title').innerText = data.title;
     const revealedYear = document.getElementById('revealed-year');
     revealedYear.innerText = data.year;
+
     const anyCorrect = data.results.some(r => r.isCorrect);
-    revealedYear.style.color = anyCorrect ? '#22c55e' : '#ef4444';
+    // Visual hint: year pill color based on correctness
+    revealedYear.style.color = myResult.isCorrect ? '#22c55e' : '#ef4444';
+    revealedYear.style.borderColor = myResult.isCorrect ? '#22c55e' : '#ef4444';
+    revealedYear.style.backgroundColor = myResult.isCorrect ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
+
+    const revealedType = document.getElementById('revealed-type');
+    if (revealedType) {
+        revealedType.innerText = (currentRoomMode === 'games') ? '🎮 Spiel' : '🎬 Film';
+    }
+
     document.getElementById('reveal-zone').classList.remove('hidden');
 
     // 3. Auswertungs-Text bauen
