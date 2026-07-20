@@ -325,6 +325,10 @@ function initRound(data) {
         }
     }
 
+    // Reset possible tear animation state
+    const ticket = document.querySelector('.cinema-ticket');
+    if (ticket) ticket.classList.remove('ticket-tear');
+
     document.getElementById('reveal-zone').classList.add('hidden');
     isPlaying = false;
 
@@ -940,7 +944,24 @@ socket.on('roundResolved', (data) => {
     if (amIHost) {
         nextBtn.innerText = "Nächste Runde ➡️";
         nextBtn.className = "mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer";
-        nextBtn.onclick = () => socket.emit('requestNextRound', currentRoomCode);
+        nextBtn.onclick = () => {
+            const ticket = document.querySelector('.cinema-ticket');
+            if (ticket) {
+                ticket.classList.add('ticket-tear');
+            }
+
+            // Kurzzeitig deaktivieren, aber für den nächsten Reveal-Flow wieder aktivieren.
+            nextBtn.disabled = true;
+            nextBtn.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                socket.emit('requestNextRound', currentRoomCode);
+
+                // Falls der Server die UI schneller/ langsamer umschaltet, bleibt der Button sonst dauerhaft disabled.
+                nextBtn.disabled = false;
+                nextBtn.style.pointerEvents = '';
+            }, 650);
+        };
     } else {
         nextBtn.innerText = "Warte auf Host...";
         nextBtn.onclick = null;
@@ -980,26 +1001,59 @@ socket.on('gameOver', async (players) => {
         // ignore
     }
 
-    alert("Spiel vorbei! Danke fürs Spielen.");
-    window.location.reload();
+    // WICHTIG: Kein reload mehr, damit Raum + Spieler im selben roomCode erhalten bleiben.
+    // Host muss jetzt den Button "Zurück zur Lobby" drücken.
+    const winnerScreen = document.getElementById('winner-screen');
+    if (winnerScreen) winnerScreen.classList.remove('hidden');
 });
 
+
+socket.on('returnedToLobby', (data) => {
+    // Winner overlay aus
+    const winnerScreen = document.getElementById('winner-screen');
+    if (winnerScreen) winnerScreen.classList.add('hidden');
+
+    // UI Wechsel
+    document.getElementById('screen-game').classList.add('hidden');
+    document.getElementById('screen-lobby').classList.remove('hidden');
+
+    // Host/Player Controls ggf. wiederherstellen
+    if (data && Array.isArray(data.players)) {
+        updateLobbyPlayers(data.players);
+    }
+
+    // Wenn wir Host sind, Controls aktivieren
+    amIHost = (data && data.players && data.players.find(p => p.id === socket.id)?.isHost) || amIHost;
+
+    const isHost = (data && data.players) ? Boolean(data.players.find(p => p.id === socket.id)?.isHost) : amIHost;
+    if (isHost) {
+        document.getElementById('game-mode-select').disabled = false;
+        document.getElementById('clip-duration-select').disabled = false;
+        document.getElementById('trailer-language-select').disabled = false;
+        document.getElementById('game-type-select').disabled = false;
+
+        if (data.mode) document.getElementById('game-mode-select').value = data.mode;
+        if (data.gameType) document.getElementById('game-type-select').value = data.gameType;
+        if (data.trailerLanguage) document.getElementById('trailer-language-select').value = data.trailerLanguage;
+        if (typeof data.winLimit !== 'undefined' && data.winLimit !== null) {
+            document.getElementById('win-limit-select').value = String(data.winLimit);
+        }
+    } else {
+        // Mitspieler: wählen deaktivieren
+        document.getElementById('game-mode-select').disabled = true;
+        document.getElementById('trailer-language-select').disabled = true;
+    }
+});
 
 socket.on('errorMsg', (msg) => alert(msg));
 
 // Funktion, um den Sieger-Bildschirm zu verlassen und das Spiel zurückzusetzen
 function goToLobby() {
-    // Pop-up wieder verstecken
-    const winnerScreen = document.getElementById('winner-screen');
-    if (winnerScreen) winnerScreen.classList.add('hidden');
-
-    // UI zurück auf die Lobby oder den Startbildschirm setzen
-    // Je nachdem, wie deine Ansichten benannt sind (z.B. 'lobby-screen' anzeigen, 'game-screen' verstecken)
-    document.getElementById('game-screen').classList.add('hidden');
-    document.getElementById('lobby-screen').classList.remove('hidden');
-
-    // Dem Server optional sagen, dass wir zurück in der Lobby sind
-    // socket.emit('backToLobby', currentRoomCode);
+    // Nur lokal UI umschalten ist zu spät/inkonsistent, daher triggert der Host den Server.
+    // (Client geht in die Lobby, sobald der Server 'returnedToLobby' sendet.)
+    if (currentRoomCode) {
+        socket.emit('backToLobby', { roomCode: currentRoomCode });
+    }
 }
 
 function onYouTubeIframeAPIReady() {
@@ -1386,7 +1440,23 @@ socket.on('simultaneousRoundResolved', (data) => {
     if (amIHost) {
         nextBtn.innerText = "Nächste Runde ➡️";
         nextBtn.className = "mt-4 bg-white text-black px-6 py-2 rounded-lg font-bold hover:bg-gray-200 cursor-pointer";
-        nextBtn.onclick = () => socket.emit('requestNextRound', currentRoomCode);
+        nextBtn.onclick = () => {
+            const ticket = document.querySelector('.cinema-ticket');
+            if (ticket) {
+                ticket.classList.add('ticket-tear');
+            }
+
+            nextBtn.disabled = true;
+            nextBtn.style.pointerEvents = 'none';
+
+            setTimeout(() => {
+                socket.emit('requestNextRound', currentRoomCode);
+
+                // Nicht dauerhaft deaktivieren: UI/Flow wechselt nach Reveal.
+                nextBtn.disabled = false;
+                nextBtn.style.pointerEvents = '';
+            }, 650);
+        };
     } else {
         nextBtn.innerText = "Warte auf Host...";
         nextBtn.className = "mt-4 bg-gray-700 text-gray-400 px-6 py-2 rounded-lg font-bold cursor-not-allowed";
@@ -1449,7 +1519,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const backToLobbyBtn = document.getElementById('back-to-lobby-btn');
     if (backToLobbyBtn) {
         backToLobbyBtn.addEventListener('click', () => {
-            leaveAndGoHome();
+            goToLobby();
         });
     }
 });

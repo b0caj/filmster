@@ -783,6 +783,8 @@ io.on('connection', (socket) => {
         if (!room || room.host !== socket.id) return;
 
         room.trailerLanguage = preference || 'any';
+        // (wird unten verwendet, um room.playlist neu aufzulösen)
+
         room.playlist = (room.playlist || []).map(item => ({
             ...item,
             youtubeId: getPreferredTrailerId(item, room.trailerLanguage),
@@ -1007,10 +1009,48 @@ io.on('connection', (socket) => {
         }
     });
 
+    // Host: Zurück zur Lobby (Room bleibt erhalten)
+    socket.on('backToLobby', ({ roomCode }) => {
+        const room = rooms[roomCode];
+        if (!room || room.host !== socket.id) return;
+
+        room.gameStarted = false;
+        room.currentRound = 0;
+        room.activePlayerIndex = 0;
+
+        // Round-States zurücksetzen, aber Spieler/Room-Code beibehalten.
+        room.submittedGuesses = [];
+        room.timeExtensions = {};
+        room.purchasedExtraTime = {};
+        room.curtainLock = null;
+
+        // Timelines/Score für eine frische Start-Phase initialisieren.
+        // (Optional: Spieler-Timeline behalten - hier wird neu initialisiert wie bei createRoom/joinRoom.)
+        room.players.forEach(p => {
+            p.timeline = createInitialTimeline();
+            p.score = 0;
+            p.coins = 0;
+        });
+
+        io.to(roomCode).emit('returnedToLobby', {
+            roomCode,
+            players: room.players,
+            gameStarted: room.gameStarted,
+            mode: room.mode,
+            gameType: room.gameType,
+            trailerLanguage: room.trailerLanguage,
+            winLimit: room.winLimit
+        });
+    });
+
     // 5. NÄCHSTE RUNDE
     socket.on('requestNextRound', (roomCode) => {
         const room = rooms[roomCode];
         if (!room || room.host !== socket.id) return;
+
+        // (optional) falls der Host die Rückkehr in die Lobby bereits getriggert hat,
+        // sollte der Round-Flow nicht weiterlaufen.
+        if (!room.gameStarted) return;
 
         // Curtain-Lock für die ablaufende Runde deaktivieren
         if (room.curtainLock && room.curtainLock.active && room.curtainLock.round === room.currentRound - 1) {
@@ -1024,8 +1064,9 @@ io.on('connection', (socket) => {
 
         // Sind wir am Ende der Playlist angekommen?
         if (room.currentRound >= room.playlist.length) {
+            // Spiel ist vorbei: Raum bleibt bestehen, damit der Host später "Zurück zur Lobby" klicken kann.
             io.to(roomCode).emit('gameOver', room.players);
-            delete rooms[roomCode];
+            room.gameStarted = false;
             return;
         }
 

@@ -57,6 +57,79 @@ body::before {
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* NEW: Trennlinie & Abriss-Animation */
+.ticket-tear-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(100% - 220px);
+    width: 3px;
+    z-index: 25;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0) 0px,
+            rgba(0, 0, 0, 0) 6px,
+            rgba(0, 0, 0, 0.35) 6px,
+            rgba(0, 0, 0, 0.35) 8px
+        );
+    opacity: 0.7;
+    transform: translateX(0);
+    pointer-events: none;
+}
+
+.cinema-ticket.ticket-tear {
+    animation: ticketTearPop 650ms cubic-bezier(.2,.9,.2,1) both;
+}
+
+/* Haupt- und Stub-Teil beim Abriss auseinanderziehen */
+.cinema-ticket.ticket-tear .ticket-main {
+    transform: translateX(-10px);
+    filter: saturate(1.03) brightness(0.97);
+}
+
+.cinema-ticket.ticket-tear .ticket-stub {
+    transform: translateX(10px);
+    filter: saturate(1.03) brightness(1.03);
+}
+
+.cinema-ticket.ticket-tear .ticket-tear-line {
+    opacity: 1;
+    transform: translateX(0);
+    filter: drop-shadow(0 0 8px rgba(245, 166, 35, 0.18));
+}
+
+/* „Riss“-Zackenkante durch ein zusätzliches Highlight */
+.cinema-ticket .ticket-tear-line::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.0) 0%,
+        rgba(245, 166, 35, 0.22) 35%,
+        rgba(0, 0, 0, 0.18) 60%,
+        rgba(255, 255, 255, 0.0) 100%
+    );
+    opacity: 0.0;
+    transition: opacity 120ms ease;
+}
+
+.cinema-ticket.ticket-tear .ticket-tear-line::after {
+    opacity: 1;
+}
+
+@keyframes ticketTearPop {
+    0% {
+        transform: translateZ(0);
+    }
+    45% {
+        transform: translateZ(0) scale(1.005);
+    }
+    100% {
+        transform: translateZ(0) scale(1.0);
+    }
+}
 
 /* Responsives Verhalten für schmale Bildschirme */
 @media (max-width: 640px) {
@@ -82,8 +155,32 @@ body::before {
     .ticket-main-content {
         gap: 14px;
     }
-}
 
+    /* Unter Mobile die Trennlinie auf Höhe der Stub/Next setzen */
+    .ticket-tear-line {
+        left: 0;
+        width: 100%;
+        height: 3px;
+        top: auto;
+        bottom: 220px;
+        background:
+            repeating-linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0) 0px,
+                rgba(0, 0, 0, 0) 6px,
+                rgba(0, 0, 0, 0.35) 6px,
+                rgba(0, 0, 0, 0.35) 8px
+            );
+    }
+
+    .cinema-ticket.ticket-tear .ticket-main {
+        transform: translateY(-8px);
+    }
+
+    .cinema-ticket.ticket-tear .ticket-stub {
+        transform: translateY(8px);
+    }
+}
 
 /* Linker Hauptteil (Weinrot aus der Vorlage) */
 .ticket-main {
@@ -96,6 +193,7 @@ body::before {
     display: flex;
     align-items: center;
     color: #ffffff;
+    transition: transform 650ms cubic-bezier(.2,.9,.2,1), filter 650ms;
 }
 
 /* Feiner, eleganter Innenrahmen */
@@ -115,7 +213,6 @@ body::before {
     width: 100%;
     z-index: 10;
 }
-
 
 .ticket-graphics {
     display: flex;
@@ -148,7 +245,6 @@ body::before {
     opacity: 0.85;
 }
 
-
 .ticket-movie-title {
     font-family: 'Inter', sans-serif;
     font-size: 38px;
@@ -172,7 +268,6 @@ body::before {
     opacity: 0.85;
 }
 
-
 .ticket-admit {
     font-family: 'Impact', sans-serif;
     font-size: 13px;
@@ -181,7 +276,6 @@ body::before {
     opacity: 0.78;
     margin-top: 3px;
 }
-
 
 /* Rechter Abreiß-Teil (Cremefarben aus der Vorlage) */
 .ticket-stub {
@@ -199,8 +293,8 @@ body::before {
     box-shadow:
         inset 10px 0 18px rgba(0, 0, 0, 0.06),
         inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    transition: transform 650ms cubic-bezier(.2,.9,.2,1), filter 650ms;
 }
-
 
 .ticket-stub-content {
     display: flex;
@@ -307,7 +401,6 @@ body::before {
     background-image: radial-gradient(circle at 10px 10px, transparent 6px, rgba(236, 220, 185, 0.98) 7px);
     filter: saturate(1.00);
 }
-
 
 
 /* Basis-Zustand: Wenn der Vorhang GESCHLOSSEN ist, schließt er sich SOFORT (0s Delay) */
@@ -563,5 +656,4 @@ body::before {
         line-height: 1.15 !important;
     }
 }
-
 
