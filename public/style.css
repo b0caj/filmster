@@ -37,225 +37,282 @@ body::before {
     /* Firefox */
 }
 
-/* --- REVEAL-ZONE: CINEMA TICKET --- */
-.ticket-wrap {
-    position: relative;
-    display: flex;
-    justify-content: center;
+/* --- REVEAL-ZONE: CINEMA TICKET (HORIZONTAL REALISMUS NACH image_a52964.png) --- */
+.ticket-container {
+    perspective: 1000px;
 }
 
-.ticket {
+.cinema-ticket {
+    display: flex;
+    flex-direction: row;
     width: 100%;
-    background: linear-gradient(180deg, rgba(245, 166, 35, 0.10), rgba(22, 23, 30, 0.75));
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 22px;
-    box-shadow:
-        0 30px 90px -40px rgba(0,0,0,0.9),
-        0 0 0 1px rgba(245, 166, 35, 0.10),
-        0 10px 35px rgba(0,0,0,0.35);
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-}
-
-.ticket__top {
-    padding: 16px 18px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-}
-
-.ticket__badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 10px;
-    border-radius: 9999px;
-    background: rgba(0,0,0,0.35);
-    border: 1px solid rgba(148, 163, 184, 0.20);
-}
-
-.ticket__badge-text {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #f5a623;
-}
-
-.ticket__brand {
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.10em;
-    color: rgba(255,255,255,0.75);
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.ticket__cutlines {
+    min-height: 220px;
     position: relative;
-    height: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    /* mehr „Ticket-Print“-Tiefe statt Gaming-Look */
+    box-shadow:
+        0 30px 70px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.ticket__cutlines > span {
-    position: absolute;
-    top: 72px;
-    width: 140px;
-    height: 20px;
-    background: rgba(11,12,16,0.95);
-    border-top: 1px dashed rgba(245,166,35,0.25);
-    border-bottom: 1px dashed rgba(245,166,35,0.25);
-    transform: skewX(-20deg);
-    filter: drop-shadow(0 0 12px rgba(245,166,35,0.10));
+
+/* Responsives Verhalten für schmale Bildschirme */
+@media (max-width: 640px) {
+    .cinema-ticket {
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .ticket-stub {
+        width: 100% !important;
+        border-left: none !important;
+        border-top: 3px dashed rgba(0, 0, 0, 0.28);
+        box-shadow:
+            inset 0 10px 18px rgba(0, 0, 0, 0.04),
+            inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        padding: 16px;
+    }
+
+    .ticket-main {
+        padding: 18px;
+    }
+
+    .ticket-main-content {
+        gap: 14px;
+    }
 }
 
-.ticket__cutlines > span:first-child {
-    left: -55px;
-}
 
-.ticket__cutlines > span:last-child {
-    right: -55px;
-}
-
-.ticket__body {
-    padding: 6px 18px 18px;
-}
-
-.ticket__meta {
+/* Linker Hauptteil (Weinrot aus der Vorlage) */
+.ticket-main {
+    flex: 1;
+    background-color: #8c2d37;
+    /* Sattes Kino-Rot */
+    background-image: linear-gradient(135deg, #9c3843 0%, #76222b 100%);
+    position: relative;
+    padding: 24px;
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 6px;
     align-items: center;
+    color: #ffffff;
 }
 
-.ticket__meta-label {
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
+/* Feiner, eleganter Innenrahmen */
+.ticket-inner-frame {
+    position: absolute;
+    inset: 12px;
+    border: 2px solid #f4ebd0;
+    opacity: 0.4;
+    pointer-events: none;
+    border-radius: 2px;
 }
 
-.ticket__meta-value {
-    font-size: 12px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    color: rgba(245,166,35,0.95);
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.ticket__title {
-    margin-top: 14px;
-    text-align: center;
-    font-size: 28px;
-    line-height: 1.05;
-    font-weight: 950;
-    color: #fff;
-    text-shadow: 0 18px 40px rgba(0,0,0,0.65);
-    letter-spacing: -0.01em;
-}
-
-.ticket__yearrow {
-    margin-top: 12px;
+.ticket-main-content {
     display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    z-index: 10;
+}
+
+
+.ticket-graphics {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
-    align-items: baseline;
+    min-width: 90px;
+    text-align: center;
 }
 
-.ticket__year-label {
-    font-size: 11px;
-    font-weight: 900;
+.ticket-brand-sub {
+    font-family: 'Impact', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #f4ebd0;
+    margin-top: 4px;
+    opacity: 0.8;
+}
+
+.ticket-info-block {
+    flex: 1;
+}
+
+.ticket-tagline {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: rgba(244, 235, 208, 0.95);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.60);
+    opacity: 0.85;
 }
 
-.ticket__year {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+.ticket-movie-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 38px;
+    font-weight: 950;
+    line-height: 1.05;
+    margin: 6px 0;
+    color: #ffffff;
+    text-shadow:
+        0 2px 0 rgba(0, 0, 0, 0.25),
+        2px 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.ticket-director {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(244, 235, 208, 0.9);
+    letter-spacing: 0.05em;
+    margin: 4px 0 0 0;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+
+.ticket-admit {
+    font-family: 'Impact', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    color: rgba(244, 235, 208, 0.92);
+    opacity: 0.78;
+    margin-top: 3px;
+}
+
+
+/* Rechter Abreiß-Teil (Cremefarben aus der Vorlage) */
+.ticket-stub {
+    width: 220px;
+    background-color: #f4ebd0;
+    /* Vintage Beigetextur */
+    background-image: radial-gradient(circle at 50% 50%, #f9f5e8 0%, #ecdcb9 100%);
+    border-left: 2px dashed rgba(0, 0, 0, 0.28);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #1a1a1a;
+    position: relative;
+    box-shadow:
+        inset 10px 0 18px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+
+.ticket-stub-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    z-index: 10;
+}
+
+.stub-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #665c49;
+    text-transform: uppercase;
+}
+
+.stub-year-badge {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 26px;
     font-weight: 950;
-    color: #f5a623;
-    background: rgba(0,0,0,0.30);
-    border: 1px solid rgba(245,166,35,0.30);
-    border-radius: 14px;
-    padding: 6px 16px;
+    padding: 2px 14px;
+    border-radius: 6px;
+    margin: 4px 0;
+    transition: all 0.2s ease;
 }
 
-.ticket__details {
-    margin-top: 14px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.ticket__detail {
-    background: rgba(11,12,16,0.35);
-    border: 1px solid rgba(148,163,184,0.18);
-    border-radius: 14px;
-    padding: 10px 12px;
-}
-
-.ticket__detail-k {
-    display: block;
-    font-size: 10px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(255,255,255,0.55);
-}
-
-.ticket__detail-v {
-    display: block;
-    margin-top: 4px;
-    font-size: 12px;
-    font-weight: 850;
-    color: rgba(245,166,35,0.95);
-}
-
-.ticket__barcode {
-    margin-top: 16px;
-    height: 30px;
-    border-radius: 10px;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(245,166,35,0.95) 0px,
-            rgba(245,166,35,0.95) 2px,
-            transparent 2px,
-            transparent 5px
-        );
-    opacity: 0.28;
-    border: 1px dashed rgba(245,166,35,0.35);
-}
-
-.ticket__bottom {
-    padding: 14px 18px 18px;
-    border-top: 1px solid rgba(148,163,184,0.18);
-    background: rgba(0,0,0,0.10);
-}
-
-.ticket__next {
+/* Barcode Generation */
+.stub-barcode-wrap {
     width: 100%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(245,166,35,0.20));
-    color: #0b0c10;
-    border: 1px solid rgba(245,166,35,0.65);
-    border-radius: 16px;
-    padding: 10px 16px;
-    font-weight: 950;
-    cursor: pointer;
-    transition: transform 120ms ease, filter 120ms ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 12px 0;
 }
 
-.ticket__next:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.03);
+.stub-barcode-lines {
+    height: 38px;
+    width: 85%;
+    /* Erzeugt ein dynamisches Barcode-Muster aus dicken und dünnen Strichen */
+    background: repeating-linear-gradient(90deg,
+            #1a1a1a 0px, #1a1a1a 2px,
+            transparent 2px, transparent 4px,
+            #1a1a1a 4px, #1a1a1a 7px,
+            transparent 7px, transparent 8px,
+            #1a1a1a 8px, #1a1a1a 9px,
+            transparent 9px, transparent 12px);
+    opacity: 0.85;
 }
+
+.stub-barcode-number {
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #555;
+    margin-top: 3px;
+}
+
+/* Ticket Button */
+.ticket-action-btn {
+    width: 100%;
+    background-color: #8c2d37;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(140, 45, 55, 0.3);
+    transition: all 150ms ease;
+}
+
+.ticket-action-btn:hover {
+    background-color: #76222b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(140, 45, 55, 0.4);
+}
+
+/* Ticket-Lochstanzungen (Scallop-Edges) links und rechts an den Rändern */
+.cinema-ticket::before,
+.cinema-ticket::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    z-index: 20;
+    background-size: 20px 20px;
+}
+
+/* Linker Wellenrand */
+.cinema-ticket::before {
+    left: -6px;
+    background-image: radial-gradient(circle at 0px 10px, transparent 6px, rgba(140, 45, 55, 0.98) 7px);
+    filter: saturate(1.02);
+}
+
+/* Rechter Wellenrand */
+.cinema-ticket::after {
+    right: -6px;
+    background-image: radial-gradient(circle at 10px 10px, transparent 6px, rgba(236, 220, 185, 0.98) 7px);
+    filter: saturate(1.00);
+}
+
 
 
 /* Basis-Zustand: Wenn der Vorhang GESCHLOSSEN ist, schließt er sich SOFORT (0s Delay) */
 #curtain-left,
-#curtain-right { 
+#curtain-right {
     transition: transform 150ms ease-in-out;
     transition-delay: 0s !important;
 }
@@ -267,12 +324,14 @@ body::before {
 
 /* Ziel-Zustand: Wenn der Vorhang GEÖFFNET wird (.curtain-open), wartet er erst 3 Sekunden */
 .curtain-open #curtain-left {
-    transform: translateX(-100%) !important;
-    transition-delay: 4.6s !important; 
+    transform: translateX(-102%) scaleX(1.01) !important;
+    filter: saturate(1.05) brightness(0.95) !important;
+    transition-delay: 4.6s !important;
 }
 
 .curtain-open #curtain-right {
-    transform: translateX(100%) !important;
+    transform: translateX(102%) scaleX(1.01) !important;
+    filter: saturate(1.05) brightness(0.95) !important;
     transition-delay: 4.6s !important;
 }
 
@@ -280,6 +339,93 @@ body::before {
     opacity: 0 !important;
     transition-delay: 4.6s !important;
 }
+
+/* --- PREMIUM CURTAIN (realistischer: weniger "Game" Look) --- */
+#curtain-left,
+#curtain-right {
+    will-change: transform, filter;
+    overflow: hidden;
+    box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.50),
+        inset 0 0 40px rgba(0, 0, 0, 0.20);
+}
+
+.curtain-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Falten: deutlich subtiler, mehr "Stoff" als harte Linien */
+.curtain-folds {
+    opacity: 0.28;
+    mix-blend-mode: multiply;
+    background:
+        /* sanfte vertikale Stoffadern */
+        repeating-linear-gradient(90deg,
+            rgba(0, 0, 0, 0.35) 0px,
+            rgba(0, 0, 0, 0.35) 1px,
+            rgba(0, 0, 0, 0.0) 8px,
+            rgba(0, 0, 0, 0.0) 14px),
+        /* weiche Falten-Welligkeit */
+        repeating-linear-gradient(115deg,
+            rgba(255, 255, 255, 0.0) 0px,
+            rgba(255, 255, 255, 0.0) 20px,
+            rgba(0, 0, 0, 0.22) 28px,
+            rgba(255, 255, 255, 0.0) 36px);
+    filter: blur(0.8px);
+}
+
+/* Velvet-Gloss: nur als dezentes Highlight (nicht "screen"-mäßig laut) */
+.curtain-velvet-gloss {
+    opacity: 0.35;
+    mix-blend-mode: screen;
+    background:
+        radial-gradient(120% 70% at 15% 25%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 55%),
+        radial-gradient(90% 45% at 75% 0%, rgba(245, 166, 35, 0.18) 0%, rgba(245, 166, 35, 0) 60%),
+        linear-gradient(90deg,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(255, 255, 255, 0.08) 18%,
+            rgba(0, 0, 0, 0.35) 55%,
+            rgba(255, 255, 255, 0.05) 80%,
+            rgba(0, 0, 0, 0.55) 100%);
+    filter: blur(1px);
+}
+
+/* Grain: kaum sichtbar */
+.curtain-grain {
+    opacity: 0.12;
+    background:
+        repeating-linear-gradient(0deg,
+            rgba(255, 255, 255, 0.14) 0px,
+            rgba(255, 255, 255, 0.14) 1px,
+            rgba(255, 255, 255, 0.0) 2px,
+            rgba(255, 255, 255, 0.0) 5px);
+    mix-blend-mode: overlay;
+}
+
+/* Animation: wieder eher "cinema" und weniger "snap" */
+#curtain-left,
+#curtain-right {
+    transition-duration: 520ms;
+    transition-timing-function: cubic-bezier(.15, .85, .2, 1);
+    filter: saturate(1.02);
+}
+
+/* Edge: sehr subtil */
+#curtain-left {
+    box-shadow:
+        6px 0 26px rgba(0, 0, 0, 0.50),
+        inset -16px 0 34px rgba(245, 166, 35, 0.10);
+}
+
+#curtain-right {
+    box-shadow:
+        -6px 0 26px rgba(0, 0, 0, 0.50),
+        inset 16px 0 34px rgba(245, 166, 35, 0.08);
+}
+
+/* --- END REALISTIC CURTAIN --- */
 
 /* --- HOCHWERTIGES TIMER DESIGN --- */
 
@@ -302,6 +448,7 @@ body::before {
         opacity: 0.85;
         filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.5));
     }
+
     to {
         opacity: 1;
         filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.9));
@@ -313,15 +460,34 @@ body::before {
 /* --- TIMELINE (player) --- */
 
 .timeline-insert--focused {
-    outline: 2px solid rgba(245,166,35,0.85);
+    outline: 2px solid rgba(245, 166, 35, 0.85);
     outline-offset: 2px;
-    background: rgba(245,166,35,0.10) !important;
-    border-color: rgba(245,166,35,0.85) !important;
-    box-shadow: 0 0 0 3px rgba(245,166,35,0.10);
+    background: rgba(245, 166, 35, 0.10) !important;
+    border-color: rgba(245, 166, 35, 0.85) !important;
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.10);
 }
 
 .timeline-insert__label {
     display: inline;
+}
+
+/* Simultanmodus: eigener aktueller Guess */
+.timeline-insert--my-guess {
+    outline: 2px solid rgba(56, 189, 248, 0.95) !important;
+    outline-offset: 2px;
+    border-color: rgba(56, 189, 248, 0.95) !important;
+    background: rgba(56, 189, 248, 0.12) !important;
+    box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.08),
+        0 12px 40px rgba(56, 189, 248, 0.12);
+}
+
+.timeline-insert--my-guess .timeline-insert__label::after {
+    content: "  (DEIN GUESS)";
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: rgba(125, 211, 252, 0.95);
 }
 
 .timeline-insert {
@@ -371,7 +537,7 @@ body::before {
 }
 
 .filmster-rank-pill--default {
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .filmster-rank-pill--gold {
@@ -380,4 +546,22 @@ body::before {
     color: rgba(255, 244, 200, 0.98);
     text-shadow: 0 0 18px rgba(250, 204, 21, 0.25);
 }
+
+/* -------- Simultanmodus: kompaktere UI (damit Seite ohne Scroll sichtbar bleibt) -------- */
+.mode-simultaneous-status-subtext {
+    margin-top: 1rem !important; /* mt-4 (Tailwind) -> etwas kleiner */
+}
+
+@media (max-height: 720px) {
+    .mode-simultaneous-status-subtext {
+        display: none !important; /* spart vertikalen Platz extrem */
+    }
+
+    .mode-simultaneous-instruction {
+        margin-bottom: 0.5rem !important;
+        font-size: 1rem !important; /* reduziert etwas */
+        line-height: 1.15 !important;
+    }
+}
+
 

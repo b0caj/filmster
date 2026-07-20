@@ -6,248 +6,891 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Admin Dashboard</title>
     <style>
+        :root {
+            color-scheme: dark;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #121212;
+            background: linear-gradient(135deg, #0f1117 0%, #191a22 100%);
             color: #e0e0e0;
-            padding: 40px;
+            padding: 24px;
             margin: 0;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            background: #171821;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 16px;
+            background: linear-gradient(90deg, rgba(0,173,181,0.16), rgba(245,166,35,0.08));
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 11px;
+            color: #7dd7db;
         }
 
         h1 {
-            margin-top: 0;
+            margin: 0 0 6px;
             color: #ffffff;
-            border-bottom: 2px solid #333;
-            padding-bottom: 10px;
+            font-size: 28px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .subline {
+            margin: 0;
+            color: #b8bccf;
+            max-width: 680px;
+        }
+
+        .preview-panel {
+            display: none;
+            margin-bottom: 18px;
+            padding: 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(0,173,181,0.14), rgba(245,166,35,0.08));
+            border: 1px solid rgba(255,255,255,0.08);
+            position: sticky;
+            top: 12px;
+            z-index: 20;
+            backdrop-filter: blur(8px);
+        }
+
+        .preview-panel.is-visible {
+            display: block;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .preview-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .preview-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .preview-buttons button {
+            padding: 8px 10px;
+            border: none;
+            border-radius: 999px;
+            background: #202331;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .preview-buttons button.active {
+            background: #00adb5;
+            color: #fff;
+        }
+
+        .preview-frame {
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0f1117;
+            min-height: 220px;
+        }
+
+        .preview-frame iframe {
+            width: 100%;
+            height: 280px;
+            border: none;
+            margin: 0;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+            margin-bottom: 18px;
+            padding: 14px;
+            border-radius: 14px;
+            background: #202331;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 180px;
+            flex: 1;
+        }
+
+        .field label {
+            margin: 0;
+            font-size: 12px;
+            color: #acb0c3;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .toolbar select,
+        .toolbar input {
+            padding: 10px 12px;
+            border: 1px solid #3b4156;
+            border-radius: 10px;
+            background: #151823;
+            color: #fff;
+        }
+
+        .toolbar button {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00adb5, #00959d);
+            color: white;
+            min-height: 42px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .summary-card {
+            background: #202331;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 24px;
+            margin-top: 4px;
+            color: #fff;
+        }
+
+        .summary-card span {
+            font-size: 12px;
+            color: #9aa2b7;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-card.accent {
+            background: linear-gradient(135deg, rgba(0,173,181,0.2), rgba(0,173,181,0.08));
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .card {
+            background: #202331;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-left: 4px solid #00adb5;
+            border-radius: 14px;
+            padding: 16px;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(0,173,181,0.45);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin: 0 0 4px;
+            font-size: 18px;
+        }
+
+        .meta {
+            color: #bdbdbd;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #323744;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .pill.complete {
+            background: rgba(40, 167, 69, 0.18);
+            color: #8fe08e;
+        }
+
+        .pill.partial {
+            background: rgba(245, 166, 35, 0.2);
+            color: #ffd27d;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #b3b3b3;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #c7c7c7;
+            font-size: 13px;
         }
 
-        select,
-        input[type="text"],
-        input[type="number"] {
+        input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #333;
-            border-radius: 6px;
-            background: #2a2a2a;
+            padding: 10px 12px;
+            border: 1px solid #3b4156;
+            border-radius: 10px;
+            background: #151823;
             color: #fff;
             box-sizing: border-box;
-            font-size: 16px;
         }
 
-        select:focus,
-        input:focus {
-            border-color: #00adb5;
+        input:focus,
+        select:focus {
             outline: none;
+            border-color: #00adb5;
+            box-shadow: 0 0 0 2px rgba(0,173,181,0.18);
         }
 
-        button {
-            background: #00adb5;
-            color: white;
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .actions button {
+            flex: 1 1 180px;
+            padding: 10px 12px;
             border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        button:hover {
-            background: #007a80;
-        }
-
-        .info-box {
-            background: #252525;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 4px solid #00adb5;
-            margin-bottom: 25px;
-        }
-
-        .info-box p {
-            margin: 5px 0;
-        }
-
-        .progress {
-            float: right;
-            font-size: 14px;
-            color: #888;
-            background: #333;
-            padding: 2px 8px;
             border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            color: white;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #00adb5, #00959d);
+        }
+
+        .preview-btn {
+            background: linear-gradient(135deg, #f5a623, #e89f10);
+            color: #111;
         }
 
         .message {
-            font-weight: bold;
+            margin: 0 0 16px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #20302b;
+            color: #8ff1d5;
+            display: none;
+        }
+
+        .message.error {
+            background: #402425;
+            color: #ffb5b5;
+        }
+
+        iframe {
+            width: 100%;
+            height: 180px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .empty {
+            color: #aaa;
+            font-style: italic;
+            padding: 16px 0;
             text-align: center;
-            color: #00adb5;
-            font-size: 18px;
+            background: #202331;
+            border: 1px dashed rgba(255,255,255,0.1);
+            border-radius: 14px;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
-        <h1>Database Linker 🛠️</h1>
-
-        <!-- NEU: Auswahl des Modus -->
-        <div class="form-group">
-            <label for="modeSelect">Welche Datenbank bearbeiten?</label>
-            <select id="modeSelect" onchange="loadNextItem()">
-                <option value="movies">🎬 Filme & Serien (movies.json)</option>
-                <option value="games">🎮 Videospiele (games.json)</option>
-            </select>
-        </div>
-
-        <div id="loadingArea">
-            <div class="info-box">
-                <span class="progress" id="progressText">- / -</span>
-                <p><strong>Aktueller Titel:</strong> <span id="displayTitle"
-                        style="color:#fff; font-size:18px;">Lädt...</span></p>
-                <p><strong>Jahr:</strong> <span id="displayYear">-</span></p>
+        <div class="hero">
+            <div>
+                <p class="eyebrow">Admin-Panel</p>
+                <h1>Trailer-Manager</h1>
+                <p class="subline">Alle Einträge auf einen Blick, schnell bearbeiten und direkt prüfen.</p>
             </div>
-
-            <form id="updateForm" onsubmit="submitData(event)">
-                <input type="hidden" id="hiddenTitle">
-                <input type="hidden" id="hiddenYear">
-
-                <div class="form-group">
-                    <label for="youtubeId">YouTube Video-ID:</label>
-                    <input type="text" id="youtubeId"
-                        placeholder="z.B. qIcTM8WXFjk (Nur die ID, nicht den ganzen Link!)" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="startAt">Startzeit (in Sekunden - optional):</label>
-                    <input type="number" id="startAt" value="0" min="0">
-                </div>
-
-                <div class="form-group">
-                    <button type="button" onclick="testVideo()"
-                        style="width: 100%; padding: 12px; background: #f5a623; border: none; border-radius: 6px; color: black; font-weight: bold; cursor: pointer; margin-top: 10px;">
-                        🔍 Video testen
-                    </button>
-                </div>
-
-                <div id="preview-box"
-                    style="margin-top: 20px; border: 2px solid #333; padding: 10px; border-radius: 6px; display: none;">
-                    <label style="color: #f5a623; margin-bottom: 10px;">Vorschau:</label>
-                    <iframe id="test-iframe" width="100%" height="315" src="" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-                </div>
-
-                <button type="submit">Speichern & Nächster Eintrag</button>
-            </form>
         </div>
 
-        <div id="finishedArea" class="message" style="display: none;">
-            <p id="finishedMessage">Alle Einträge sind vollständig! 🎉</p>
+        <div class="preview-panel" id="previewPanel">
+            <div class="preview-header">
+                <div>
+                    <p class="eyebrow">Vorschau</p>
+                    <h2 id="previewTitle">Trailer-Vorschau</h2>
+                </div>
+                <div class="preview-buttons" id="previewButtons"></div>
+            </div>
+            <div class="preview-frame">
+                <iframe id="previewFrame" title="Trailer Vorschau" allow="autoplay; encrypted-media"></iframe>
+            </div>
         </div>
+
+        <div class="toolbar">
+            <div class="field">
+                <label for="searchInput">Suchen</label>
+                <input id="searchInput" placeholder="Titel, Jahr oder Regie" oninput="filterItems()">
+            </div>
+            <div class="field">
+                <label for="modeSelect">Datenbank</label>
+                <select id="modeSelect" onchange="loadItems()">
+                    <option value="movies">🎬 Filme & Serien</option>
+                    <option value="games">🎮 Videospiele</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="tmdbQuery">Extern suchen & importieren</label>
+                <input id="tmdbQuery" placeholder="z.B. Dune, Breaking Bad" />
+            </div>
+            <div class="field">
+                <label for="tmdbYear">Jahr (optional)</label>
+                <input id="tmdbYear" type="number" placeholder="z.B. 2021" min="1900" />
+            </div>
+            <button type="button" onclick="loadItems()">Aktualisieren</button>
+            <button type="button" id="tmdbPreviewBtn" onclick="previewFromTmdb()">🔎 Preview</button>
+            <button type="button" id="tmdbImportBtn" onclick="importFromTmdb()" disabled>⬇️ Importieren</button>
+
+        </div>
+
+
+        <div class="summary-grid">
+            <div class="summary-card">
+                <span>Gesamt</span>
+                <strong id="statsCount">0</strong>
+            </div>
+            <div class="summary-card accent">
+                <span>Mit Trailer</span>
+                <strong id="statsFilled">0</strong>
+            </div>
+            <div class="summary-card">
+                <span>Noch offen</span>
+                <strong id="statsOpen">0</strong>
+            </div>
+        </div>
+
+        <div id="messageBox" class="message"></div>
+
+        <div class="grid" id="itemsList"></div>
     </div>
 
     <script>
-        // Holt den nächsten unvollständigen Eintrag vom Server
-        function loadNextItem() {
-            const mode = document.getElementById('modeSelect').value;
+        const modeSelect = document.getElementById('modeSelect');
+        const searchInput = document.getElementById('searchInput');
+        const itemsList = document.getElementById('itemsList');
+        const statsCount = document.getElementById('statsCount');
+        const statsFilled = document.getElementById('statsFilled');
+        const statsOpen = document.getElementById('statsOpen');
+        const messageBox = document.getElementById('messageBox');
+        const previewPanel = document.getElementById('previewPanel');
+        const previewTitle = document.getElementById('previewTitle');
+        const previewButtons = document.getElementById('previewButtons');
+        const previewFrame = document.getElementById('previewFrame');
+        const tmdbPreviewBtn = document.getElementById('tmdbPreviewBtn');
+        const tmdbImportBtn = document.getElementById('tmdbImportBtn');
+        const tmdbPreviewInfo = {
+            title: null,
+            year: null,
+            director: null,
+            trailerDe: null,
+            trailerEn: null,
+            alreadyExists: null
+        };
 
-            // Formular zurücksetzen
-            document.getElementById('youtubeId').value = "";
-            document.getElementById('startAt').value = "0";
+        let allItems = [];
+        let currentOffset = 0;
+        let currentLimit = 60;
+        let hasMoreItems = false;
+        let isLoadingMore = false;
+        let activeSearch = '';
 
-            fetch(`/api/admin/next-empty?mode=${mode}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.finished) {
-                        document.getElementById('loadingArea').style.display = 'none';
-                        document.getElementById('finishedArea').style.display = 'block';
-                        document.getElementById('finishedMessage').innerText = data.message;
-                    } else {
-                        document.getElementById('loadingArea').style.display = 'block';
-                        document.getElementById('finishedArea').style.display = 'none';
-
-                        // Sichtbare Daten füllen
-                        document.getElementById('displayTitle').innerText = data.title;
-                        document.getElementById('displayYear').innerText = data.year;
-                        document.getElementById('progressText').innerText = data.progress;
-
-                        // Unsichtbare Formulardaten für den Post-Request füllen
-                        document.getElementById('hiddenTitle').value = data.title;
-                        document.getElementById('hiddenYear').value = data.year;
-                        document.getElementById('youtubeId').focus();
-                    }
-                })
-                .catch(err => console.error("Fehler beim Laden:", err));
+        function showMessage(text, isError = false) {
+            messageBox.textContent = text;
+            messageBox.className = `message${isError ? ' error' : ''}`;
+            messageBox.style.display = 'block';
         }
 
-        function testVideo() {
-            const videoId = document.getElementById('youtubeId').value.trim();
-            if (!videoId) {
-                alert("Bitte zuerst eine YouTube-ID eingeben!");
+        async function loadItems(reset = true) {
+            if (reset) {
+                currentOffset = 0;
+                allItems = [];
+                hasMoreItems = false;
+                isLoadingMore = false;
+                activeSearch = (searchInput.value || '').trim().toLowerCase();
+                itemsList.innerHTML = '<div class="empty">Lädt...</div>';
+            }
+
+            // Wir laden Seite-weise (60, dann wieder 60) und bauen nicht eine wachsende Liste zusammen.
+            // Dadurch kann es nicht passieren, dass die gleiche “erste 60” erneut durch Append sichtbar werden.
+            // (Backend liefert vermutlich über Offset einen stabilen Cursor, aber UI bleibt robust.)
+
+            try {
+                const response = await fetch(`/api/admin/items?mode=${modeSelect.value}&limit=${currentLimit}&offset=${currentOffset}&search=${encodeURIComponent(activeSearch)}`);
+                const data = await response.json();
+                const incomingItems = data.items || [];
+
+                // Dedupe auf Seite-Ebene (damit wir nicht doppelt rendern)
+                // und niemals die vorherigen 60 neu “dazubauen”.
+                const keyOf = (it) => {
+                    const mode = modeSelect.value;
+                    const title = String(it?.title ?? '').trim().toLowerCase();
+                    const year = String(it?.year ?? '').trim();
+                    return `${mode}|${title}|${year}`;
+                };
+
+                const seenPage = new Set();
+                const uniqueIncoming = [];
+                for (const it of incomingItems) {
+                    const k = keyOf(it);
+                    if (seenPage.has(k)) continue;
+                    seenPage.add(k);
+                    uniqueIncoming.push(it);
+                }
+
+                if (reset) {
+                    allItems = uniqueIncoming;
+                } else {
+                    // Anforderung: erst 60, dann die nächsten 60 -> NICHT 60 erneut erweitern.
+                    // Wir überschreiben daher immer mit “nur aktuelle Seite”.
+                    allItems = uniqueIncoming;
+                }
+
+                hasMoreItems = Boolean(data.hasMore);
+                currentOffset += incomingItems.length;
+                renderItems(allItems, { reset });
+            } catch (error) {
+                console.error(error);
+                if (reset) {
+                    itemsList.innerHTML = '<div class="empty">Fehler beim Laden der Einträge.</div>';
+                }
+            }
+        }
+
+        function filterItems() {
+            activeSearch = (searchInput.value || '').trim().toLowerCase();
+            currentOffset = 0;
+            loadItems(true);
+        }
+
+        function renderItems(items, { reset = true } = {}) {
+            if (!items.length) {
+                itemsList.innerHTML = '<div class="empty">Keine Einträge gefunden.</div>';
+                statsCount.textContent = '0';
+                statsFilled.textContent = '0';
+                statsOpen.textContent = '0';
                 return;
             }
 
-            const iframe = document.getElementById('test-iframe');
-            const previewBox = document.getElementById('preview-box');
+            const filledCount = items.filter(item => ( item.youtubeIdDe || item.youtubeIdEn || '').trim()).length;
+            const openCount = items.length - filledCount;
+            statsCount.textContent = items.length;
+            statsFilled.textContent = filledCount;
+            statsOpen.textContent = openCount;
 
-            // Setze die URL des Iframe
-            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            // Damit der “Mehr laden”-Button immer hinter dem zuletzt geladenen Eintrag steht,
+            // entfernen wir die bestehende Load-More-Card vor dem Rendern.
+            // Wichtig: Beim Appenden (reset=false) muss der Button-Card ebenfalls erneuert werden,
+            // sonst kann es passieren, dass mehrere Buttons übereinander/außerhalb liegen.
+            if (!reset) {
+                const existingLoadMore = getLoadMoreButton();
+                if (existingLoadMore) existingLoadMore.closest('.card')?.remove();
+            }
 
-            // Blende den Container ein
-            previewBox.style.display = 'block';
-        }
 
-        // Sendet die eingetragenen Daten an den Server
-        function submitData(event) {
-            event.preventDefault();
+            if (reset) {
+                itemsList.innerHTML = '';
+            } else {
+                // Beim „Mehr laden“ NICHT die bisher geladenen Karten entfernen.
+                // Wir hängen nur die neue Seite hinten dran und sorgen danach dafür,
+                // dass der Load-More-Button wieder die letzte Card ist.
+            }
 
-            const mode = document.getElementById('modeSelect').value;
-            const title = document.getElementById('hiddenTitle').value;
-            const year = document.getElementById('hiddenYear').value;
-            const youtubeId = document.getElementById('youtubeId').value;
-            const startAt = document.getElementById('startAt').value;
 
-            fetch('/api/admin/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, year, youtubeId, startAt, mode })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        // Sofort den nächsten leeren Eintrag laden
-                        loadNextItem();
-                    } else {
-                        alert("Fehler beim Speichern: " + data.error);
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                const hasAnyTrailer = Boolean((item.youtubeIdDe || item.youtubeIdEn || '').trim());
+                const statusClass = hasAnyTrailer ? 'complete' : 'partial';
+                const statusText = hasAnyTrailer ? 'Trailers vorhanden' : 'Noch offen';
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div>
+                            <h3 class="item-title">${escapeHtml(item.title || 'Unbekannter Titel')}</h3>
+                            <div class="meta"><span class="item-year">${item.year || '—'}</span> • ${escapeHtml(item.director || 'Unbekannt')}</div>
+                        </div>
+                        <span class="pill ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="form-grid">
+                        <div>
+                            <label for="youtubeIdDe-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">YouTube-ID Deutsch</label>
+                            <input id="youtubeIdDe-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" value="${escapeHtml(item.youtubeIdDe || '')}" placeholder="Optional">
+                        </div>
+                        <div>
+                            <label for="youtubeIdEn-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">YouTube-ID Englisch</label>
+                            <input id="youtubeIdEn-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" value="${escapeHtml(item.youtubeIdEn || '')}" placeholder="Optional">
+                        </div>
+                        <div>
+                            <label for="startAt-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">Startzeit (allgemein)</label>
+                            <input id="startAt-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" type="number" value="${Number(item.startAt || 0)}" min="0">
+                        </div>
+                        <div>
+                            <label for="startAtDe-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">Startzeit Deutsch</label>
+                            <input id="startAtDe-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" type="number" value="${Number(item.startAtDe || item.startAt || 0)}" min="0">
+                        </div>
+                        <div>
+                            <label for="startAtEn-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">Startzeit Englisch</label>
+                            <input id="startAtEn-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" type="number" value="${Number(item.startAtEn || item.startAt || 0)}" min="0">
+                        </div>
+                        <div>
+                            <label for="director-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}">Regie</label>
+                            <input id="director-${escapeAttribute(String(item.title || ''))}-${escapeAttribute(String(item.year || 0))}" value="${escapeHtml(item.director || '')}" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="preview-btn" type="button" onclick="previewVideo(this)">🔍 Vorschau</button>
+                        <button class="save-btn" type="button" onclick="saveItem(this)">💾 Speichern</button>
+                    </div>
+                `;
+
+                if (item.id) {
+                    card.dataset.mediaId = String(item.id);
+                }
+
+
+                itemsList.appendChild(card);
+            });
+
+            // Button immer als letztes Element an das tatsächliche DOM-Ende hängen.
+            // Beim Appenden (reset=false) wird die Button-Card beim Render-Start entfernt und hier neu hinzugefügt.
+            if (hasMoreItems) {
+                const loadMoreCard = document.createElement('div');
+                loadMoreCard.className = 'card';
+                loadMoreCard.innerHTML = '<div class="actions"><button class="save-btn" data-role="load-more" type="button" onclick="loadMoreItems()">Mehr laden</button></div>';
+                itemsList.appendChild(loadMoreCard);
+
+                // Robust: sicherstellen, dass nichts nachträglich (durch Layout/Render-Timing) dahinter gerät.
+                requestAnimationFrame(() => {
+                    const btn = getLoadMoreButton();
+                    if (!btn) return;
+                    const card = btn.closest('.card');
+                    const siblings = Array.from(itemsList.children);
+                    const last = siblings[siblings.length - 1];
+                    if (card && last !== card) {
+                        itemsList.appendChild(card);
                     }
-                })
-                .catch(err => console.error("Fehler beim Senden:", err));
+                });
+            }
+
         }
 
-        // Beim ersten Laden der Seite direkt starten
-        window.onload = loadNextItem;
+        function getLoadMoreButton() {
+            return itemsList.querySelector('button[data-role="load-more"]');
+        }
+
+        async function loadMoreItems() {
+            if (isLoadingMore || !hasMoreItems) return;
+            isLoadingMore = true;
+
+            const button = getLoadMoreButton();
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Lädt...';
+            }
+
+            try {
+                await loadItems(false);
+            } finally {
+                isLoadingMore = false;
+                const btn = getLoadMoreButton();
+                if (btn && hasMoreItems) {
+                    btn.disabled = false;
+                    btn.textContent = 'Mehr laden';
+                }
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function escapeAttribute(value) {
+            return escapeHtml(value).replace(/`/g, '&#96;');
+        }
+
+        async function saveItem(button) {
+            const card = button.closest('.card');
+            const title = card.querySelector('.item-title').textContent.trim();
+            const year = card.querySelector('.item-year').textContent.trim();
+            const mode = modeSelect.value;
+            //const youtubeId = card.querySelector('input[id^="youtubeId-"]')?.value.trim() || '';
+            const youtubeIdDe = card.querySelector('input[id^="youtubeIdDe-"]')?.value.trim() || '';
+            const youtubeIdEn = card.querySelector('input[id^="youtubeIdEn-"]')?.value.trim() || '';
+            const startAt = card.querySelector('input[id^="startAt-"]')?.value.trim() || '0';
+            const startAtDe = card.querySelector('input[id^="startAtDe-"]')?.value.trim() || startAt;
+            const startAtEn = card.querySelector('input[id^="startAtEn-"]')?.value.trim() || startAt;
+            const director = card.querySelector('input[id^="director-"]')?.value.trim() || '';
+            const mediaId = card.dataset.mediaId || null;
+
+
+            try {
+                const response = await fetch('/api/admin/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, year, youtubeIdDe, youtubeIdEn, startAt, startAtDe, startAtEn, director, mode, mediaId })
+                });
+
+
+                const data = await response.json();
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || 'Speichern fehlgeschlagen');
+                }
+                showMessage(`Gespeichert: ${title}`);
+                loadItems(true);
+            } catch (error) {
+                showMessage(error.message, true);
+            }
+        }
+
+        async function previewFromTmdb() {
+            // (Preview klick setzt tmdbPreviewInfo & aktiviert Import)
+
+            const mode = modeSelect.value;
+            const query = (document.getElementById('tmdbQuery').value || '').trim();
+            const yearRaw = document.getElementById('tmdbYear').value;
+            const year = yearRaw ? parseInt(yearRaw, 10) : null;
+
+            if (!query) {
+                showMessage('Bitte zuerst einen Titel eingeben.', true);
+                return;
+            }
+
+            if (mode !== 'movies') {
+                showMessage('Extern-Import/Preview ist nur für Filme & Serien (mode=movies) verfügbar.', true);
+                return;
+            }
+
+            try {
+                tmdbPreviewInfo.title = null;
+                tmdbPreviewInfo.year = null;
+                tmdbPreviewInfo.director = null;
+                tmdbPreviewInfo.trailerDe = null;
+                tmdbPreviewInfo.trailerEn = null;
+                tmdbPreviewInfo.alreadyExists = null;
+
+                tmdbPreviewBtn.disabled = true;
+                tmdbImportBtn.disabled = true;
+                showMessage('TMDB Preview läuft...');
+
+                const response = await fetch('/api/admin/tmdb-preview', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'movies', query, year })
+                });
+
+                const data = await response.json();
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.reason || data.error || 'Preview fehlgeschlagen');
+                }
+
+                const p = data.preview;
+                tmdbPreviewInfo.title = p.resolvedTitle;
+                tmdbPreviewInfo.year = p.resolvedYear;
+                tmdbPreviewInfo.director = p.director;
+                tmdbPreviewInfo.trailerDe = p.youtubeIdDe;
+                tmdbPreviewInfo.trailerEn = p.youtubeIdEn;
+                tmdbPreviewInfo.alreadyExists = Boolean(p.alreadyExists);
+
+                previewTitle.textContent = `TMDB: ${p.resolvedTitle} (${p.resolvedYear || '—'})`;
+
+                const chips = [
+                    `<span class="pill ${p.hasTrailerDe ? 'complete' : 'partial'}">DE: ${p.hasTrailerDe ? 'Trailer ✓' : 'kein Trailer'}</span>`,
+                    `<span class="pill ${p.hasTrailerEn ? 'complete' : 'partial'}">EN: ${p.hasTrailerEn ? 'Trailer ✓' : 'kein Trailer'}</span>`,
+                    `<span class="pill ${p.director ? 'partial' : 'partial'}">Regie: ${escapeHtml(p.director || 'Unbekannt')}</span>`
+                ];
+
+                previewButtons.innerHTML = chips.join('');
+                previewPanel.classList.add('is-visible');
+
+                // Trailer-Preview iframe (wenn vorhanden)
+                const deId = (p.youtubeIdDe || '').trim();
+                const enId = (p.youtubeIdEn || '').trim();
+                const firstId = deId || enId;
+
+                if (firstId) {
+                    previewFrame.src = `https://www.youtube.com/embed/${firstId}?autoplay=1&rel=0`;
+                }
+
+                if (tmdbPreviewInfo.alreadyExists) {
+                    showMessage(`Schon vorhanden: ${tmdbPreviewInfo.title} (${tmdbPreviewInfo.year})`, false);
+                    tmdbImportBtn.disabled = true;
+                } else {
+                    showMessage(`Treffer bestätigt: ${tmdbPreviewInfo.title} (${tmdbPreviewInfo.year})`);
+                    tmdbImportBtn.disabled = false;
+                }
+            } catch (error) {
+                showMessage(error.message || 'Preview fehlgeschlagen', true);
+                tmdbImportBtn.disabled = true;
+            } finally {
+                tmdbPreviewBtn.disabled = false;
+            }
+        }
+
+        async function importFromTmdb() {
+            const mode = modeSelect.value;
+            const query = (document.getElementById('tmdbQuery').value || '').trim();
+            const yearRaw = document.getElementById('tmdbYear').value;
+            const year = yearRaw ? parseInt(yearRaw, 10) : null;
+
+            if (!query) {
+                showMessage('Bitte zuerst einen Titel eingeben.', true);
+                return;
+            }
+
+            if (mode !== 'movies') {
+                showMessage('Extern-Import ist nur für Filme & Serien (mode=movies) verfügbar.', true);
+                return;
+            }
+
+            try {
+                // Falls Preview noch nicht lief: Import trotzdem möglich (aber dann kein already-exists UI)
+                if (tmdbPreviewInfo.alreadyExists) {
+                    showMessage(`Schon vorhanden: ${tmdbPreviewInfo.title} (${tmdbPreviewInfo.year})`, false);
+                    return;
+                }
+
+                tmdbPreviewBtn.disabled = true;
+                tmdbImportBtn.disabled = true;
+
+                showMessage('Import läuft... Bitte warten.');
+                const response = await fetch('/api/admin/import-from-tmdb', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'movies', query, year })
+                });
+
+                const data = await response.json();
+                if (!response.ok || (data.inserted === false && data.reason === 'Import fehlgeschlagen')) {
+                    throw new Error(data.error || 'Import fehlgeschlagen');
+                }
+
+                if (data.inserted) {
+                    showMessage(`Import erfolgreich: ${data.item?.title || query}`);
+                } else if (data.reason === 'already exists') {
+                    showMessage(`Schon vorhanden: ${data.item?.title || query}`);
+                } else {
+                    showMessage(data.reason ? `Keine DB-Änderung: ${data.reason}` : 'Keine DB-Änderung');
+                }
+
+                loadItems(true);
+            } catch (error) {
+                showMessage(error.message, true);
+            } finally {
+                tmdbPreviewBtn.disabled = false;
+                // nach Import: Import-Button bleibt aus, bis neue Preview gemacht wird
+                tmdbImportBtn.disabled = true;
+            }
+        }
+
+
+        function previewVideo(button) {
+            const card = button.closest('.card');
+            const title = card.querySelector('.item-title').textContent.trim();
+
+            // In dieser UI werden nur Deutsch/Englisch-IDs gepflegt.
+            // "generalVideoId" war zuvor nicht definiert und hat dadurch die Vorschau blockieren können.
+            const deVideoId = card.querySelector('input[id^="youtubeIdDe-"]')?.value.trim() || '';
+            const enVideoId = card.querySelector('input[id^="youtubeIdEn-"]')?.value.trim() || '';
+
+            const variants = [
+                { key: 'de', label: 'Deutsch', videoId: deVideoId },
+                { key: 'en', label: 'Englisch', videoId: enVideoId }
+            ].filter(variant => variant.videoId);
+
+
+            if (!variants.length) {
+                showMessage('Bitte zuerst eine YouTube-ID eintragen.', true);
+                return;
+            }
+
+            previewTitle.textContent = title;
+            previewButtons.innerHTML = variants.map((variant, index) => `
+                <button type="button" data-preview-key="${variant.key}" data-video-id="${variant.videoId}" class="${index === 0 ? 'active' : ''}">${variant.label}</button>
+            `).join('');
+            previewPanel.classList.add('is-visible');
+
+            previewButtons.onclick = (event) => {
+                const targetButton = event.target.closest('button[data-preview-key]');
+                if (!targetButton) return;
+                previewButtons.querySelectorAll('button').forEach(button => button.classList.remove('active'));
+                targetButton.classList.add('active');
+                previewFrame.src = `https://www.youtube.com/embed/${targetButton.dataset.videoId}?autoplay=1&rel=0`;
+            };
+
+            previewFrame.src = `https://www.youtube.com/embed/${variants[0].videoId}?autoplay=1&rel=0`;
+            previewFrame.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        window.onload = () => loadItems(true);
+
     </script>
 </body>
 

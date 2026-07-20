@@ -95,6 +95,14 @@
                 <option value="60">60 Sekunden</option>
             </select>
 
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mt-4 mb-2">Trailer-Sprache</label>
+            <select id="trailer-language-select" onchange="changeTrailerLanguage()" disabled
+                class="w-full bg-[#16171e] border border-gray-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#f5a623] text-gray-300 font-medium">
+                <option value="any" selected>Egal (Standard)</option>
+                <option value="de">Nur deutsche Trailer</option>
+                <option value="en">Nur englische Trailer</option>
+            </select>
+
             <div class="flex flex-col gap-1">
                 <label class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Filme zum Sieg:</label>
                 <select id="win-limit-select"
@@ -119,15 +127,15 @@
         </button>
     </main>
 
-    <main id="screen-game"
-        class="hidden flex-1 max-w-none w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start mt-8">
+<main id="screen-game"
+        class="hidden flex-1 max-w-none w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start mt-8 h-[calc(100vh-84px)] overflow-hidden">
         <div class="lg:col-span-1 bg-[#16171e] p-5 rounded-xl border border-gray-800">
             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4">Spieler</h3>
             <div id="game-players-list" class="flex flex-col gap-3"></div>
         </div>
 
         <div class="lg:col-span-4 flex flex-col items-center justify-center text-center">
-            <h2 id="instruction-text" class="text-[#f5a623] font-semibold text-lg mb-4">Klicke auf Play, um das Intro zu
+            <h2 id="instruction-text" class="text-[#f5a623] font-semibold text-lg mb-4 mode-simultaneous-instruction">Klicke auf Play, um das Intro zu
                 hören!</h2>
             <div
                 class="relative w-full aspect-video bg-black rounded-2xl border-2 border-zinc-800 flex flex-col items-center justify-center shadow-[0_25px_60px_-15px_rgba(245,166,35,0.15)] max-w-none overflow-hidden p-1 group">
@@ -150,14 +158,26 @@
                         class="absolute inset-0 z-10 flex items-center justify-center overflow-hidden pointer-events-none">
 
                         <div id="curtain-left"
-                            class="absolute top-0 left-0 bottom-0 w-1/2 bg-gradient-to-r from-red-800 to-red-950 border-r-4 border-yellow-600 shadow-[5px_0_15px_rgba(0,0,0,0.5)] transform translate-x-0 flex items-center justify-end pr-4">
+                            class="absolute top-0 left-0 bottom-0 w-1/2 bg-gradient-to-r from-red-800 to-red-950 border-r-4 border-yellow-600 shadow-[5px_0_15px_rgba(0,0,0,0.5)] transform translate-x-0 flex items-center justify-end pr-4 curtain-side curtain-left">
+                            <!-- Velvet texture / folds -->
+                            <div class="curtain-layer curtain-folds" aria-hidden="true"></div>
+                            <div class="curtain-layer curtain-velvet-gloss" aria-hidden="true"></div>
+                            <!-- Subtle grain -->
+                            <div class="curtain-layer curtain-grain" aria-hidden="true"></div>
+                            <!-- Keep a tiny existing slit contrast -->
                             <div
                                 class="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[size:20px_100%]">
                             </div>
                         </div>
 
                         <div id="curtain-right"
-                            class="absolute top-0 right-0 bottom-0 w-1/2 bg-gradient-to-l from-red-800 to-red-950 border-l-4 border-yellow-600 shadow-[-5px_0_15px_rgba(0,0,0,0.5)] transform translate-x-0 flex items-center justify-start pl-4">
+                            class="absolute top-0 right-0 bottom-0 w-1/2 bg-gradient-to-l from-red-800 to-red-950 border-l-4 border-yellow-600 shadow-[-5px_0_15px_rgba(0,0,0,0.5)] transform translate-x-0 flex items-center justify-start pl-4 curtain-side curtain-right">
+                            <!-- Velvet texture / folds -->
+                            <div class="curtain-layer curtain-folds" aria-hidden="true"></div>
+                            <div class="curtain-layer curtain-velvet-gloss" aria-hidden="true"></div>
+                            <!-- Subtle grain -->
+                            <div class="curtain-layer curtain-grain" aria-hidden="true"></div>
+                            <!-- Keep a tiny existing slit contrast -->
                             <div
                                 class="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[size:20px_100%]">
                             </div>
@@ -182,59 +202,52 @@
                     class="bg-gradient-to-b from-red-600 to-red-800 border-2 border-[#f5a623] hover:from-red-500 hover:to-red-700 text-[#f5a623] shadow-[0_0_20px_rgba(220,38,38,0.5)]">▶</button>
 
                 <div id="reveal-zone"
-                    class="hidden absolute inset-0 bg-[#0b0c10]/15 flex flex-col items-center justify-center p-6 z-30">
-                    <div
-                        class="ticket-wrap w-full max-w-md">
+                    class="hidden absolute inset-0 bg-black/60 backdrop-blur-md flex flex-col items-center justify-center p-4 z-30 animate-fade-in">
+                    <div class="ticket-container w-full max-w-2xl mx-auto">
+                        <div class="cinema-ticket" aria-label="Movie ticket">
 
-                        <div class="ticket" aria-label="Movie ticket">
-                            <div class="ticket__top">
-                                <div class="ticket__badge">
-                                    <span id="revealed-type" class="ticket__badge-text">🎬 Film</span>
-                                </div>
-                                <div class="ticket__brand">FILMSTER CINEMA</div>
-                            </div>
+                            <!-- Linker Hauptteil (Weinrot) -->
+                            <div class="ticket-main">
+                                <!-- Innerer Rahmen aus dem Ticket-Bild -->
+                                <div class="ticket-inner-frame"></div>
 
-                            <div class="ticket__cutlines" aria-hidden="true">
-                                <span></span><span></span>
-                            </div>
+                                <div class="ticket-main-content">
 
-                            <div class="ticket__body">
-                                <div class="ticket__meta">
-                                    <span class="ticket__meta-label">Vorstellung</span>
-                                    <span class="ticket__meta-value" id="ticket-meta-room">Heute • 19:30</span>
-                                </div>
-
-                                <h3 id="revealed-title" class="ticket__title">???</h3>
-
-                                <div class="ticket__yearrow">
-                                    <span class="ticket__year-label">Release</span>
-                                    <span id="revealed-year" class="ticket__year">0000</span>
-                                </div>
-
-                                <div class="ticket__details">
-                                    <div class="ticket__detail">
-                                        <span class="ticket__detail-k">Kino</span>
-                                        <span class="ticket__detail-v">Saalkarte</span>
-                                    </div>
-                                    <div class="ticket__detail">
-                                        <span class="ticket__detail-k">Platz</span>
-                                        <span class="ticket__detail-v" id="ticket-seat">G-12</span>
+                                    <!-- Filminformationen -->
+                                    <div class="ticket-info-block">
+                                        <div class="ticket-tagline">VORSTELLUNG AUFGELÖST</div>
+                                        <h3 id="revealed-title" class="ticket-movie-title">???</h3>
+                                        <div id="revealed-director" class="ticket-director">---</div>
+                                        <div class="ticket-admit">ADMIT ONE</div>
                                     </div>
                                 </div>
-
-                                <div class="ticket__barcode" aria-hidden="true"></div>
                             </div>
 
-                            <div class="ticket__bottom">
-                                <button id="next-round-btn" class="ticket__next">
-                                    Nächste Runde ➡️
-                                </button>
+                            <!-- Rechter Abreiß-Beleg (Cremefarben) -->
+                            <div class="ticket-stub">
+                                <div class="ticket-stub-content">
+                                    <span class="stub-label">RELEASE YEAR</span>
+                                    <!-- Das Jahr bleibt voll dynamisch und wird per Script gefärbt -->
+                                    <div id="revealed-year" class="stub-year-badge">0000</div>
+
+                                    <!-- Vertikaler Barcode passend zum Bild -->
+                                    <div class="stub-barcode-wrap">
+                                        <div class="stub-barcode-lines"></div>
+                                        <span class="stub-barcode-number">1234567890 123</span>
+                                    </div>
+
+                                    <!-- Interaktiver Button direkt auf dem Ticket integriert -->
+                                    <button id="next-round-btn" class="ticket-action-btn">
+                                        Nächste Runde ➡️
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="timer-bar-container" class="w-full mt-5 hidden select-none">
+            <div id="timer-bar-container" class="w-full mt-3 hidden select-none">
                 <div
                     class="flex justify-between items-center mb-1.5 px-1 text-xs tracking-wider uppercase font-semibold text-gray-400">
                     <span class="flex items-center gap-1">⏱️ <span id="timer-status-text">Warten auf
@@ -254,11 +267,16 @@
                 </div>
             </div>
             <button id="buy-extra-time-btn"
-                class="hidden w-full mt-4 bg-[#171b27] border border-[#f5a623] text-[#f5a623] px-4 py-3 rounded-xl font-semibold hover:bg-[#f5a623]/10 transition cursor-pointer"
+                class="hidden w-full mt-2 bg-[#171b27] border border-[#f5a623] text-[#f5a623] px-4 py-2 rounded-xl font-semibold hover:bg-[#f5a623]/10 transition cursor-pointer"
                 onclick="requestExtraTime()">🪙 +5 Sek. für 4 Coins</button>
+
+            <button id="buy-curtain-lock-btn"
+                class="hidden w-full mt-2 bg-[#171b27] border border-red-500/60 text-red-300 px-4 py-2 rounded-xl font-semibold hover:bg-red-500/10 transition cursor-pointer"
+                onclick="requestCurtainLock()">🪙 Vorhang sperren (8 Coins)</button>
+
             <div class="flex justify-center my-4">
             </div>
-                    <p id="status-subtext" class="text-gray-500 text-sm mt-4"><span id="status-icon">🎬</span> Video & Sound
+            <p id="status-subtext" class="text-gray-500 text-sm mt-4 mode-simultaneous-status-subtext"><span id="status-icon">🎬</span> Video & Sound
                 laufen synchron – ordne den Titel zeitlich ein!</p>
         </div>
 

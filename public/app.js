@@ -22,6 +22,10 @@ let clipTimerEndTime = null; // Timestamp when the current round's timer should 
 let visualTimerEndTime = null;
 let timerStartTimestamp = null;
 let hasBoughtExtraTime = false; // Tracks whether the local player already purchased bonus time this round
+let hasBoughtCurtainLock = false; // Tracks whether the local player already purchased curtain lock this round
+let curtainLockedByPlayerId = null;
+let curtainLockActive = false;
+
 
 function showScreen(screenId) {
     document.getElementById('screen-start').classList.add('hidden');
@@ -46,6 +50,7 @@ socket.on('roomCreated', ({ roomCode, players }) => {
     document.getElementById('start-game-btn').classList.remove('hidden');
     document.getElementById('game-mode-select').disabled = false; // Host darf wählen
     document.getElementById('clip-duration-select').disabled = false; // Host darf Dauer wählen
+    document.getElementById('trailer-language-select').disabled = false; // Host darf Trailer-Sprache wählen
     document.getElementById('game-type-select').disabled = false;
 
     document.getElementById('start-game-btn').onclick = () => {
@@ -80,6 +85,7 @@ socket.on('joinSuccess', (roomCode) => {
     document.getElementById('room-code-display').innerText = `# ${roomCode}`;
     document.getElementById('lobby-code-display').innerText = roomCode
     document.getElementById('game-mode-select').disabled = true; // Mitspieler dürfen NICHT wählen
+    document.getElementById('trailer-language-select').disabled = true; // Mitspieler dürfen NICHT wählen
     showScreen('screen-lobby');
 });
 
@@ -233,17 +239,26 @@ function initRound(data) {
     updateGamePlayersList(data.players, data.activePlayerId);
     const me = data.players.find(p => p.id === myId);
     updateBuyExtraTimeButton(me ? me.coins : 0);
+    updateCurtainLockButton(me ? me.coins : 0);
+
 
     const blind = document.getElementById('video-blind');
     if (blind) blind.classList.remove('curtain-open');
+
+    // Curtain-Lock Status zurücksetzen (gilt pro Runde)
+    hasBoughtCurtainLock = false;
+    curtainLockedByPlayerId = null;
+    curtainLockActive = false;
+
 
     const instText = document.getElementById('instruction-text');
     const playBtn = document.getElementById('play-btn');
     const overlay = document.getElementById('video-protection-overlay');
 
     if (currentRoomType === "simultaneous") {
+        document.body.classList.add('mode-simultaneous');
         instText.innerText = "🚀 Simultan-Modus: Alle raten! Der Host startet das Video.";
-        instText.className = "text-amber-400 font-bold text-lg mb-4";
+        instText.className = "text-amber-400 font-bold text-lg mb-4 mode-simultaneous-instruction";
 
         // NUR DER HOST DARF STEUERN
         if (amIHost) {
@@ -264,6 +279,27 @@ function initRound(data) {
             }
         }
     } else {
+        document.body.classList.remove('mode-simultaneous');
+
+        // NUR DER HOST DARF STEUERN
+        if (amIHost) {
+            if (playBtn) {
+                playBtn.classList.remove('hidden');
+                playBtn.innerText = "▶";
+                playBtn.className = "absolute w-20 h-20 rounded-full bg-[#f5a623]/90 hover:bg-[#d48c16] text-black text-2xl flex items-center justify-center transition-all transform hover:scale-110 shadow-lg cursor-pointer z-20";
+            }
+            if (overlay) {
+                overlay.onclick = () => toggleAudio();
+                overlay.style.cursor = "pointer";
+            }
+        } else {
+            if (playBtn) playBtn.classList.add('hidden');
+            if (overlay) {
+                overlay.onclick = null;
+                overlay.style.cursor = "default";
+            }
+        }
+
         // --- KLASSISCHER MODUS (Unverändert) ---
         if (isActivePlayer) {
             instText.innerText = "Du bist dran! Höre das Intro und ordne es in DEINE Timeline ein.";
@@ -533,11 +569,18 @@ function localPlay() {
     const blind = document.getElementById('video-blind');
     const blindText = document.getElementById('blind-text');
 
-    // NEU: Text ändern, während der Vorhang noch die 3 Sekunden zu ist
-    if (blindText) blindText.innerText = "🎬 Film ab! Die Vorstellung beginnt gleich...";
+    // Curtain-Lock: Nicht-Käufer sollen beim (erneuten) Play die Vorhang-Animation nicht öffnen
+    const shouldKeepCurtainClosed = curtainLockActive && socket.id !== curtainLockedByPlayerId;
+
+    // NEU: Text ändern, während der Vorhang noch die 3 Sekunden zu ist (auf dem Vorhang)
+    if (blindText) {
+        blindText.innerText = shouldKeepCurtainClosed
+            ? '🔒 Vorhang gesperrt. Vorhang bleibt diese Runde für dich geschlossen'
+            : "🎬 Film ab! Die Vorstellung beginnt gleich...";
+    }
 
     // Der Vorhang triggert das Öffnen (wartet nun dank CSS 3 Sekunden)
-    if (blind) blind.classList.add('curtain-open');
+    if (blind && !shouldKeepCurtainClosed) blind.classList.add('curtain-open');
 
     if (playBtn && isActivePlayer) {
         playBtn.innerText = "⏸";
@@ -666,6 +709,14 @@ function requestExtraTime() {
     socket.emit('buyExtraTime', { roomCode: currentRoomCode });
 }
 
+function requestCurtainLock() {
+    if (currentRoomType !== 'simultaneous') return;
+    if (hasBoughtCurtainLock) return;
+    if (roundResolved) return;
+    socket.emit('buyCurtainLock', { roomCode: currentRoomCode });
+}
+
+
 function updateBuyExtraTimeButton(coins) {
     const button = document.getElementById('buy-extra-time-btn');
     if (!button) return;
@@ -685,6 +736,28 @@ function updateBuyExtraTimeButton(coins) {
         button.classList.add('hidden');
     }
 }
+
+function updateCurtainLockButton(coins) {
+    const button = document.getElementById('buy-curtain-lock-btn');
+    if (!button) return;
+
+    const COST = 8;
+    const canBuy = currentRoomType === 'simultaneous' && !roundResolved && !submittedPlayers.includes(myId) && !hasBoughtCurtainLock;
+    const hasEnough = (coins || 0) >= COST;
+
+    if (canBuy && hasEnough) {
+        button.classList.remove('hidden');
+        button.disabled = false;
+        button.innerText = `🪙 Vorhang sperren (${COST} Coins)`;
+    } else if (currentRoomType === 'simultaneous' && !roundResolved && !submittedPlayers.includes(myId) && !hasBoughtCurtainLock) {
+        button.classList.remove('hidden');
+        button.disabled = true;
+        button.innerText = `🪙 Nicht genug Coins (${COST})`;
+    } else {
+        button.classList.add('hidden');
+    }
+}
+
 
 function onRoundTimerExpired() {
     if (player && typeof player.stopVideo === 'function') {
@@ -746,20 +819,25 @@ function createPlusButton(text, index, disabled, isInitial) {
 function handleGuess(guessedIndex) {
     if (blindTimeout) clearTimeout(blindTimeout);
 
-    // Die eigene Timeline SOFORT einfrieren (versteckt die Buttons)
-    renderTimeline(true);
-
-    // stop any keyboard focus
-    timelineFocusButtons = [];
-    timelineFocusIndex = -1;
+    // Klassisch bleibt wie gehabt (Timeline einfrieren)
+    if (currentRoomType !== "simultaneous") {
+        renderTimeline(true);
+        // stop any keyboard focus
+        timelineFocusButtons = [];
+        timelineFocusIndex = -1;
+        clearMyGuessPreview();
+    }
 
     if (currentRoomType === "simultaneous") {
+        // Eigene Auswahl visuell hervorheben (noch bevor der Server resolve't)
+        highlightMyGuessPreview(guessedIndex);
 
         const instText = document.getElementById('instruction-text');
         if (instText) {
-            instText.innerText = "⏳ Tipp eingeloggt! Warte auf die restlichen Spieler...";
+            instText.innerText = "⏳ Tipp aktualisiert! Warte auf die restlichen Spieler...";
             instText.className = "text-yellow-500 font-semibold text-lg mb-4 animate-pulse";
         }
+        // Timeline NICHT einfrieren: Spieler sollen bis zur Finalisierung weiter ändern können.
     } else {
         const blind = document.getElementById('video-blind');
         if (blind) blind.classList.add('hidden');
@@ -767,6 +845,49 @@ function handleGuess(guessedIndex) {
 
     socket.emit('submitGuess', { roomCode: currentRoomCode, guessedIndex: guessedIndex });
 }
+
+// Simultanmodus: eigener Guess optisch markieren (Insert-Button)
+let myGuessPreviewIndex = null;
+
+function clearMyGuessPreview() {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+    container.querySelectorAll('.timeline-insert--my-guess').forEach(el => {
+        el.classList.remove('timeline-insert--my-guess');
+    });
+    myGuessPreviewIndex = null;
+}
+
+function highlightMyGuessPreview(guessedIndex) {
+    const container = document.getElementById('timeline-container');
+    if (!container) return;
+
+    // Vorherigen Guess entfernen
+    container.querySelectorAll('.timeline-insert--my-guess').forEach(el => {
+        el.classList.remove('timeline-insert--my-guess');
+    });
+
+    myGuessPreviewIndex = guessedIndex;
+
+    // In deinem UI sind Insert-Zonen über data-insert-index abgebildet.
+    // guessedIndex entspricht genau dieser Insert-Zone.
+    const targetBtn = container.querySelector(`[data-insert-index="${String(guessedIndex)}"]`);
+    if (targetBtn) {
+        targetBtn.classList.add('timeline-insert--my-guess');
+
+        // optional: in view scrollen
+        if (targetBtn.scrollIntoView) {
+            targetBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+            // Fallback: Focus-Highlight-Funktion verwenden, falls existiert
+            // (aber nur wenn wir die Buttons schon kennen)
+            const idx = timelineFocusButtons.indexOf(targetBtn);
+            if (idx >= 0) setTimelineFocus(idx);
+        }
+    }
+}
+
+
 
 socket.on('roundResolved', (data) => {
     roundResolved = true; // Prevent timer from starting
@@ -789,6 +910,7 @@ socket.on('roundResolved', (data) => {
 
     document.getElementById('play-btn').classList.add('hidden');
     document.getElementById('revealed-title').innerText = data.title;
+    document.getElementById('revealed-director').innerText = `Regie: ${data.director || 'Unbekannt'}`;
     const revealedYear = document.getElementById('revealed-year');
     revealedYear.innerText = data.year;
 
@@ -838,10 +960,30 @@ socket.on('nextRoundStarted', (data) => {
     });
 });
 
-socket.on('gameOver', (players) => {
+socket.on('gameOver', async (players) => {
+    try {
+        // Only save from this client (safe for per-device persistence).
+        // We store final points/coins from our local view (we may not be host).
+        const me = players?.find(p => p.id === myId);
+        if (me) {
+            const payload = {
+                mode: currentRoomMode,
+                game_type: currentRoomType === 'simultaneous' ? 'simultaneous' : 'classic',
+                win_limit: (typeof winLimit !== 'undefined' ? winLimit : null) || null,
+                final_points: me.score || 0,
+                final_coins: me.coins || 0,
+                rounds: []
+            };
+            await savePlayerFinish(getLocalStatsFromGameFinishPayload(payload));
+        }
+    } catch (e) {
+        // ignore
+    }
+
     alert("Spiel vorbei! Danke fürs Spielen.");
     window.location.reload();
 });
+
 
 socket.on('errorMsg', (msg) => alert(msg));
 
@@ -907,10 +1049,23 @@ function changeClipDuration() {
     socket.emit('updateClipDuration', { roomCode: currentRoomCode, duration: selectedDuration });
 }
 
+function changeTrailerLanguage() {
+    if (!amIHost) return;
+    const selectedPreference = document.getElementById('trailer-language-select').value;
+    socket.emit('updateTrailerLanguage', { roomCode: currentRoomCode, preference: selectedPreference });
+}
+
 // Server teilt allen im Raum mit, dass die Zeit geändert wurde
 socket.on('clipDurationUpdated', (duration) => {
     maxClipDuration = duration;
     document.getElementById('clip-duration-select').value = duration;
+});
+
+socket.on('trailerLanguageUpdated', (preference) => {
+    const select = document.getElementById('trailer-language-select');
+    if (select) {
+        select.value = preference || 'any';
+    }
 });
 
 function changeWinLimit() {
@@ -1092,6 +1247,7 @@ socket.on('timeExtensionGranted', (data) => {
         } else {
             const me = data.players?.find(p => p.id === myId);
             updateBuyExtraTimeButton(me ? me.coins : 0);
+            updateCurtainLockButton(me ? me.coins : 0);
         }
     }
 
@@ -1101,6 +1257,65 @@ socket.on('timeExtensionGranted', (data) => {
         instText.className = "text-amber-400 font-bold text-lg mb-4";
     }
 });
+
+socket.on('curtainLockActivated', (data) => {
+    if (!data || !data.byPlayerId) return;
+
+    curtainLockedByPlayerId = data.byPlayerId;
+    curtainLockActive = true;
+
+    const byPlayer = data.players?.find(p => p.id === curtainLockedByPlayerId);
+    const byName = byPlayer?.name || 'Unbekannt';
+
+    // Käufer sieht Video (Vorhang bleibt offen), alle anderen werden blind (Vorhang zu)
+    if (socket.id !== curtainLockedByPlayerId) {
+        const blind = document.getElementById('video-blind');
+        if (blind) {
+            blind.classList.remove('curtain-open');
+            blind.classList.add('curtain-locked');
+        }
+
+        // Nachricht direkt auf dem Vorhang setzen (damit sie auch ohne erneutes Play sichtbar ist)
+        const blindText = document.getElementById('blind-text');
+        if (blindText) {
+            blindText.innerText = '🔒 Vorhang gesperrt. Vorhang bleibt diese Runde für dich geschlossen';
+        }
+    }
+
+    const me = data.players?.find(p => p.id === myId);
+    if (me) updateCurtainLockButton(me.coins || 0);
+
+    if (socket.id === curtainLockedByPlayerId) {
+        hasBoughtCurtainLock = true;
+        const btn = document.getElementById('buy-curtain-lock-btn');
+        if (btn) btn.classList.add('hidden');
+    }
+
+    const instText = document.getElementById('instruction-text');
+    if (instText) {
+        instText.innerText = `🔒 Vorhang gesperrt von ${byName}. Vorhang bleibt diese Runde für dich geschlossen`;
+        instText.className = 'text-red-300 font-bold text-lg mb-4';
+    }
+});
+
+socket.on('curtainLockDeactivated', (data) => {
+    if (!data || !data.byPlayerId) return;
+
+    if (curtainLockedByPlayerId === data.byPlayerId) {
+        curtainLockActive = false;
+        curtainLockedByPlayerId = null;
+
+        // Wenn wir nicht der Käufer sind, Vorhang wieder öffnen
+        if (socket.id !== data.byPlayerId) {
+            const blind = document.getElementById('video-blind');
+            if (blind) blind.classList.add('curtain-open');
+        }
+
+        const me = currentMovieData?.players?.find(p => p.id === myId);
+        if (me) updateCurtainLockButton(me.coins || 0);
+    }
+});
+
 
 // 2. Das große Finale: Alle haben getippt!
 socket.on('simultaneousRoundResolved', (data) => {
@@ -1129,6 +1344,7 @@ socket.on('simultaneousRoundResolved', (data) => {
     if (blind) blind.classList.add('hidden');
 
     document.getElementById('revealed-title').innerText = data.title;
+    document.getElementById('revealed-director').innerText = `Regie: ${data.director || 'Unbekannt'}`;
     const revealedYear = document.getElementById('revealed-year');
     revealedYear.innerText = data.year;
 
